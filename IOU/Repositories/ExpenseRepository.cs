@@ -1,5 +1,6 @@
 using Api.IOU.Data;
 using Api.IOU.Models;
+using Microsoft.EntityFrameworkCore;
 
 namespace Api.IOU.Repositories;
 
@@ -7,34 +8,43 @@ public class ExpenseRepository : IExpenseRepository
 {
     private readonly AppDbContext _context;
 
-//TODO
+
     public ExpenseRepository(AppDbContext context)
     {
         _context = context;
     }
 
-    public Task<Expense> CreateAsync(Expense expense)
+    public async Task<Expense> CreateAsync(Expense expense)
     {
-        throw new NotImplementedException();
+        _context.Expenses.Add(expense);
+        await _context.SaveChangesAsync();
+        return expense;
     }
 
-    public Task<bool> DeleteAsync(int id)
+    public async Task<bool> DeleteAsync(int id)
     {
-        throw new NotImplementedException();
+        var expense = await _context.Expenses.FindAsync(id);
+        if (expense == null) return false;
+
+        _context.Expenses.Remove(expense);
+        await _context.SaveChangesAsync();
+        return true;
     }
 
-    public Task<Expense?> GetByIdAsync(int id)
+    public async Task<Expense?> GetByIdAsync(int id)
     {
-        throw new NotImplementedException();
+        return await _context.Expenses.Include(e => e.Splits).FirstOrDefaultAsync(e => e.Id == id);
     }
 
-    public Task<IEnumerable<Expense>> GetExpensesBySessionIdAsync(int sessionId)
+    public async Task<IEnumerable<Expense>> GetExpensesBySessionIdAsync(int sessionId)
     {
-        throw new NotImplementedException();
+        return await _context.Expenses.Include(s => s.Splits).Where(s => s.SessionId == sessionId).ToListAsync();
     }
 
-    public Task<Expense> UpdateAsync(Expense expense)
+    public async Task<Expense> UpdateAsync(Expense expense)
     {
-        throw new NotImplementedException();
+        _context.Expenses.Update(expense);
+        await _context.SaveChangesAsync();
+        return expense;
     }
 }
