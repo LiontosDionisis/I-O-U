@@ -15,7 +15,7 @@ public class Friendship
     [Required]
     public FriendshipStatus Status { get; set; } = FriendshipStatus.Pending;
 
-    public User user { get; set; } = null!;
+    public User User { get; set; } = null!;
     public User Friend { get; set; } = null!;
 
 }
