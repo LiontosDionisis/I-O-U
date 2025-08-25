@@ -3,6 +3,7 @@ using System.Security.Claims;
 using System.Text;
 using Api.IOU.Data;
 using Api.IOU.DTOs;
+using Api.IOU.Exceptions;
 using Api.IOU.Helper;
 using Api.IOU.Models;
 using Microsoft.IdentityModel.Tokens;
@@ -42,30 +43,26 @@ public class UserService : IUerService
 
     public async Task<UserDTO?> GetByIdAsync(int id)
     {
-        try
+        var user = await _unitOfWork.Users.GetById(id);
+        if (user == null)
         {
-            var user = await _unitOfWork.Users.GetById(id);
-            return user == null ? null : ToUserDto(user);
+            _logger.LogWarning("User with id {UserId} not found", id);
+            throw new UserNotFoundException($"User with ID: {id} was not found");
         }
-        catch (Exception e)
-        {
-            _logger.LogError(e, "Error fetching user with id {Userid}", id);
-            throw;
-        }
+
+        return ToUserDto(user);
     }
 
     public async Task<UserDTO?> GetByUsernameAsync(string username)
     {
-        try
+        var user = await _unitOfWork.Users.GetByUsername(username);
+        if (user == null)
         {
-            var user = await _unitOfWork.Users.GetByUsername(username);
-            return user == null ? null : ToUserDto(user);
+            _logger.LogWarning("User with username {Username} not found.", username);
+            throw new UserNotFoundException($"User with username: {username} was not found.");
         }
-        catch (Exception e)
-        {
-            _logger.LogError(e, "Error fetching user with username {Username}", username);
-            throw;
-        }
+
+        return ToUserDto(user);
     }
 
     public async Task<UserDTO> RegisterAsync(UserRegisterDTO dto)
@@ -75,20 +72,20 @@ public class UserService : IUerService
         var existingUsername = await _unitOfWork.Users.GetByUsername(dto.Username);
         if (existingUsername != null)
         {
-            throw new InvalidOperationException("Username already exists");
+            throw new UserAlreadyExistsException("Username already exists");
         }
 
         //Check if email is registered
         var existingEmail = await _unitOfWork.Users.GetByEmailAsync(dto.Email);
         if (existingEmail != null)
         {
-            throw new InvalidOperationException("Email already exists");
+            throw new EmailAlreadyExistsException("Email already exists");
         }
         
         if (!PasswordHelper.IsValid(dto.Password))
         {
             _logger.LogWarning("Registration failed: weak password for username {Username}", dto.Username);
-            throw new ArgumentException("Password must be at least 8 characters, include 1 uppercase letter and 1 special character.");
+            throw new WeakPasswordException("Password must be at least 8 characters, include 1 uppercase letter and 1 special character.");
         }
 
         
@@ -115,7 +112,7 @@ public class UserService : IUerService
         if (user == null)
         {
             _logger.LogWarning("User with id {UserId} not found for update.", dto.Id);
-            throw new KeyNotFoundException($"User with id {dto.Id} not found");
+            throw new UserNotFoundException($"User with id {dto.Id} not found");
         }
 
         user.Username = dto.Username;
@@ -143,7 +140,7 @@ public class UserService : IUerService
         if (user == null || !PasswordHelper.VerifyPassword(password, user.Password))
         {
             _logger.LogWarning("Login failed for {Username}", username);
-            throw new UnauthorizedAccessException("Invalid username or password");
+            throw new InvalidLoginException("Invalid username or password");
         }
 
         var tokenHandler = new JwtSecurityTokenHandler();
