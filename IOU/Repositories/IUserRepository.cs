@@ -5,6 +5,7 @@ namespace Api.IOU.Repositories;
 public interface IUserRepository
 {
     Task<IEnumerable<User>> GetAllAsync();
+    Task<User?> GetByEmailAsync(string email);
     Task<User?> GetById(int id);
     Task<User?> GetByUsername(string username);
     Task<User> CreateAsync(User user);

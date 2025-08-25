@@ -70,11 +70,28 @@ public class UserService : IUerService
 
     public async Task<UserDTO> RegisterAsync(UserRegisterDTO dto)
     {
+
+        //Check if username is registered
+        var existingUsername = await _unitOfWork.Users.GetByUsername(dto.Username);
+        if (existingUsername != null)
+        {
+            throw new InvalidOperationException("Username already exists");
+        }
+
+        //Check if email is registered
+        var existingEmail = await _unitOfWork.Users.GetByEmailAsync(dto.Email);
+        if (existingEmail != null)
+        {
+            throw new InvalidOperationException("Email already exists");
+        }
+        
         if (!PasswordHelper.IsValid(dto.Password))
         {
             _logger.LogWarning("Registration failed: weak password for username {Username}", dto.Username);
             throw new ArgumentException("Password must be at least 8 characters, include 1 uppercase letter and 1 special character.");
         }
+
+        
 
         var user = new User
         {
@@ -130,7 +147,7 @@ public class UserService : IUerService
         }
 
         var tokenHandler = new JwtSecurityTokenHandler();
-        var key = Encoding.ASCII.GetBytes(_configuration["Jwt:Key"]);
+        var key = Encoding.ASCII.GetBytes(_configuration["Jwt:Key"]!);
         var tokenDescriptor = new SecurityTokenDescriptor
         {
             Subject = new ClaimsIdentity(new[]
@@ -138,7 +155,7 @@ public class UserService : IUerService
                 new Claim(ClaimTypes.NameIdentifier, user.Id.ToString()),
                 new Claim(ClaimTypes.Name, user.Username)
             }),
-            Expires = DateTime.UtcNow.AddMinutes(int.Parse(_configuration["Jwt:ExpiresInMinutes"])),
+            Expires = DateTime.UtcNow.AddMinutes(int.Parse(_configuration["Jwt:ExpiresInMinutes"]!)),
             Issuer = _configuration["Jwt:Issuer"],
             Audience = _configuration["Jwt:Audience"],
             SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256Signature)
