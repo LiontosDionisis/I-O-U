@@ -53,7 +53,7 @@ public class FriendshipRepository : IFriendshipRepository
     /// <returns>A list of user's friendships (friendlist)</returns>
     public async Task<IEnumerable<Friendship>> GetFriendshipForUserAsync(int userId)
     {
-        return await _context.Friendships.Where(f => f.UserId == userId || f.FriendId == userId).ToListAsync();
+        return await _context.Friendships.Where(f => f.UserId == userId || f.FriendId == userId).Include(f => f.User).Include(f => f.Friend).ToListAsync();
     }
 
     public async Task<Friendship> UpdateAsync(Friendship friendship)

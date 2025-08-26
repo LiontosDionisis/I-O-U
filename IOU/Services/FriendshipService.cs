@@ -1,4 +1,5 @@
 using Api.IOU.Data;
+using Api.IOU.DTOs;
 using Api.IOU.Exceptions;
 using Api.IOU.Models;
 using Api.IOU.Repositories;
@@ -64,13 +65,21 @@ public class FriendshipService : IFriendshipService
         return allFriendships.Where(f => f.Status == FriendshipStatus.Accepted);
     }
 
-    public async Task<IEnumerable<Friendship>> GetPendingRequestsAsync(int userId)
+    public async Task<IEnumerable<FriendshipDTO>> GetPendingRequestsAsync(int userId)
     {
         var allFriendships = await _unitOfWork.Friendships.GetFriendshipForUserAsync(userId);
 
         _logger.LogInformation("Friend requestes for user with ID {Id} were found and returned", userId);
 
-        return allFriendships.Where(f => f.Status == FriendshipStatus.Pending && f.FriendId == userId); // Filters requests where user is recipent.
+        return allFriendships
+        .Where(f => f.Status == FriendshipStatus.Pending && f.FriendId == userId)
+        .Select(f => new FriendshipDTO
+        {
+            Id = f.Id,
+            FriendId = f.UserId,
+            FriendUsername = f.User.Username, 
+            Status = f.Status
+        });
     }
 
     public async Task<Friendship> SendFriendRequestAsync(int userId, int friendId)
@@ -98,4 +107,6 @@ public class FriendshipService : IFriendshipService
 
         return await _unitOfWork.Friendships.CreateAsync(friendship);
     }
+
+    
 }
