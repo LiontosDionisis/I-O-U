@@ -2,7 +2,7 @@ using Api.IOU.DTOs;
 
 namespace Api.IOU.Services;
 
-public interface IUerService
+public interface IUserService
 {
     Task<string> LoginUser(string username, string password);
     Task<UserDTO> RegisterAsync(UserRegisterDTO dto);

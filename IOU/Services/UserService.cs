@@ -10,7 +10,7 @@ using Microsoft.IdentityModel.Tokens;
 
 namespace Api.IOU.Services;
 
-public class UserService : IUerService
+public class UserService : IUserService
 {
     private readonly IUnitOfWork _unitOfWork;
     private readonly ILogger<UserService> _logger;
@@ -25,11 +25,23 @@ public class UserService : IUerService
 
     public async Task<bool> DeleteAsync(int id)
     {
-        var deleted = await _unitOfWork.Users.DeleteAsync(id);
+        var toDelete = await _unitOfWork.Users.GetById(id);
+        if (toDelete == null)
+        {
+            _logger.LogWarning("User with ID: {Id} was not found", id);
+            throw new UserNotFoundException($"User with ID: {id} was not found.");
+        }
+
+        var deleted = await _unitOfWork.Users.DeleteAsync(toDelete.Id);
+
         if (deleted)
         {
             await _unitOfWork.SaveChangesAsync();
-            _logger.LogInformation("User with Id {UserId} deleted successfully!", id);
+            _logger.LogInformation("User with ID: {Id} deleted successfully.", id);
+        }
+        else
+        {
+            _logger.LogError("Failed to delete user with ID: {Id}", id);
         }
 
         return deleted;
@@ -114,6 +126,23 @@ public class UserService : IUerService
             _logger.LogWarning("User with id {UserId} not found for update.", dto.Id);
             throw new UserNotFoundException($"User with id {dto.Id} not found");
         }
+
+        // Check if username is already in use
+        var existingUsername = await _unitOfWork.Users.GetByUsername(dto.Username);
+        if (existingUsername != null && existingUsername.Id == dto.Id)
+        {
+            _logger.LogWarning("Username {Username} is already taken", dto.Username);
+            throw new UserAlreadyExistsException($"Username {dto.Username} is already taken");
+        }
+
+        // Check if email is already in use
+        var existingEmail = await _unitOfWork.Users.GetByEmailAsync(dto.Email);
+        if (existingEmail != null && existingEmail.Id == dto.Id)
+        {
+            _logger.LogWarning("Email {Email} is already in use", dto.Email);
+            throw new EmailAlreadyExistsException($"Email {dto.Email} is already in use");
+        }
+        
 
         user.Username = dto.Username;
         user.Email = dto.Email;
