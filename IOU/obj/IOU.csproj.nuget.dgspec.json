@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\Dioni\\OneDrive\\Desktop\\Projects\\IOU\\Api\\IOU\\IOU.csproj": {}
+    "C:\\Users\\Dioni\\OneDrive\\Desktop\\Projects\\IOU\\api\\iou\\IOU.csproj": {}
   },
   "projects": {
-    "C:\\Users\\Dioni\\OneDrive\\Desktop\\Projects\\IOU\\Api\\IOU\\IOU.csproj": {
+    "C:\\Users\\Dioni\\OneDrive\\Desktop\\Projects\\IOU\\api\\iou\\IOU.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\Dioni\\OneDrive\\Desktop\\Projects\\IOU\\Api\\IOU\\IOU.csproj",
+        "projectUniqueName": "C:\\Users\\Dioni\\OneDrive\\Desktop\\Projects\\IOU\\api\\iou\\IOU.csproj",
         "projectName": "IOU",
-        "projectPath": "C:\\Users\\Dioni\\OneDrive\\Desktop\\Projects\\IOU\\Api\\IOU\\IOU.csproj",
+        "projectPath": "C:\\Users\\Dioni\\OneDrive\\Desktop\\Projects\\IOU\\api\\iou\\IOU.csproj",
         "packagesPath": "C:\\Users\\Dioni\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\Dioni\\OneDrive\\Desktop\\Projects\\IOU\\Api\\IOU\\obj\\",
+        "outputPath": "C:\\Users\\Dioni\\OneDrive\\Desktop\\Projects\\IOU\\api\\iou\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"

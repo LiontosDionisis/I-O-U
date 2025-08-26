@@ -118,18 +118,18 @@ public class UserService : IUserService
 
     }
 
-    public async Task<UserDTO> UpdateAsync(UserDTO dto)
+    public async Task<UserDTO> UpdateAsync(int id, UserUpdateDTO dto)
     {
-        var user = await _unitOfWork.Users.GetById(dto.Id);
+        var user = await _unitOfWork.Users.GetById(id);
         if (user == null)
         {
-            _logger.LogWarning("User with id {UserId} not found for update.", dto.Id);
-            throw new UserNotFoundException($"User with id {dto.Id} not found");
+            _logger.LogWarning("User with id {UserId} not found for update.", id);
+            throw new UserNotFoundException($"User with id {id} not found");
         }
 
         // Check if username is already in use
         var existingUsername = await _unitOfWork.Users.GetByUsername(dto.Username);
-        if (existingUsername != null && existingUsername.Id == dto.Id)
+        if (existingUsername != null && existingUsername.Id != id)
         {
             _logger.LogWarning("Username {Username} is already taken", dto.Username);
             throw new UserAlreadyExistsException($"Username {dto.Username} is already taken");
@@ -137,7 +137,7 @@ public class UserService : IUserService
 
         // Check if email is already in use
         var existingEmail = await _unitOfWork.Users.GetByEmailAsync(dto.Email);
-        if (existingEmail != null && existingEmail.Id == dto.Id)
+        if (existingEmail != null && existingEmail.Id != id)
         {
             _logger.LogWarning("Email {Email} is already in use", dto.Email);
             throw new EmailAlreadyExistsException($"Email {dto.Email} is already in use");

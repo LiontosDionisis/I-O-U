@@ -125,21 +125,16 @@ public class UserController : ControllerBase
     }
 
     [HttpPut("{id:int}")]
-    public async Task<IActionResult> Update(int id, [FromBody] UserDTO dto)
+    public async Task<IActionResult> Update(int id, [FromBody] UserUpdateDTO dto)
     {
-        if (id != dto.Id)
-        {
-            return BadRequest(new { message = "ID does not match ID in payload", code = "ID_MISMATCH" });
-        }
-
         try
         {
-            var updatedUser = await _userService.UpdateAsync(dto);
+            var updatedUser = await _userService.UpdateAsync(id, dto);
             return Ok(new { message = "User updated!", user = updatedUser });
         }
         catch (UserNotFoundException e)
         {
-            _logger.LogWarning(e, "User with ID {Id} not found for update", dto.Id);
+            _logger.LogWarning(e, "User with ID {Id} not found for update", id);
             return NotFound(new { message = "User not found", code = "USER_NOT_FOUND" });
         }
         catch (UserAlreadyExistsException e)
@@ -154,7 +149,7 @@ public class UserController : ControllerBase
         }
         catch (Exception e)
         {
-            _logger.LogWarning(e, "Unexpected error while updating user with ID {Id}", dto.Id);
+            _logger.LogWarning(e, "Unexpected error while updating user with ID {Id}", id);
             return StatusCode(500, new { message = "An unexpected error has occured. Please try again later.", code = "INTERNAL_SERVER_ERROR" });
         }
     }
