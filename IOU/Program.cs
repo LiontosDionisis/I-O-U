@@ -6,6 +6,7 @@ using Api.IOU.Services;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
+using Microsoft.OpenApi.Models;
 using Serilog;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -58,6 +59,7 @@ builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
 
 // Services
 builder.Services.AddScoped<IUserService, UserService>();
+builder.Services.AddScoped<IFriendshipService, FriendshipService>();
 
 // Controllers
 builder.Services.AddControllers();
@@ -65,7 +67,35 @@ builder.Services.AddControllers();
 
 // Swagger
 builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen();
+builder.Services.AddSwaggerGen(c =>
+{
+    c.SwaggerDoc("v1", new OpenApiInfo { Title = "Your API", Version = "v1" });
+
+    // Add JWT Authentication
+    c.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
+    {
+        Description = "Enter 'Bearer' [space] and your JWT token",
+        Name = "Authorization",
+        In = ParameterLocation.Header,
+        Type = SecuritySchemeType.ApiKey,
+        Scheme = "Bearer"
+    });
+
+    c.AddSecurityRequirement(new OpenApiSecurityRequirement
+    {
+        {
+            new OpenApiSecurityScheme
+            {
+                Reference = new OpenApiReference 
+                { 
+                    Type = ReferenceType.SecurityScheme, 
+                    Id = "Bearer" 
+                }
+            },
+            new string[] {}
+        }
+    });
+});
 
 var app = builder.Build();
 

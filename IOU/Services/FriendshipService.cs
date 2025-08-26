@@ -21,43 +21,54 @@ public class FriendshipService : IFriendshipService
         var friendship = await _unitOfWork.Friendships.GetByIdAsync(requestId);
         if (friendship == null)
         {
+            _logger.LogWarning("Friend request with ID {Id} was not found", requestId);
             throw new FriendRequestNotFoundException("Friend request not found.");
         }
 
         if (friendship.FriendId != userId)
         {
+            _logger.LogWarning("Cannot accept foreign friend requests.");
             throw new InvalidFriendRequest("You can only accept requests sent to you.");
         }
 
+        _logger.LogInformation("Friend request with ID {Id} accepted", requestId);
         friendship.Status = FriendshipStatus.Accepted;
         return await _unitOfWork.Friendships.UpdateAsync(friendship);
     }
 
-    public async Task<bool> DenyFriendRequestAsync(int reqeustId, int userId)
+    public async Task<bool> DenyFriendRequestAsync(int requestId, int userId)
     {
-        var friendship = await _unitOfWork.Friendships.GetByIdAsync(reqeustId);
+        var friendship = await _unitOfWork.Friendships.GetByIdAsync(requestId);
         if (friendship == null)
         {
+            _logger.LogWarning("Friend request with ID {Id} was not found", requestId);
             throw new FriendRequestNotFoundException("Friend request not found.");
         }
 
         if (friendship.FriendId != userId)
         {
+            _logger.LogWarning("Cannot deny foreign friend requests.");
             throw new InvalidFriendRequest("You can only deny requests sent to you.");
         }
 
-        return await _unitOfWork.Friendships.DeleteAsync(reqeustId);
+        _logger.LogInformation("Friend request with ID {Id} denied", requestId);
+        return await _unitOfWork.Friendships.DeleteAsync(requestId);
     }
 
     public async Task<IEnumerable<Friendship>> GetFriendsAsync(int userId)
     {
         var allFriendships = await _unitOfWork.Friendships.GetFriendshipForUserAsync(userId);
+
+        _logger.LogInformation("Friendlist for user with ID {Id} was found and returned", userId);
+
         return allFriendships.Where(f => f.Status == FriendshipStatus.Accepted);
     }
 
     public async Task<IEnumerable<Friendship>> GetPendingRequestsAsync(int userId)
     {
         var allFriendships = await _unitOfWork.Friendships.GetFriendshipForUserAsync(userId);
+
+        _logger.LogInformation("Friend requestes for user with ID {Id} were found and returned", userId);
 
         return allFriendships.Where(f => f.Status == FriendshipStatus.Pending && f.FriendId == userId); // Filters requests where user is recipent.
     }
@@ -66,6 +77,7 @@ public class FriendshipService : IFriendshipService
     {
         if (userId == friendId)
         {
+            _logger.LogWarning("Invalid friend request for user with ID {Id}", userId);
             throw new InvalidFriendRequest("Invalid Friend Request.");
         }
 
@@ -73,6 +85,7 @@ public class FriendshipService : IFriendshipService
 
         if (existingFriendship != null)
         {
+            _logger.LogWarning("Friendship already exists for user with ID {Id} and user with ID {friendId}", userId, friendId);
             throw new InvalidFriendRequest("Friendship already exists");
         }
 
