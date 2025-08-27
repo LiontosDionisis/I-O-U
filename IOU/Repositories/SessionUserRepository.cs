@@ -1,4 +1,5 @@
 using Api.IOU.Data;
+using Api.IOU.Models;
 using api.IOU.Models;
 using Microsoft.EntityFrameworkCore;
 
@@ -20,11 +21,16 @@ public class SessionUserRepository : ISessionUserRepository
         return sessionUser;
     }
 
+    public async Task<IEnumerable<SessionUser>> GetSessionsForUserAsync(int userId)
+    {
+        return await _context.Sessionusers.Include(s => s.Session).ThenInclude(s => s.Participants).ThenInclude(p => p.User).Where(su => su.UserId == userId).ToListAsync();
+    }
+
     public async Task<IEnumerable<SessionUser>> GetUsersBySessionIdAsync(int sessionId)
     {
         return await _context.Sessionusers.Include(su => su.User).Where(su => su.SessionId == sessionId).ToListAsync();
     }
-
+    
     public async Task<bool> RemoveUserAsync(int userId, int sessionId)
     {
         var su = await _context.Sessionusers.FirstOrDefaultAsync(su => su.SessionId == sessionId && su.UserId == userId);

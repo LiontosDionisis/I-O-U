@@ -56,13 +56,19 @@ public class FriendshipService : IFriendshipService
         return await _unitOfWork.Friendships.DeleteAsync(requestId);
     }
 
-    public async Task<IEnumerable<Friendship>> GetFriendsAsync(int userId)
+    public async Task<IEnumerable<FriendshipDTO>> GetFriendsAsync(int userId)
     {
         var allFriendships = await _unitOfWork.Friendships.GetFriendshipForUserAsync(userId);
 
         _logger.LogInformation("Friendlist for user with ID {Id} was found and returned", userId);
 
-        return allFriendships.Where(f => f.Status == FriendshipStatus.Accepted);
+        return allFriendships.Where(f => f.Status == FriendshipStatus.Accepted).Select(f => new FriendshipDTO
+        {
+            Id = f.Id,
+            FriendId = f.UserId == userId ? f.FriendId : f.UserId,
+            FriendUsername = f.UserId == userId ? f.Friend.Username : f.Friend.Username,
+            Status = f.Status
+        });
     }
 
     public async Task<IEnumerable<FriendshipDTO>> GetPendingRequestsAsync(int userId)

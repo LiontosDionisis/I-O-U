@@ -9,6 +9,6 @@ public interface IFriendshipService
     Task<Friendship> AcceptFriendRequestAsync(int requestId, int userId);
     Task<bool> DenyFriendRequestAsync(int requestId, int userId);
     Task<IEnumerable<FriendshipDTO>> GetPendingRequestsAsync(int userId);
-    Task<IEnumerable<Friendship>> GetFriendsAsync(int userId);
+    Task<IEnumerable<FriendshipDTO>> GetFriendsAsync(int userId);
     
 }

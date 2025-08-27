@@ -40,6 +40,7 @@ public class SessionRepository : ISessionRepository
         return await _context.Sessions.Include(s => s.Participants).ThenInclude(su => su.User).Include(s => s.Expenses).ThenInclude(e => e.Splits).FirstOrDefaultAsync(s => s.Id == id);
     }
 
+
     /// <summary>
     /// Gets user's sessions.
     /// </summary>
