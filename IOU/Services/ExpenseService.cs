@@ -124,28 +124,63 @@ public class ExpenseService : IExpenseService
             }).ToList()
         });
     }
-    
+
+    public async Task<IEnumerable<BalanceDTO>> GetSessionBalancesAsync(int sessionId)
+    {
+        var session = await _unitOfWork.Sessions.GetByIdAsync(sessionId);
+        if (session == null) throw new SessionNotFoundException("Session does not exist");
+
+        var balances = new List<BalanceDTO>();
+
+        foreach (var participant in session.Participants)
+        {
+            var user = participant.User;
+
+            // Total paid by this user
+            var paid = session.Expenses
+                .Where(e => e.PaidById == user.Id)
+                .Sum(e => e.TotalAmount);
+
+            // Total owed by this user (only pending splits)
+            var owes = session.Expenses
+                .SelectMany(e => e.Splits)
+                .Where(s => s.UserId == user.Id && s.Status == SplitStatus.Pending)
+                .Sum(s => s.Amount);
+
+            balances.Add(new BalanceDTO
+            {
+                UserId = user.Id,
+                Username = user.Username,
+                Paid = paid,
+                Owes = owes
+            });
+        }
+
+        return balances;
+    }
+
     public async Task<ExpenseSplit> SettleExpenseSplitAsync(int expenseId, int userId)
     {
         var expense = await _unitOfWork.Expenses.GetByIdAsync(expenseId);
         if (expense == null)
             throw new ExpenseNotFoundException("Expense does not exist");
 
-    
+
         var split = expense.Splits.FirstOrDefault(s => s.UserId == userId);
         if (split == null)
             throw new InvalidOperationException("User is not part of this expense");
 
-    
+
         split.Status = SplitStatus.Settled;
 
         await _unitOfWork.ExpenseSplits.UpdateAsync(split);
 
-    
+
         await _unitOfWork.SaveChangesAsync();
 
         return split;
     }
 
+    
 
 }

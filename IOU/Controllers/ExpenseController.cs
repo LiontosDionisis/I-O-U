@@ -107,4 +107,19 @@ public class ExpenseController : ControllerBase
             return Forbid(e.Message);
         }
     }
+
+    [HttpGet("session/{sessionId}/balances")]
+    public async Task<IActionResult> GetBalances(int sessionId)
+    {
+        try
+        {
+            var balances = await _expenseService.GetSessionBalancesAsync(sessionId);
+            return Ok(balances);
+        }
+        catch (SessionNotFoundException)
+        {
+            return NotFound(new { message = "Session not found" });
+        }
+    }
+
 }
