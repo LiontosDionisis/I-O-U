@@ -32,6 +32,6 @@ public class ExpenseSplitRepository : IExpenseSplitRepository
 
     public async Task<IEnumerable<ExpenseSplit>> GetSplitsByExpenseId(int expenseId)
     {
-        return await _context.ExpenseSplits.Include(s => s.User).Where(s => s.Id == expenseId).ToListAsync();
+        return await _context.ExpenseSplits.Include(s => s.User).Where(s => s.ExpenseId == expenseId).ToListAsync();
     }
 }

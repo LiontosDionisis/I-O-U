@@ -81,6 +81,10 @@ public class AppDbContext : DbContext
             .HasForeignKey(es => es.UserId)
             .OnDelete(DeleteBehavior.Restrict);
 
+        modelBuilder.Entity<ExpenseSplit>()
+            .Property(e => e.Status)
+            .HasConversion<string>();
+
    
         modelBuilder.Entity<Session>()
             .HasOne(s => s.CreatedBy)
