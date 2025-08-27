@@ -23,6 +23,7 @@ public class SessionService : ISessionService
         var session = await _unitOfWork.Sessions.GetByIdAsync(sessionId);
         if (session == null)
         {
+            _logger.LogWarning("Session does not exist with ID {SessionId}", sessionId);
             throw new SessionNotFoundException("Session does not exist.");
         }
 
@@ -30,6 +31,7 @@ public class SessionService : ISessionService
         var userToAdd = await _unitOfWork.Users.GetById(userId);
         if (userToAdd == null)
         {
+            _logger.LogWarning("User with ID {UserId} does not exist.", userId);
             throw new UserNotFoundException("User you're trying to add does not exist");
         }
 

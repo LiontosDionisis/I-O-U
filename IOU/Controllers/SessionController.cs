@@ -33,6 +33,7 @@ public class SessionController : ControllerBase
         }
         catch (Exception e)
         {
+            _logger.LogError(e, "Failed to create session");
             return StatusCode(500, new { message = "Failed to create session" });
         }
     }
@@ -49,14 +50,17 @@ public class SessionController : ControllerBase
         }
         catch (SessionNotFoundException e)
         {
+            _logger.LogError(e, "Session does not exist");
             return NotFound(new { message = "Session was not found or does not exist." });
         }
         catch (UserNotFoundException e)
         {
+            _logger.LogError(e, "User with ID {UserId} was not found", friendId);
             return NotFound(new { message = "User was not found." });
         }
         catch (CannotAddUserToSessionException e)
         {
+            _logger.LogError(e, "Cannot add user to session");
             return BadRequest(new { message = "Cannot add user to session" });
         }
     }
@@ -73,18 +77,22 @@ public class SessionController : ControllerBase
         }
         catch (SessionNotFoundException e)
         {
+            _logger.LogError(e, "Session with ID {SessionId} was not found.", sessionId);
             return NotFound("Session not found");
         }
         catch (UserNotFoundException e)
         {
+            _logger.LogError(e, "User with ID {UserId} was not found.", friendId);
             return NotFound("User was not found");
         }
         catch (InvalidOperationException e)
         {
+            _logger.LogError(e, "Cannot remove yourself from session");
             return BadRequest("Cannot remove yourself from session");
         }
         catch (UnauthorizedAccessException e)
         {
+            _logger.LogError(e, "You're not the session owner");
             return BadRequest("You are not the session owner.");
         }
     }
@@ -101,6 +109,7 @@ public class SessionController : ControllerBase
         }
         catch (SessionNotFoundException e)
         {
+            _logger.LogError(e, "Session was not found with ID {sessionId}", sessionId);
             return NotFound("Session was not found");
         }
     }
@@ -117,6 +126,7 @@ public class SessionController : ControllerBase
         }
         catch (UserNotFoundException e)
         {
+            _logger.LogWarning(e, "User with ID: {UserId} was not found", ownerId);
             return NotFound("User was not found");
         }
     }
