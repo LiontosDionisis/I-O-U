@@ -34,4 +34,12 @@ public class ExpenseSplitRepository : IExpenseSplitRepository
     {
         return await _context.ExpenseSplits.Include(s => s.User).Where(s => s.ExpenseId == expenseId).ToListAsync();
     }
+
+    public async Task<ExpenseSplit> UpdateAsync(ExpenseSplit split)
+{
+    _context.ExpenseSplits.Update(split);
+    await _context.SaveChangesAsync();
+    return split;
+}
+
 }

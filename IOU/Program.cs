@@ -61,6 +61,7 @@ builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
 builder.Services.AddScoped<IUserService, UserService>();
 builder.Services.AddScoped<IFriendshipService, FriendshipService>();
 builder.Services.AddScoped<ISessionService, SessionService>();
+builder.Services.AddScoped<IExpenseService, ExpenseService>();
 
 // Controllers
 builder.Services.AddControllers();

@@ -66,7 +66,7 @@ public class FriendshipService : IFriendshipService
         {
             Id = f.Id,
             FriendId = f.UserId == userId ? f.FriendId : f.UserId,
-            FriendUsername = f.UserId == userId ? f.Friend.Username : f.Friend.Username,
+            FriendUsername = f.UserId == userId ? f.Friend.Username : f.User.Username,
             Status = f.Status
         });
     }

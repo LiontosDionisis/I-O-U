@@ -31,7 +31,7 @@ public class AppDbContext : DbContext
 
         modelBuilder.Entity<SessionUser>()
             .HasOne(su => su.User)
-            .WithMany()
+            .WithMany(u => u.Sessions)
             .HasForeignKey(su => su.UserId)
             .OnDelete(DeleteBehavior.Cascade);
 
