@@ -1,27 +1,59 @@
-import { Component } from '@angular/core';
+import { Component, inject, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { ReactiveFormsModule, FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { NgIf } from '@angular/common';
+import { HttpClientModule } from '@angular/common/http';
+import { AuthService } from '../../services/auth.service';
+import { Router } from '@angular/router';
+import { UserLoginDTO } from '../../Models/user-login.dto';
 
 @Component({
   selector: 'app-login',
   standalone: true,
-  imports: [CommonModule, ReactiveFormsModule],
+  imports: [NgIf, HttpClientModule],
   templateUrl: './login.component.html',
   styleUrl: './login.component.css'
 })
 export class LoginComponent {
-  form: FormGroup;
+  private authService = inject(AuthService);
+  private router = inject(Router);
 
-  constructor(private fb: FormBuilder){
-    this.form = this.fb.group({
-      email: ['', [Validators.required, Validators.email]],
-      password: ['', [Validators.required]]
-    });
-  }
+  username = signal('');
+  password = signal('');
+  errorMessage = signal('');
+  loading = signal(false);
 
-  onSubmit(){
-    if (this.form.valid){
-      console.log(this.form.value);
+  updateUsername(value: string) { this.username.set(value); this.errorMessage.set(''); }
+  updatePassword(value: string) { this.password.set(value); this.errorMessage.set(''); }
+
+
+  onSubmit(event: Event) {
+  event.preventDefault();
+  this.errorMessage.set('');
+  this.loading.set(true);
+
+  const userDto: UserLoginDTO = {
+    username: this.username(),
+    password: this.password()
+  };
+
+  this.authService.login(userDto).subscribe({
+    next: (response) => {
+      this.loading.set(false);
+      localStorage.setItem('token', response.token);
+      localStorage.setItem('username', response.Username);
+      this.router.navigate(['/home']);
+      this.username.set('');
+      this.password.set('');
+    },
+    error: (err) => {
+      this.loading.set(false); // ✅ fix
+      if (err.error?.message) {
+        this.errorMessage.set(err.error.message);
+      } else {
+        this.errorMessage.set("Login failed. Please try again later.");
+      }
     }
-  }
+  });
+}
+
 }

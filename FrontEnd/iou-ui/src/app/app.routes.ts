@@ -1,19 +1,25 @@
 import { Routes } from '@angular/router';
 import { LoginComponent } from './auth/login/login.component';
 import { SignupComponent } from './auth/signup/signup.component';
+import { HomeComponent } from './home/home.component';
+import { redirectIfLoggedInGuard } from './auth/guard';
 
 export const routes: Routes = [
     {
         path: '', redirectTo: 'login',  pathMatch: 'full'
     },
     {
-        path: 'login', component: LoginComponent
+        path: 'login', component: LoginComponent, canActivate: [redirectIfLoggedInGuard]
     },
     {
-        path: 'signup', component: SignupComponent
+        path: 'signup', component: SignupComponent, canActivate: [redirectIfLoggedInGuard]
     },
-    
-    {path: '**', redirectTo: 'login'},
+    {
+        path: 'home', component: HomeComponent
+    },
+    {
+        path: '**', redirectTo: 'login'
+    },
 
-    // TODO: Add Home module route
+
 ];

@@ -1465,3 +1465,55 @@ FROM `Users` AS `u`"
 2025-08-28 22:29:55 [Information] Executed endpoint '"Api.IOU.Controllers.UserController.GetAll (IOU)"'
 2025-08-28 22:29:55 [Information] Request finished "HTTP/1.1" "GET" "http"://"localhost:5062""""/api/user""" - 200 null "application/json; charset=utf-8" 50.4827ms
 2025-08-28 22:30:09 [Information] Application is shutting down...
+2025-08-28 23:57:00 [Information] User profile is available. Using '"C:\Users\Dioni\AppData\Local\ASP.NET\DataProtection-Keys"' as key repository and Windows DPAPI to encrypt keys at rest.
+2025-08-28 23:57:00 [Information] Now listening on: "http://localhost:5062"
+2025-08-28 23:57:00 [Information] Application started. Press Ctrl+C to shut down.
+2025-08-28 23:57:00 [Information] Hosting environment: "Development"
+2025-08-28 23:57:00 [Information] Content root path: "C:\Users\Dioni\OneDrive\Desktop\Projects\IOU\api\iou"
+2025-08-28 23:57:29 [Information] Request starting "HTTP/1.1" "OPTIONS" "http"://"localhost:5062""""/api/user/register""" - null null
+2025-08-28 23:57:29 [Warning] Failed to determine the https port for redirect.
+2025-08-28 23:57:29 [Information] CORS policy execution successful.
+2025-08-28 23:57:29 [Information] Request finished "HTTP/1.1" "OPTIONS" "http"://"localhost:5062""""/api/user/register""" - 204 null null 104.7157ms
+2025-08-28 23:57:29 [Information] Request starting "HTTP/1.1" "POST" "http"://"localhost:5062""""/api/user/register""" - "application/json" 56
+2025-08-28 23:57:29 [Information] CORS policy execution successful.
+2025-08-28 23:57:29 [Information] Executing endpoint '"Api.IOU.Controllers.UserController.Register (IOU)"'
+2025-08-28 23:57:30 [Information] Route matched with "{action = \"Register\", controller = \"User\"}". Executing controller action with signature "System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] Register(Api.IOU.DTOs.UserRegisterDTO)" on controller "Api.IOU.Controllers.UserController" ("IOU").
+2025-08-28 23:57:31 [Information] Executed DbCommand ("67"ms) [Parameters=["@__username_0='?' (Size = 50)"], CommandType='Text', CommandTimeout='30']"
+""SELECT `u`.`Id`, `u`.`Email`, `u`.`Password`, `u`.`Username`
+FROM `Users` AS `u`
+WHERE `u`.`Username` = @__username_0
+LIMIT 1"
+2025-08-28 23:57:31 [Information] Executed DbCommand ("1"ms) [Parameters=["@__email_0='?' (Size = 225)"], CommandType='Text', CommandTimeout='30']"
+""SELECT `u`.`Id`, `u`.`Email`, `u`.`Password`, `u`.`Username`
+FROM `Users` AS `u`
+WHERE `u`.`Email` = @__email_0
+LIMIT 1"
+2025-08-28 23:57:31 [Warning] Registration failed: weak password for username "test"
+2025-08-28 23:57:31 [Warning] Registration failed: weak password
+Api.IOU.Exceptions.WeakPasswordException: Password must be at least 8 characters, include 1 uppercase letter and 1 special character.
+   at Api.IOU.Services.UserService.RegisterAsync(UserRegisterDTO dto) in C:\Users\Dioni\OneDrive\Desktop\Projects\IOU\api\iou\Services\UserService.cs:line 100
+   at Api.IOU.Controllers.UserController.Register(UserRegisterDTO dto) in C:\Users\Dioni\OneDrive\Desktop\Projects\IOU\api\iou\Controllers\UserController.cs:line 65
+2025-08-28 23:57:31 [Information] Executing "BadRequestObjectResult", writing value of type '"<>f__AnonymousType4`2[[System.String, System.Private.CoreLib, Version=9.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e],[System.String, System.Private.CoreLib, Version=9.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]"'.
+2025-08-28 23:57:31 [Information] Executed action "Api.IOU.Controllers.UserController.Register (IOU)" in 1622.7848ms
+2025-08-28 23:57:31 [Information] Executed endpoint '"Api.IOU.Controllers.UserController.Register (IOU)"'
+2025-08-28 23:57:31 [Information] Request finished "HTTP/1.1" "POST" "http"://"localhost:5062""""/api/user/register""" - 400 null "application/json; charset=utf-8" 1665.4242ms
+2025-08-28 23:58:48 [Information] Request starting "HTTP/1.1" "OPTIONS" "http"://"localhost:5062""""/api/user/register""" - null null
+2025-08-28 23:58:48 [Information] CORS policy execution successful.
+2025-08-28 23:58:48 [Information] Request finished "HTTP/1.1" "OPTIONS" "http"://"localhost:5062""""/api/user/register""" - 204 null null 5.6057ms
+2025-08-28 23:58:48 [Information] Request starting "HTTP/1.1" "POST" "http"://"localhost:5062""""/api/user/register""" - "application/json" 83
+2025-08-28 23:58:48 [Information] CORS policy execution successful.
+2025-08-28 23:58:48 [Information] Executing endpoint '"Api.IOU.Controllers.UserController.Register (IOU)"'
+2025-08-28 23:58:48 [Information] Route matched with "{action = \"Register\", controller = \"User\"}". Executing controller action with signature "System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] Register(Api.IOU.DTOs.UserRegisterDTO)" on controller "Api.IOU.Controllers.UserController" ("IOU").
+2025-08-28 23:58:48 [Information] Executed DbCommand ("2"ms) [Parameters=["@__username_0='?' (Size = 50)"], CommandType='Text', CommandTimeout='30']"
+""SELECT `u`.`Id`, `u`.`Email`, `u`.`Password`, `u`.`Username`
+FROM `Users` AS `u`
+WHERE `u`.`Username` = @__username_0
+LIMIT 1"
+2025-08-28 23:58:48 [Warning] Registration failed: username already exists
+Api.IOU.Exceptions.UserAlreadyExistsException: Username already exists
+   at Api.IOU.Services.UserService.RegisterAsync(UserRegisterDTO dto) in C:\Users\Dioni\OneDrive\Desktop\Projects\IOU\api\iou\Services\UserService.cs:line 87
+   at Api.IOU.Controllers.UserController.Register(UserRegisterDTO dto) in C:\Users\Dioni\OneDrive\Desktop\Projects\IOU\api\iou\Controllers\UserController.cs:line 65
+2025-08-28 23:58:48 [Information] Executing "ConflictObjectResult", writing value of type '"<>f__AnonymousType4`2[[System.String, System.Private.CoreLib, Version=9.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e],[System.String, System.Private.CoreLib, Version=9.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]"'.
+2025-08-28 23:58:48 [Information] Executed action "Api.IOU.Controllers.UserController.Register (IOU)" in 71.3865ms
+2025-08-28 23:58:48 [Information] Executed endpoint '"Api.IOU.Controllers.UserController.Register (IOU)"'
+2025-08-28 23:58:48 [Information] Request finished "HTTP/1.1" "POST" "http"://"localhost:5062""""/api/user/register""" - 409 null "application/json; charset=utf-8" 79.043ms

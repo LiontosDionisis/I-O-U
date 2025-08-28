@@ -1,8 +1,9 @@
-import { Component, inject, signal, computed } from '@angular/core';
+import { Component, inject, signal } from '@angular/core';
 import { AuthService } from '../../services/auth.service';
 import { UserRegisterDTO } from '../../Models/user-register.dto';
 import { NgIf } from '@angular/common';
 import { HttpClientModule } from '@angular/common/http';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-signup',
@@ -13,54 +14,52 @@ import { HttpClientModule } from '@angular/common/http';
 })
 export class SignupComponent {
   private authService = inject(AuthService);
+  private router = inject(Router);
 
-  // Form signals
+  
   email = signal('');
   username = signal('');
   password = signal('');
   loading = signal(false);
   errorMessage = signal('');
-  successMessage = signal('');
 
-  // Form validation
-  isFormValid = computed(() => {
-    return this.email().trim() !== '' &&
-           this.username().trim() !== '' &&
-           this.password().trim() !== '' &&
-           !this.loading();
-  });
+  updateEmail(value: string) { this.email.set(value); this.errorMessage.set(''); }
+  updateUsername(value: string) { this.username.set(value); this.errorMessage.set(''); }
+  updatePassword(value: string) { this.password.set(value); this.errorMessage.set(''); }
 
-  // Input handlers
-  updateEmail(event: Event) { this.email.set((event.target as HTMLInputElement).value); this.clearMessages(); }
-  updateUsername(event: Event) { this.username.set((event.target as HTMLInputElement).value); this.clearMessages(); }
-  updatePassword(event: Event) { this.password.set((event.target as HTMLInputElement).value); this.clearMessages(); }
-  private clearMessages() { this.errorMessage.set(''); this.successMessage.set(''); }
-
-  // Submit handler
   onSubmit(event: Event) {
-    event.preventDefault();
-    if (!this.isFormValid()) return;
+  event.preventDefault(); 
 
-    this.loading.set(true);
-    this.clearMessages();
+  // Reset any previous state
+  this.errorMessage.set('');
+  this.loading.set(true);
 
-    const userDto: UserRegisterDTO = {
-      email: this.email(),
-      username: this.username(),
-      password: this.password()
-    };
+  const userDto: UserRegisterDTO = {
+    email: this.email(),
+    username: this.username(),
+    password: this.password()
+  };
 
-    this.authService.register(userDto).subscribe({
-      next: () => {
-        this.successMessage.set('Registration successful!');
-        this.email.set('');
-        this.username.set('');
-        this.password.set('');
-      },
-      error: (err) => {
-        this.errorMessage.set(err.error?.message || 'Registration failed. Please try again.');
-      },
-      complete: () => this.loading.set(false)
-    });
-  }
+  this.authService.register(userDto).subscribe({
+    next: () => {
+      this.router.navigate(['/login']);
+      this.email.set('');
+      this.username.set('');
+      this.password.set('');
+    },
+    error: (err) => {
+      this.loading.set(true);
+
+      if (err.error?.message) {
+        this.errorMessage.set(err.error.message);
+      } else {
+        this.errorMessage.set('Registration failed. Please try again.');
+      }
+    },
+    complete: () => {
+      this.loading.set(false);
+    }
+  });
+}
+
 }
