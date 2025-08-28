@@ -1396,3 +1396,72 @@ ORDER BY `s1`.`Id`, `s2`.`SessionId`, `s2`.`UserId`, `s2`.`Id`, `s3`.`Id`"
 2025-08-28 00:45:48 [Information] Executed endpoint '"Api.IOU.Controllers.ExpenseController.GetBalances (IOU)"'
 2025-08-28 00:45:48 [Information] Request finished "HTTP/1.1" "GET" "http"://"localhost:5062""""/api/expenses/session/3/balances""" - 200 null "application/json; charset=utf-8" 34.9124ms
 2025-08-28 00:52:29 [Information] Application is shutting down...
+2025-08-28 22:24:56 [Information] User profile is available. Using '"C:\Users\Dioni\AppData\Local\ASP.NET\DataProtection-Keys"' as key repository and Windows DPAPI to encrypt keys at rest.
+2025-08-28 22:24:56 [Information] Now listening on: "http://localhost:5062"
+2025-08-28 22:24:56 [Information] Application started. Press Ctrl+C to shut down.
+2025-08-28 22:24:56 [Information] Hosting environment: "Development"
+2025-08-28 22:24:56 [Information] Content root path: "C:\Users\Dioni\OneDrive\Desktop\Projects\IOU\api\iou"
+2025-08-28 22:25:30 [Information] Request starting "HTTP/1.1" "OPTIONS" "http"://"localhost:5062""""/api/user/register""" - null null
+2025-08-28 22:25:30 [Warning] Failed to determine the https port for redirect.
+2025-08-28 22:25:31 [Information] Executing endpoint '"405 HTTP Method Not Supported"'
+2025-08-28 22:25:31 [Information] Executed endpoint '"405 HTTP Method Not Supported"'
+2025-08-28 22:25:31 [Information] Request finished "HTTP/1.1" "OPTIONS" "http"://"localhost:5062""""/api/user/register""" - 405 0 null 89.3995ms
+2025-08-28 22:26:24 [Information] Application is shutting down...
+2025-08-28 22:27:07 [Information] User profile is available. Using '"C:\Users\Dioni\AppData\Local\ASP.NET\DataProtection-Keys"' as key repository and Windows DPAPI to encrypt keys at rest.
+2025-08-28 22:27:07 [Information] Now listening on: "http://localhost:5062"
+2025-08-28 22:27:07 [Information] Application started. Press Ctrl+C to shut down.
+2025-08-28 22:27:07 [Information] Hosting environment: "Development"
+2025-08-28 22:27:07 [Information] Content root path: "C:\Users\Dioni\OneDrive\Desktop\Projects\IOU\api\iou"
+2025-08-28 22:27:50 [Information] Request starting "HTTP/1.1" "OPTIONS" "http"://"localhost:5062""""/api/user/register""" - null null
+2025-08-28 22:27:50 [Warning] Failed to determine the https port for redirect.
+2025-08-28 22:27:50 [Information] Executing endpoint '"405 HTTP Method Not Supported"'
+2025-08-28 22:27:50 [Information] Executed endpoint '"405 HTTP Method Not Supported"'
+2025-08-28 22:27:50 [Information] Request finished "HTTP/1.1" "OPTIONS" "http"://"localhost:5062""""/api/user/register""" - 405 0 null 61.7995ms
+2025-08-28 22:28:51 [Information] Application is shutting down...
+2025-08-28 22:28:56 [Information] User profile is available. Using '"C:\Users\Dioni\AppData\Local\ASP.NET\DataProtection-Keys"' as key repository and Windows DPAPI to encrypt keys at rest.
+2025-08-28 22:28:56 [Information] Now listening on: "http://localhost:5062"
+2025-08-28 22:28:56 [Information] Application started. Press Ctrl+C to shut down.
+2025-08-28 22:28:56 [Information] Hosting environment: "Development"
+2025-08-28 22:28:56 [Information] Content root path: "C:\Users\Dioni\OneDrive\Desktop\Projects\IOU\api\iou"
+2025-08-28 22:29:17 [Information] Request starting "HTTP/1.1" "OPTIONS" "http"://"localhost:5062""""/api/user/register""" - null null
+2025-08-28 22:29:17 [Warning] Failed to determine the https port for redirect.
+2025-08-28 22:29:17 [Information] CORS policy execution successful.
+2025-08-28 22:29:17 [Information] Request finished "HTTP/1.1" "OPTIONS" "http"://"localhost:5062""""/api/user/register""" - 204 null null 51.3341ms
+2025-08-28 22:29:17 [Information] Request starting "HTTP/1.1" "POST" "http"://"localhost:5062""""/api/user/register""" - "application/json" 100
+2025-08-28 22:29:17 [Information] CORS policy execution successful.
+2025-08-28 22:29:17 [Information] Executing endpoint '"Api.IOU.Controllers.UserController.Register (IOU)"'
+2025-08-28 22:29:17 [Information] Route matched with "{action = \"Register\", controller = \"User\"}". Executing controller action with signature "System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] Register(Api.IOU.DTOs.UserRegisterDTO)" on controller "Api.IOU.Controllers.UserController" ("IOU").
+2025-08-28 22:29:18 [Information] Executed DbCommand ("51"ms) [Parameters=["@__username_0='?' (Size = 50)"], CommandType='Text', CommandTimeout='30']"
+""SELECT `u`.`Id`, `u`.`Email`, `u`.`Password`, `u`.`Username`
+FROM `Users` AS `u`
+WHERE `u`.`Username` = @__username_0
+LIMIT 1"
+2025-08-28 22:29:18 [Information] Executed DbCommand ("1"ms) [Parameters=["@__email_0='?' (Size = 225)"], CommandType='Text', CommandTimeout='30']"
+""SELECT `u`.`Id`, `u`.`Email`, `u`.`Password`, `u`.`Username`
+FROM `Users` AS `u`
+WHERE `u`.`Email` = @__email_0
+LIMIT 1"
+2025-08-28 22:29:19 [Information] Executed DbCommand ("12"ms) [Parameters=["@p0='?' (Size = 225), @p1='?' (Size = 255), @p2='?' (Size = 50)"], CommandType='Text', CommandTimeout='30']"
+""INSERT INTO `Users` (`Email`, `Password`, `Username`)
+VALUES (@p0, @p1, @p2);
+SELECT `Id`
+FROM `Users`
+WHERE ROW_COUNT() = 1 AND `Id` = LAST_INSERT_ID();"
+2025-08-28 22:29:19 [Information] User "frontendrequest" registered successfully at 08/28/2025 19:29:19
+2025-08-28 22:29:19 [Information] Executing "CreatedAtActionResult", writing value of type '"Api.IOU.DTOs.UserDTO"'.
+2025-08-28 22:29:19 [Information] Executed action "Api.IOU.Controllers.UserController.Register (IOU)" in 1991.8057ms
+2025-08-28 22:29:19 [Information] Executed endpoint '"Api.IOU.Controllers.UserController.Register (IOU)"'
+2025-08-28 22:29:19 [Information] Request finished "HTTP/1.1" "POST" "http"://"localhost:5062""""/api/user/register""" - 201 null "application/json; charset=utf-8" 2027.7478ms
+2025-08-28 22:29:49 [Information] Request starting "HTTP/1.1" "GET" "http"://"localhost:5062""""/swagger/v1/swagger.json""" - null null
+2025-08-28 22:29:49 [Information] Request finished "HTTP/1.1" "GET" "http"://"localhost:5062""""/swagger/v1/swagger.json""" - 200 null "application/json;charset=utf-8" 96.9428ms
+2025-08-28 22:29:55 [Information] Request starting "HTTP/1.1" "GET" "http"://"localhost:5062""""/api/user""" - null null
+2025-08-28 22:29:55 [Information] Executing endpoint '"Api.IOU.Controllers.UserController.GetAll (IOU)"'
+2025-08-28 22:29:55 [Information] Route matched with "{action = \"GetAll\", controller = \"User\"}". Executing controller action with signature "System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] GetAll()" on controller "Api.IOU.Controllers.UserController" ("IOU").
+2025-08-28 22:29:55 [Information] Executed DbCommand ("1"ms) [Parameters=[""], CommandType='Text', CommandTimeout='30']"
+""SELECT `u`.`Id`, `u`.`Email`, `u`.`Password`, `u`.`Username`
+FROM `Users` AS `u`"
+2025-08-28 22:29:55 [Information] Executing "OkObjectResult", writing value of type '"System.Linq.Enumerable+ListSelectIterator`2[[Api.IOU.Models.User, IOU, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null],[Api.IOU.DTOs.UserDTO, IOU, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]"'.
+2025-08-28 22:29:55 [Information] Executed action "Api.IOU.Controllers.UserController.GetAll (IOU)" in 37.9249ms
+2025-08-28 22:29:55 [Information] Executed endpoint '"Api.IOU.Controllers.UserController.GetAll (IOU)"'
+2025-08-28 22:29:55 [Information] Request finished "HTTP/1.1" "GET" "http"://"localhost:5062""""/api/user""" - 200 null "application/json; charset=utf-8" 50.4827ms
+2025-08-28 22:30:09 [Information] Application is shutting down...
