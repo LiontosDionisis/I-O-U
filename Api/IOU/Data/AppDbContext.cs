@@ -17,6 +17,7 @@ public class AppDbContext : DbContext
     public DbSet<SessionUser> Sessionusers { get; set; }
     public DbSet<Expense> Expenses { get; set; }
     public DbSet<ExpenseSplit> ExpenseSplits { get; set; }
+    public DbSet<Notification> Notifications { get; set; }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
@@ -35,7 +36,7 @@ public class AppDbContext : DbContext
             .HasForeignKey(su => su.UserId)
             .OnDelete(DeleteBehavior.Cascade);
 
-    
+
         modelBuilder.Entity<Friendship>()
             .HasOne(f => f.User)
             .WithMany(u => u.Friendships)
@@ -48,14 +49,14 @@ public class AppDbContext : DbContext
             .HasForeignKey(f => f.FriendId)
             .OnDelete(DeleteBehavior.Restrict);
 
-    
+
         modelBuilder.Entity<Friendship>()
             .Property(f => f.Status)
             .HasConversion<string>()
             .HasMaxLength(20)
             .IsRequired();
 
-    
+
         modelBuilder.Entity<Expense>()
             .HasOne(e => e.Session)
             .WithMany(s => s.Expenses)
@@ -68,7 +69,7 @@ public class AppDbContext : DbContext
             .HasForeignKey(e => e.PaidById)
             .OnDelete(DeleteBehavior.Restrict);
 
-   
+
         modelBuilder.Entity<ExpenseSplit>()
             .HasOne(es => es.Expense)
             .WithMany(e => e.Splits)
@@ -85,12 +86,19 @@ public class AppDbContext : DbContext
             .Property(e => e.Status)
             .HasConversion<string>();
 
-   
+
         modelBuilder.Entity<Session>()
             .HasOne(s => s.CreatedBy)
             .WithMany()
             .HasForeignKey(s => s.CreatedById)
             .OnDelete(DeleteBehavior.Restrict);
+
+        modelBuilder.Entity<Notification>()
+            .HasOne(u => u.user)
+            .WithMany(n => n.Notifications)
+            .HasForeignKey(fk => fk.UserId)
+            .OnDelete(DeleteBehavior.Cascade);
+            
     }
 
  }

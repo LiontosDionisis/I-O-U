@@ -28,5 +28,6 @@ public class User
     public ICollection<SessionUser> Sessions { get; set; } = new List<SessionUser>();
     public ICollection<Expense> ExpensesPaid { get; set; } = new List<Expense>();
     public ICollection<ExpenseSplit> ExpenseSplits { get; set; } = new List<ExpenseSplit>();
+    public ICollection<Notification> Notifications { get; set; } = new List<Notification>();
 }
 

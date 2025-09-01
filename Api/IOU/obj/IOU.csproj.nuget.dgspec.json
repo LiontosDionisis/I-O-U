@@ -1,32 +1,25 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\Dioni\\OneDrive\\Desktop\\Projects\\IOU\\api\\iou\\IOU.csproj": {}
+    "C:\\Users\\agame\\OneDrive\\Desktop\\Projects\\I-O-U\\api\\iou\\IOU.csproj": {}
   },
   "projects": {
-    "C:\\Users\\Dioni\\OneDrive\\Desktop\\Projects\\IOU\\api\\iou\\IOU.csproj": {
+    "C:\\Users\\agame\\OneDrive\\Desktop\\Projects\\I-O-U\\api\\iou\\IOU.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\Dioni\\OneDrive\\Desktop\\Projects\\IOU\\api\\iou\\IOU.csproj",
+        "projectUniqueName": "C:\\Users\\agame\\OneDrive\\Desktop\\Projects\\I-O-U\\api\\iou\\IOU.csproj",
         "projectName": "IOU",
-        "projectPath": "C:\\Users\\Dioni\\OneDrive\\Desktop\\Projects\\IOU\\api\\iou\\IOU.csproj",
-        "packagesPath": "C:\\Users\\Dioni\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\Dioni\\OneDrive\\Desktop\\Projects\\IOU\\api\\iou\\obj\\",
+        "projectPath": "C:\\Users\\agame\\OneDrive\\Desktop\\Projects\\I-O-U\\api\\iou\\IOU.csproj",
+        "packagesPath": "C:\\Users\\agame\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\agame\\OneDrive\\Desktop\\Projects\\I-O-U\\api\\iou\\obj\\",
         "projectStyle": "PackageReference",
-        "fallbackFolders": [
-          "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
-        ],
         "configFilePaths": [
-          "C:\\Users\\Dioni\\AppData\\Roaming\\NuGet\\NuGet.Config",
-          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
-          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
+          "C:\\Users\\agame\\AppData\\Roaming\\NuGet\\NuGet.Config"
         ],
         "originalTargetFrameworks": [
           "net9.0"
         ],
         "sources": {
-          "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
-          "C:\\Program Files\\dotnet\\library-packs": {},
           "https://api.nuget.org/v3/index.json": {}
         },
         "frameworks": {
