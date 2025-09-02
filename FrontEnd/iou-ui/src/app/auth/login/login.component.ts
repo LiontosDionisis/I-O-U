@@ -46,7 +46,7 @@ export class LoginComponent {
       this.password.set('');
     },
     error: (err) => {
-      this.loading.set(false); // ✅ fix
+      this.loading.set(false); 
       if (err.error?.message) {
         this.errorMessage.set(err.error.message);
       } else {

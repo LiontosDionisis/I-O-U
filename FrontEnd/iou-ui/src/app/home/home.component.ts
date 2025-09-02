@@ -2,6 +2,7 @@ import { Component, inject, signal, ElementRef, OnInit } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { NgIf, NgFor } from '@angular/common';
 import { AuthService } from '../services/auth.service';
+import { RouterLink, RouterOutlet } from '@angular/router';
 
 interface UserDTO {
   id: number;
@@ -12,7 +13,7 @@ interface UserDTO {
 @Component({
   selector: 'app-home',
   standalone: true,
-  imports: [NgIf, NgFor],
+  imports: [NgIf, NgFor, RouterLink, RouterOutlet],
   templateUrl: './home.component.html',
   styleUrls: ['./home.component.css']
 })

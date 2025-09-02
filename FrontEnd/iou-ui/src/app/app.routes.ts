@@ -3,6 +3,7 @@ import { LoginComponent } from './auth/login/login.component';
 import { SignupComponent } from './auth/signup/signup.component';
 import { HomeComponent } from './home/home.component';
 import { redirectIfLoggedInGuard } from './auth/guard';
+import { SessionsComponent } from './sessions/sessions.component';
 
 export const routes: Routes = [
     {
@@ -16,6 +17,9 @@ export const routes: Routes = [
     },
     {
         path: 'home', component: HomeComponent
+    },
+    {
+        path: 'sessions', component: SessionsComponent
     },
     {
         path: '**', redirectTo: 'login'

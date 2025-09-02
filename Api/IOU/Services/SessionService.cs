@@ -48,6 +48,13 @@ public class SessionService : ISessionService
             UserId = userId
         };
 
+        var sender = await _unitOfWork.Users.GetById(ownerId);
+        var notification = new NotificationDTO
+        {
+            UserId = userId,
+            Message = $"{sender!.Username} has added you to a session ({session.Name})"
+        };
+
         await _unitOfWork.SessionUsers.AddUserToSessionAsync(sessionUser);
         await _unitOfWork.SaveChangesAsync();
         

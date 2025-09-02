@@ -83,15 +83,4 @@ public class NotificationController : ControllerBase
             return StatusCode(500, new { message = "Internal Server Error. Please try again later." });
         }
     }
-
-    // [HttpPost]
-    // public async Task<IActionResult> CreateAsync(int userId)
-    // {
-    //     var id = int.Parse(User.Claims.First(c => c.Type == ClaimTypes.NameIdentifier).Value);
-
-    //     try
-    //     {
-    //         await _notficiationService.CreateAsync()
-    //     }
-    // }
 }

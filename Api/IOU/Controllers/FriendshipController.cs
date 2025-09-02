@@ -48,7 +48,7 @@ public class FriendshipController : ControllerBase
             var friendship = await _friendshipService.AcceptFriendRequestAsync(requestId, userId);
             _logger.LogInformation("Friend request accepted from user {userId}", userId);
 
-            return Ok(new { message = "Friend request accepted", success = friendship });
+            return Ok(new { message = "Friend request accepted"});
         }
         catch (FriendRequestNotFoundException e)
         {

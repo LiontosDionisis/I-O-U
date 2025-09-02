@@ -6,6 +6,7 @@ using Api.IOU.Repositories;
 
 namespace Api.IOU.Services;
 
+//TODO: Fix Accepting friend request sending all users information as JSON (remove email and password: Use a FriendshipDTO)
 public class FriendshipService : IFriendshipService
 {
     private readonly IUnitOfWork _unitOfWork;
