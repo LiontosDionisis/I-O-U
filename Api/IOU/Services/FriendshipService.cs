@@ -40,7 +40,7 @@ public class FriendshipService : IFriendshipService
         var user = await _unitOfWork.Users.GetById(friendship.FriendId);
         var notification = new NotificationDTO
         {
-            UserId = friendship.UserId,                    // TODO: FIX the notification to reach the right user!!!!
+            UserId = friendship.UserId,                    
             Message = $"{user!.Username} has accepted your friend request!"
         };
         await _notService.CreateAsync(notification);
