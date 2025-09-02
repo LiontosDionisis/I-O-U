@@ -94,11 +94,10 @@ public class AppDbContext : DbContext
             .OnDelete(DeleteBehavior.Restrict);
 
         modelBuilder.Entity<Notification>()
-            .HasOne(u => u.user)
+            .HasOne(u => u.User)
             .WithMany(n => n.Notifications)
             .HasForeignKey(fk => fk.UserId)
-            .OnDelete(DeleteBehavior.Cascade);
-            
+            .OnDelete(DeleteBehavior.Cascade);  
     }
 
  }

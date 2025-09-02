@@ -9,12 +9,14 @@ namespace Api.IOU.Services;
 public class FriendshipService : IFriendshipService
 {
     private readonly IUnitOfWork _unitOfWork;
+    private readonly INotificationService _notService;
     private readonly ILogger<FriendshipService> _logger;
 
-    public FriendshipService(IUnitOfWork unitOfWork, ILogger<FriendshipService> logger)
+    public FriendshipService(IUnitOfWork unitOfWork, ILogger<FriendshipService> logger, INotificationService notService)
     {
         _unitOfWork = unitOfWork;
         _logger = logger;
+        _notService = notService;
     }
 
     public async Task<Friendship> AcceptFriendRequestAsync(int requestId, int userId)
@@ -34,6 +36,15 @@ public class FriendshipService : IFriendshipService
 
         _logger.LogInformation("Friend request with ID {Id} accepted", requestId);
         friendship.Status = FriendshipStatus.Accepted;
+
+        var user = await _unitOfWork.Users.GetById(friendship.FriendId);
+        var notification = new NotificationDTO
+        {
+            UserId = friendship.UserId,                    // TODO: FIX the notification to reach the right user!!!!
+            Message = $"{user!.Username} has accepted your friend request!"
+        };
+        await _notService.CreateAsync(notification);
+
         return await _unitOfWork.Friendships.UpdateAsync(friendship);
     }
 
@@ -110,7 +121,15 @@ public class FriendshipService : IFriendshipService
             FriendId = friendId,
             Status = FriendshipStatus.Pending
         };
+        var user = await _unitOfWork.Users.GetById(userId);
 
+        var notification = new NotificationDTO
+        {
+            UserId = friendId,
+            Message = $"{user!.Username} wants to be your friend"
+        };
+
+        await _notService.CreateAsync(notification);
         return await _unitOfWork.Friendships.CreateAsync(friendship);
     }
 

@@ -63,6 +63,7 @@ builder.Services.AddScoped<IUserService, UserService>();
 builder.Services.AddScoped<IFriendshipService, FriendshipService>();
 builder.Services.AddScoped<ISessionService, SessionService>();
 builder.Services.AddScoped<IExpenseService, ExpenseService>();
+builder.Services.AddScoped<INotificationService, NotificationService>();
 
 // CORS
 builder.Services.AddCors(options =>

@@ -25,7 +25,9 @@ public class NotificationService : INotificationService
         var newNotification = new Notification
         {
             Id = dto.Id,
-            Message = dto.Message
+            Message = dto.Message,
+            UserId = dto.UserId
+            
         };
 
         await _unitOfWork.Notifications.CreateAsync(newNotification);
@@ -59,6 +61,8 @@ public class NotificationService : INotificationService
         if (user == null) throw new UserNotFoundException("User does not exist.");
 
         var notifications = await _unitOfWork.Notifications.GetAllAsync(userId);
+        if (notifications == null) throw new NoNotificationsException("You have no notifications.");
+        
         return notifications.Select(u => ToNotificationDto(u));
     }
 
@@ -75,7 +79,8 @@ public class NotificationService : INotificationService
         return new NotificationDTO
         {
             Id = notification.Id,
-            Message = notification.Message
+            Message = notification.Message,
+            UserId = notification.UserId
         };
     }
 

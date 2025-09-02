@@ -34,7 +34,7 @@ public class NotificationRepository : INotificationRepository
         return await _context.Notifications.Where(u => u.UserId == userId).ToListAsync();
     }
 
-    public async Task<Notification> GetbyId(int id)
+    public async Task<Notification?> GetbyId(int id)
     {
         return await _context.Notifications.FirstOrDefaultAsync(i => i.Id == id);
     }
