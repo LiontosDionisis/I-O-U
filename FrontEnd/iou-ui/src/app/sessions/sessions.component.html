@@ -2,11 +2,36 @@
   <div class="flex justify-between items-center mb-6">
     <h2 class="text-3xl font-bold text-gray-800">My Sessions</h2>
 
-    <!-- Create Session Button -->
+    <!-- Toggle Create Session Form -->
     <button 
+      (click)="toggleCreateSession()"
       class="px-5 py-2.5 bg-blue-600 text-white font-medium rounded-full shadow-md hover:bg-blue-700 transition">
       + Create Session
     </button>
+  </div>
+
+  <!-- Create Session Form -->
+  <div *ngIf="showCreateForm" class="bg-white shadow-md rounded-xl p-6 mb-6 max-w-md">
+    <label class="block mb-2 text-gray-700 font-medium">Session Name</label>
+    <input 
+      type="text" 
+      [(ngModel)]="newSessionName" 
+      placeholder="Enter session name..."
+      class="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:outline-none mb-4"
+    />
+
+    <div class="flex justify-end space-x-3">
+      <button 
+        (click)="createSession()" 
+        class="px-4 py-2 bg-green-600 text-white rounded-lg shadow hover:bg-green-700 transition">
+        Create
+      </button>
+      <button 
+        (click)="toggleCreateSession()" 
+        class="px-4 py-2 bg-gray-300 text-gray-700 rounded-lg shadow hover:bg-gray-400 transition">
+        Cancel
+      </button>
+    </div>
   </div>
 
   <div *ngIf="loading" class="text-gray-500 animate-pulse">Loading sessions...</div>
@@ -35,12 +60,6 @@
 
   <ng-template #noSessions>
     <div class="flex flex-col items-center justify-center mt-20 text-gray-500">
-      <svg xmlns="http://www.w3.org/2000/svg" 
-           class="h-12 w-12 mb-4 text-gray-400" 
-           fill="none" viewBox="0 0 24 24" stroke="currentColor">
-        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" 
-              d="M9.75 17L4.5 12.75l5.25-4.25M14.25 7l5.25 4.25-5.25 4.25" />
-      </svg>
       <p class="text-lg">You are not part of any sessions yet.</p>
     </div>
   </ng-template>

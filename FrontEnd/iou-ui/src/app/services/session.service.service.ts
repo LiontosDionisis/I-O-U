@@ -14,11 +14,21 @@ export class SessionServiceService {
   getSessions(): Observable<Session[]>{
     const token = localStorage.getItem('token');
     const headers = new HttpHeaders({
-      Authorization: `Bearer ${token}`
+      Authorization: `Bearer ${token}`,
+      'Content-Type': 'application/json'
     });
     return this.http.get<Session[]>(`${this.apiUrl}/my-sessions`, {headers});
   }
 
+  //
+  createSession(name: string) {
+    const token = localStorage.getItem('token');
+    const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
+    const body = {
+      name: name
+    }
+    return this.http.post(`${this.apiUrl}`, body, {headers});
+  }
 
 }
 
