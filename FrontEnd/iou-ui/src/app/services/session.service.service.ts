@@ -20,14 +20,17 @@ export class SessionServiceService {
     return this.http.get<Session[]>(`${this.apiUrl}/my-sessions`, {headers});
   }
 
-  //
+  
   createSession(name: string) {
     const token = localStorage.getItem('token');
-    const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
-    const body = {
+    const headers = new HttpHeaders({
+      Authorization: `Bearer ${token}`
+    })
+    const nameData = {
       name: name
     }
-    return this.http.post(`${this.apiUrl}`, body, {headers});
+    
+    return this.http.post(`${this.apiUrl}`, nameData, {headers});
   }
 
 }

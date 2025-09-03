@@ -23,7 +23,7 @@ public class NotificationController : ControllerBase
     }
 
 
-    [HttpGet("all/{userId:int}")]
+    [HttpGet("all")]
     public async Task<IActionResult> GetAllAsync(int userId)
     {
         var id = int.Parse(User.Claims.First(c => c.Type == ClaimTypes.NameIdentifier).Value);

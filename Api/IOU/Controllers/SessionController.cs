@@ -1,4 +1,5 @@
 using System.Security.Claims;
+using Api.IOU.DTOs;
 using Api.IOU.Exceptions;
 using Api.IOU.Models;
 using Api.IOU.Services;
@@ -22,13 +23,13 @@ public class SessionController : ControllerBase
     }
 
     [HttpPost]
-    public async Task<IActionResult> CreateSession([FromBody] string name)
+    public async Task<IActionResult> CreateSession([FromBody] CreateSessionDTO dto)
     {
         var userId = int.Parse(User.Claims.First(c => c.Type == ClaimTypes.NameIdentifier).Value);
 
         try
         {
-            var session = await _sessionService.CreateSessionAsync(userId, name);
+            var session = await _sessionService.CreateSessionAsync(userId, dto.Name);
             return Ok(session);
         }
         catch (Exception e)

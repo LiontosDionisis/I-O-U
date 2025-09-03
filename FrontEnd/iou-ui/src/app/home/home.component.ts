@@ -3,6 +3,9 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { NgIf, NgFor } from '@angular/common';
 import { AuthService } from '../services/auth.service';
 import { RouterLink, RouterOutlet } from '@angular/router';
+import { UserService } from '../services/user.service.service';
+import { Observable } from 'rxjs';
+import { UserNotification } from '../Models/notification';
 
 interface UserDTO {
   id: number;
@@ -27,7 +30,11 @@ export class HomeComponent implements OnInit {
   loading = signal(false);
   errorMessage = signal('');
   successMessage = signal('');
+  notifications: UserNotification[] = [];
+  loadingNotifications = false;
+  errorNotifications: string | null = null;
 
+  constructor(private userService: UserService) {}
   ngOnInit() {
     window.addEventListener('click', this.handleClickOutside.bind(this));
   }
@@ -100,4 +107,25 @@ export class HomeComponent implements OnInit {
       error: (err) => this.errorMessage.set(err.error?.message || 'Failed to send friend request.')
     });
   }
+
+  logoutFunc(){
+    this.authService.logout();
+  }
+
+  // TODO: Bug! Notifications are not being displayed. Find the bug and fix it (must be service or component)
+   loadNotifications() {
+    this.loadingNotifications = true;
+
+    this.userService.getNotifications().subscribe({
+      next: (data: UserNotification[]) => {
+        this.notifications = data;
+        this.loadingNotifications = false;
+      },
+      error: (err: any) => {
+        this.errorNotifications = err.error?.message || "Failed to load notifications";
+        this.loadingNotifications = false;
+      }
+    });
+  }
+
 }

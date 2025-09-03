@@ -2,6 +2,8 @@ import { Injectable, inject } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { AuthService } from './auth.service';
+import { FriendshipDTO } from '../Models/friendshipDto';
+import { UserNotification } from '../Models/notification';
 
 export interface UserDTO {
   id: number;
@@ -16,6 +18,7 @@ export class UserService {
   private http = inject(HttpClient);
   private auth = inject(AuthService);
   private apiUrl = 'http://localhost:5062/api/user';
+  
 
   private getHeaders(): HttpHeaders {
     return new HttpHeaders({
@@ -34,4 +37,42 @@ export class UserService {
       headers: this.getHeaders()
     });
   }
+
+  getFriends(): Observable<FriendshipDTO[]> {
+    const token = localStorage.getItem('token');
+    const headers = new HttpHeaders({
+      Authorization: `Bearer ${token}`
+    }) 
+    return this.http.get<FriendshipDTO[]>(`http://localhost:5062/api/friendship/friends`, {
+      headers: this.getHeaders()
+    })
+  }
+
+  addFriendToSession(sessionId: number, friendId: number): Observable<any> {
+    const token = localStorage.getItem('token');
+    const headers = new HttpHeaders({
+      Authorization: `Bearer ${token}`
+    });
+
+    return this.http.post(`http://localhost:5062/api/sessions/${sessionId}/add/${friendId}`, {}, { headers });
+  }
+
+  removeUserFromSession(sessionId: number, friendId: number): Observable<any> {
+    const token = localStorage.getItem('token');
+    const headers = new HttpHeaders({
+      Authorization: `Bearer ${token}`
+    });
+
+    return this.http.delete(`http://localhost:5062/api/sessions/${sessionId}/remove/${friendId}`, { headers });
+  }
+
+  getNotifications(): Observable<UserNotification[]> {
+    const token = localStorage.getItem('token');
+    const headers = new HttpHeaders({
+      Authorization: `Bearer ${token}`
+    });
+
+    return this.http.get<UserNotification[]>(`http://localhost:5062/api/notifications/all`, {headers})
+  }
+  
 }

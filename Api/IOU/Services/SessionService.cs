@@ -176,7 +176,7 @@ public class SessionService : ISessionService
 
         if (existingSession.CreatedById == userId)
         {
-            await _unitOfWork.SessionUsers.RemoveUserAsync(sessionId, friendId);
+            await _unitOfWork.SessionUsers.RemoveUserAsync(friendId, sessionId);
             await _unitOfWork.SaveChangesAsync();
             return true;
         }
