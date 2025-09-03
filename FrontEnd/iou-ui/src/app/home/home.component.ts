@@ -37,6 +37,7 @@ export class HomeComponent implements OnInit {
   constructor(private userService: UserService) {}
   ngOnInit() {
     window.addEventListener('click', this.handleClickOutside.bind(this));
+    this.loadNotifications();
   }
 
   handleClickOutside(event: Event) {
@@ -96,6 +97,10 @@ export class HomeComponent implements OnInit {
     });
   }
 
+  isFriendRequest(message: string | undefined): boolean {
+    return !!message && /.+ wants to be your friend/.test(message);
+  }
+
   sendFriendRequest(userId: number) {
     const token = localStorage.getItem('token');
     if (!token) return;
@@ -112,12 +117,12 @@ export class HomeComponent implements OnInit {
     this.authService.logout();
   }
 
-  // TODO: Bug! Notifications are not being displayed. Find the bug and fix it (must be service or component)
    loadNotifications() {
     this.loadingNotifications = true;
 
     this.userService.getNotifications().subscribe({
       next: (data: UserNotification[]) => {
+         console.log('API notifications:', data);
         this.notifications = data;
         this.loadingNotifications = false;
       },
@@ -126,6 +131,30 @@ export class HomeComponent implements OnInit {
         this.loadingNotifications = false;
       }
     });
+  }
+
+  acceptFriendRequest(friendshipId: number) {
+    this.userService.acceptFriendRequest(friendshipId).subscribe({
+      next: () => {
+        this.notifications = this.notifications.filter((n) => n.friendshipId !== friendshipId);
+        this.loadingNotifications = false;
+      },
+      error: (err: any) => {
+        this.loadingNotifications = false;
+      }
+    })
+  }
+
+  denyFriendRequest(friendshipId: number) {
+    this.userService.denyFriendRequest(friendshipId).subscribe({
+      next: () => {
+        this.notifications = this.notifications.filter((n) => n.friendshipId !== friendshipId);
+        this.loadingNotifications = false;
+      },
+      error: (err: any) => {
+        this.loadingNotifications = false;
+      }
+    })
   }
 
 }

@@ -76,7 +76,8 @@
     <ul *ngIf="notifications.length > 0" class="space-y-2">
       <li *ngFor="let notification of notifications" class="p-3 bg-gray-100 rounded-lg flex justify-between items-center">
         <span>{{ notification.message }}</span>
-        <span class="text-xs text-gray-400">{{ notification.id }}</span>
+        <button *ngIf="isFriendRequest(notification.message)" (click)="acceptFriendRequest(notification.friendshipId)">Accept</button>
+        <button *ngIf="isFriendRequest(notification.message)" (click)="denyFriendRequest(notification.friendshipId)">Deny</button>
       </li>
     </ul>
 

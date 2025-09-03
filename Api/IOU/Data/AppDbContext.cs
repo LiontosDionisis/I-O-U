@@ -97,7 +97,13 @@ public class AppDbContext : DbContext
             .HasOne(u => u.User)
             .WithMany(n => n.Notifications)
             .HasForeignKey(fk => fk.UserId)
-            .OnDelete(DeleteBehavior.Cascade);  
+            .OnDelete(DeleteBehavior.Cascade);
+
+        modelBuilder.Entity<Notification>()
+            .HasOne(f => f.Friendship)
+            .WithMany()
+            .HasForeignKey(e => e.FriendshipId)
+            .OnDelete(DeleteBehavior.Cascade);
     }
 
  }

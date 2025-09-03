@@ -8,80 +8,64 @@ namespace Api.IOU.Services;
 public class NotificationService : INotificationService
 {
     private readonly IUnitOfWork _unitOfWork;
-    private readonly ILogger<NotificationService> _logger;
 
-
-    public NotificationService(IUnitOfWork unitOfWork, ILogger<NotificationService> logger)
+    public NotificationService(IUnitOfWork unitOfWork)
     {
         _unitOfWork = unitOfWork;
-        _logger = logger;
     }
 
-    public async Task<NotificationDTO> CreateAsync(NotificationDTO dto)
+    public async Task<FriendNotificationDTO> CreateFriendNotificationAsync(FriendNotificationDTO notification)
     {
-        var notification = await _unitOfWork.Notifications.GetbyId(dto.Id);
-        if (notification != null) throw new NotificationAlreadyExistsException("Notification exists.");
-
-        var newNotification = new Notification
+        var existingNot = await _unitOfWork.Notifications.GetbyId(notification.Id);
+        if (existingNot != null) throw new NotificationAlreadyExistsException("Notification already exists with the same id");
+        var notificationToCreate = new Notification
         {
-            Id = dto.Id,
-            Message = dto.Message,
-            UserId = dto.UserId
-            
+            Id = notification.Id,
+            UserId = notification.UserId,
+            FriendshipId = notification.FriendshipId,
+            Message = notification.Message
         };
 
-        await _unitOfWork.Notifications.CreateAsync(newNotification);
+        await _unitOfWork.Notifications.CreateAsync(notificationToCreate);
         await _unitOfWork.SaveChangesAsync();
-        _logger.LogInformation("Notification with ID {id} has been created!", dto.Id);
-
-        return ToNotificationDto(newNotification);
+        return ToFriendNotificationDTO(notificationToCreate);
     }
 
     public async Task<bool> DeleteAsync(int id)
     {
-        var notificationToDelete = await _unitOfWork.Notifications.GetbyId(id);
-        if (notificationToDelete == null) throw new NotificationDoesNotExistException("Notification does not exist.");
+        var notToDelete = await _unitOfWork.Notifications.GetbyId(id);
+        if (notToDelete == null) throw new NotificationDoesNotExistException("No notification with this ID");
 
-        var deleted = await _unitOfWork.Notifications.DeleteAsync(notificationToDelete.Id);
-        if (deleted)
-        {
-            await _unitOfWork.SaveChangesAsync();
-            _logger.LogInformation("Notification deleted with ID {Id}", id);
-        }
-        else
-        {
-            _logger.LogWarning("Failed to delete notification");
-        }
-        return deleted;
+        await _unitOfWork.Notifications.DeleteAsync(id);
+        await _unitOfWork.SaveChangesAsync();
+        return true;
     }
 
-    public async Task<IEnumerable<NotificationDTO>> GetAllAsync(int userId)
+    public async Task<IEnumerable<FriendNotificationDTO>> GetAllAsync(int userId)
     {
         var user = await _unitOfWork.Users.GetById(userId);
-        if (user == null) throw new UserNotFoundException("User does not exist.");
+        if (user == null) throw new UserNotFoundException("User does not exist");
 
         var notifications = await _unitOfWork.Notifications.GetAllAsync(userId);
-        if (notifications == null) throw new NoNotificationsException("You have no notifications.");
-        
-        return notifications.Select(u => ToNotificationDto(u));
+        var notificationsDto = notifications.Select(n => ToFriendNotificationDTO(n));
+
+        return notificationsDto;
     }
 
-    public async Task<NotificationDTO> GetByIdAsync(int id)
+    public async Task<FriendNotificationDTO> GetByIdAsync(int id)
     {
         var notification = await _unitOfWork.Notifications.GetbyId(id);
-        if (notification == null) throw new NotificationDoesNotExistException("Notification does not exist");
-
-        return ToNotificationDto(notification);
+        return ToFriendNotificationDTO(notification);
     }
 
-    private static NotificationDTO ToNotificationDto(Notification notification)
+    private static FriendNotificationDTO ToFriendNotificationDTO(Notification notification)
     {
-        return new NotificationDTO
+        return new FriendNotificationDTO
         {
             Id = notification.Id,
+            UserId = notification.UserId,
             Message = notification.Message,
-            UserId = notification.UserId
+            FriendshipId = notification.FriendshipId,
         };
     }
-
 }

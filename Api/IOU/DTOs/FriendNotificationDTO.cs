@@ -1,11 +1,8 @@
-namespace Api.IOU.Models;
+namespace Api.IOU.DTOs;
 
-public class Notification
-{
+public class FriendNotificationDTO {
     public int Id { get; set; }
     public string Message { get; set; } = string.Empty;
     public int UserId { get; set; }
-    public User? User { get; set; }
     public int? FriendshipId { get; set; }
-    public Friendship? Friendship { get; set; }
 }

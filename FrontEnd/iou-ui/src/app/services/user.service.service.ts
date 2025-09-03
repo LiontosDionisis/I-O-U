@@ -74,5 +74,22 @@ export class UserService {
 
     return this.http.get<UserNotification[]>(`http://localhost:5062/api/notifications/all`, {headers})
   }
+
+  acceptFriendRequest(friendshipId: number) {
+    const token = localStorage.getItem('token');
+    const headers = new HttpHeaders({
+      Authorization: `Bearer ${token}`
+    });
+
+    return this.http.put(`http://localhost:5062/api/friendship/accept/${friendshipId}`, {}, {headers});
+  }
   
+  denyFriendRequest(friendshipId: number) {
+    const token = localStorage.getItem('token');
+    const headers = new HttpHeaders({
+      Authorization: `Bearer ${token}`
+    });
+
+    return this.http.delete(`http://localhost:5062/api/friendship/deny/${friendshipId}`, {headers})
+  }
 }

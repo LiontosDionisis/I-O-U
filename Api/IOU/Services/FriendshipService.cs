@@ -39,12 +39,14 @@ public class FriendshipService : IFriendshipService
         friendship.Status = FriendshipStatus.Accepted;
 
         var user = await _unitOfWork.Users.GetById(friendship.FriendId);
-        var notification = new NotificationDTO
+        var notification = new FriendNotificationDTO
         {
-            UserId = friendship.UserId,                    
-            Message = $"{user!.Username} has accepted your friend request!"
+            UserId = friendship.UserId,
+            Message = $"{user!.Username} has accepted your friend request!",
+            FriendshipId = friendship.Id
         };
-        await _notService.CreateAsync(notification);
+        
+        await _notService.CreateFriendNotificationAsync(notification);
 
         return await _unitOfWork.Friendships.UpdateAsync(friendship);
     }
@@ -122,16 +124,19 @@ public class FriendshipService : IFriendshipService
             FriendId = friendId,
             Status = FriendshipStatus.Pending
         };
+
+        var createdFriendship = await _unitOfWork.Friendships.CreateAsync(friendship);
         var user = await _unitOfWork.Users.GetById(userId);
 
-        var notification = new NotificationDTO
+        var notification = new FriendNotificationDTO
         {
             UserId = friendId,
+            FriendshipId = createdFriendship.Id,
             Message = $"{user!.Username} wants to be your friend"
         };
 
-        await _notService.CreateAsync(notification);
-        return await _unitOfWork.Friendships.CreateAsync(friendship);
+        await _notService.CreateFriendNotificationAsync(notification);
+        return createdFriendship;
     }
 
     

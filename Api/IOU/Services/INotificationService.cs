@@ -1,11 +1,13 @@
 using Api.IOU.DTOs;
+using Api.IOU.Models;
 
 namespace Api.IOU.Services;
 
 public interface INotificationService
 {
-    Task<IEnumerable<NotificationDTO>> GetAllAsync(int userId);
-    Task<NotificationDTO> GetByIdAsync(int id);
+    Task<IEnumerable<FriendNotificationDTO>> GetAllAsync(int userId);
+    Task<FriendNotificationDTO> GetByIdAsync(int id);
     Task<bool> DeleteAsync(int id);
-    Task<NotificationDTO> CreateAsync(NotificationDTO dto);
+    Task<FriendNotificationDTO> CreateFriendNotificationAsync(FriendNotificationDTO notification);
+    
 }
