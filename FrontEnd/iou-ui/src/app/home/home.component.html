@@ -1,8 +1,10 @@
 <div class="flex flex-col items-center min-h-screen bg-gradient-to-br from-blue-50 to-purple-100 p-6">
+
+  <!-- Main Card -->
   <div class="w-full max-w-md bg-white rounded-2xl shadow-lg p-6">
 
     <!-- Search bar -->
-    <div class="relative mb-4 search-container">
+    <div class="relative mb-4">
       <span class="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 text-lg">🔍</span>
       <input
         type="text"
@@ -28,50 +30,56 @@
     </div>
 
     <!-- User results -->
-    <ul *ngIf="users().length > 0" class="space-y-2">
-      <li *ngFor="let user of users()" class="flex justify-between items-center bg-gray-50 hover:bg-indigo-50 transition rounded-lg p-3">
-        <span class="text-gray-700 font-medium">{{ user.username }}</span>
-        <button
-          (click)="sendFriendRequest(user.id)"
-          class="bg-indigo-500 text-white px-3 py-1 rounded-lg hover:bg-indigo-600 transition duration-300"
-        >
+    <ul *ngIf="users().length > 0" class="space-y-2 mt-4">
+      <li *ngFor="let user of users()" 
+          class="flex items-center justify-between bg-gray-50 hover:bg-indigo-50 transition rounded-lg p-3">
+        
+        <!-- Left: Avatar + Username -->
+        <div class="flex items-center gap-3">
+          <img [src]="getAvatarUrl(user.avatar)" 
+            alt="Avatar" 
+            class="w-12 h-12 rounded-full border-2 border-indigo-300 shadow-sm">
+          <span class="text-gray-700 font-medium">{{ user.username }}</span>
+        </div>
+
+        <!-- Right: Add Friend Button -->
+        <button (click)="sendFriendRequest(user.id)"
+                class="bg-indigo-500 text-white px-3 py-1 rounded-lg hover:bg-indigo-600 transition duration-300">
           Add Friend
         </button>
       </li>
     </ul>
-
   </div>
 
-  <div>
-    <!-- My sessions button -->
-    <button [routerLink]="['/sessions']" class="w-3/4 mx-auto mt-6 px-6 py-3 flex items-center justify-center text-lg font-semibold text-white bg-purple-600 rounded-xl hover:bg-purple-700 transition-colors duration-300 transform hover:scale-105 shadow-lg whitespace-nowrap">
+  <!-- Navigation Buttons -->
+  <div class="mt-6 w-full max-w-md flex flex-col gap-4">
+    <button [routerLink]="['/sessions']" class="w-full px-6 py-3 flex items-center justify-center text-lg font-semibold text-white bg-purple-600 rounded-xl hover:bg-purple-700 transition transform hover:scale-105 shadow-lg">
       <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-        <path stroke-linecap="round" stroke-linejoin="round" />
+        <path stroke-linecap="round" stroke-linejoin="round"/>
       </svg>
       My Sessions
     </button>
 
-    <!-- My profile button -->
-    <button [routerLink]="['/profile']" class="w-3/4 mx-auto mt-6 px-6 py-3 flex items-center justify-center text-lg font-semibold text-white bg-blue-600 rounded-xl hover:bg-purple-700 transition-colors duration-300 transform hover:scale-105 shadow-lg whitespace-nowrap">
+    <button [routerLink]="['/profile']" class="w-full px-6 py-3 flex items-center justify-center text-lg font-semibold text-white bg-blue-600 rounded-xl hover:bg-purple-700 transition transform hover:scale-105 shadow-lg">
       <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-        <path stroke-linecap="round" stroke-linejoin="round" />
+        <path stroke-linecap="round" stroke-linejoin="round"/>
       </svg>
       My Profile
     </button>
 
-    <!-- Logout button -->
-    <button (click)="logoutFunc()" class="w-3/4 mx-auto mt-6 px-6 py-3 flex items-center justify-center text-lg font-semibold text-white bg-red-600 rounded-xl hover:bg-red-700 transition-colors duration-300 transform hover:scale-105 shadow-lg whitespace-nowrap">
+    <button (click)="logoutFunc()" class="w-full px-6 py-3 flex items-center justify-center text-lg font-semibold text-white bg-red-600 rounded-xl hover:bg-red-700 transition transform hover:scale-105 shadow-lg">
       <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-        <path stroke-linecap="round" stroke-linejoin="round" />
+        <path stroke-linecap="round" stroke-linejoin="round"/>
       </svg>
       Logout
     </button>
   </div>
 
-  <!-- Notifications section -->
+  <!-- Notifications Section -->
   <div class="p-6 w-full max-w-md mt-6 bg-white rounded-xl shadow-lg">
     <h2 class="text-2xl font-bold mb-4">Notifications</h2>
 
+    <!-- Loading / error -->
     <div *ngIf="loadingNotifications" class="text-gray-500 animate-pulse">Loading notifications...</div>
     <div *ngIf="errorNotifications" class="text-red-500">{{ errorNotifications }}</div>
 
@@ -82,50 +90,34 @@
 
         <!-- Friend request buttons -->
         <div *ngIf="isFriendRequest(notification.message)" class="mt-3 sm:mt-0 flex space-x-2">
-          <button
-            (click)="acceptFriendRequest(notification.friendshipId, notification.id)"
-            class="px-3 py-1 text-sm bg-green-500 hover:bg-green-600 text-white rounded-lg shadow"
-          >
+          <button (click)="acceptFriendRequest(notification.friendshipId, notification.id)"
+                  class="px-3 py-1 text-sm bg-green-500 hover:bg-green-600 text-white rounded-lg shadow">
             Accept
           </button>
-          <button
-            (click)="denyFriendRequest(notification.friendshipId, notification.id)"
-            class="px-3 py-1 text-sm bg-red-500 hover:bg-red-600 text-white rounded-lg shadow"
-          >
+          <button (click)="denyFriendRequest(notification.friendshipId, notification.id)"
+                  class="px-3 py-1 text-sm bg-red-500 hover:bg-red-600 text-white rounded-lg shadow">
             Decline
           </button>
         </div>
 
-        <!-- Delete (X) button -->
-        <button
-          (click)="deleteNotification(notification.id)"
-          class="absolute top-2 right-2 text-gray-400 hover:text-red-500 transition"
-        >
-          ✕
-        </button>
+        <!-- Delete button -->
+        <button (click)="deleteNotification(notification.id)"
+                class="absolute top-2 right-2 text-gray-400 hover:text-red-500 transition">✕</button>
       </li>
     </ul>
 
     <!-- Session notifications -->
-    <ul *ngIf="sessionNotifications.length > 0" class="space-y-3">
-      <li *ngFor="let sn of sessionNotifications" 
-          class="relative p-4 bg-white shadow-md rounded-2xl border border-gray-200 flex flex-col sm:flex-row sm:items-center sm:justify-between">
-
-        <!-- Notification message -->
+    <ul *ngIf="sessionNotifications.length > 0" class="space-y-3 mt-3">
+      <li *ngFor="let sn of sessionNotifications" class="relative p-4 bg-white shadow-md rounded-2xl border border-gray-200 flex flex-col sm:flex-row sm:items-center sm:justify-between">
         <span class="text-gray-700 font-medium">{{ sn.message }}</span>
-
-        <!-- Delete button -->
-        <button 
-          (click)="deleteSessionNotification(sn.id)"
-          class="absolute top-2 right-2 text-gray-400 hover:text-red-500 transition text-lg font-bold">
-          ✕
-        </button>
+        <button (click)="deleteSessionNotification(sn.id)" class="absolute top-2 right-2 text-gray-400 hover:text-red-500 transition text-lg font-bold">✕</button>
       </li>
     </ul>
 
     <!-- No notifications -->
-    <div *ngIf="!loadingNotifications && notifications.length === 0 && sessionNotifications.length === 0" class="text-gray-500">
+    <div *ngIf="!loadingNotifications && notifications.length === 0 && sessionNotifications.length === 0" class="text-gray-500 mt-2">
       You have no notifications.
     </div>
   </div>
+
 </div>

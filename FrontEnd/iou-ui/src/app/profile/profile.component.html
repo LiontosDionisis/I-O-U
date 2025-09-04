@@ -1,1 +1,17 @@
-<p>profile works!</p>
+<div *ngIf="user" class="flex justify-center mt-10">
+  <div class="bg-white shadow-xl rounded-2xl p-8 w-96 text-center">
+    <!-- Avatar -->
+    <img [src]="avatarUrl" 
+         alt="User Avatar" 
+         class="w-24 h-24 mx-auto rounded-full border-4 border-indigo-500 shadow-md">
+
+    <!-- Username -->
+    <h2 class="mt-4 text-2xl font-bold text-gray-800">{{ user.username }}</h2>
+
+    <!-- Email -->
+    <p class="mt-1 text-gray-500">{{ user.email }}</p>
+
+    
+    
+  </div>
+</div>

@@ -7,6 +7,8 @@ import { UserService } from '../services/user.service.service';
 import { Observable } from 'rxjs';
 import { UserNotification } from '../Models/notification';
 import { SessionNotification } from '../Models/notificationSession';
+import { CurrentUserDTO } from '../Models/current-user.dto';
+import { AvatarType, getAvatarUrl } from '../Models/avatar';
 
 interface UserDTO {
   id: number;
@@ -27,7 +29,7 @@ export class HomeComponent implements OnInit {
   private el = inject(ElementRef);
 
   searchQuery = signal('');
-  users = signal<UserDTO[]>([]);
+  users = signal<CurrentUserDTO[]>([]);
   loading = signal(false);
   errorMessage = signal('');
   successMessage = signal('');
@@ -76,16 +78,21 @@ export class HomeComponent implements OnInit {
     this.errorMessage.set('');
     this.users.set([]);
 
-    this.http.get<UserDTO>(`http://localhost:5062/api/user/byUsername/${this.searchQuery()}`, {
+    this.http.get<CurrentUserDTO>(`http://localhost:5062/api/user/byUsername/${this.searchQuery()}`, {
       headers: new HttpHeaders({ Authorization: `Bearer ${token}` })
     }).subscribe({
       next: (res) => {
         const userArray = res ? [res] : [];
         const currentUsername = this.authService.getCurrentUsernameFromToken();
         const filtered = userArray.filter(u => u.username !== currentUsername);
-        this.users.set(filtered);
+        const usersWithAvatars = filtered.map(u => ({
+          ...u,
+          avatarUrl: getAvatarUrl(u.avatar as AvatarType)
+        }));
 
-        if (filtered.length === 0) this.errorMessage.set('No users found.');
+        this.users.set(usersWithAvatars);
+
+        if (usersWithAvatars.length === 0) this.errorMessage.set('No users found.');
       },
       error: (err) => {
         if (err.status === 404) {
@@ -194,4 +201,6 @@ export class HomeComponent implements OnInit {
       }
     });
   }
+
+  getAvatarUrl = getAvatarUrl;
 }

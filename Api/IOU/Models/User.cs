@@ -23,6 +23,8 @@ public class User
         @"^(?=.*[A-Z])(?=.*[!@#$%^&*()_+\-=\[\]{};':""\\|,.<>\/?]).{8,}$",
         ErrorMessage = "Password must be at least 8 characters long, contain at least one uppercase letter and one special character.")]
     public string Password { get; set; } = string.Empty;
+    [Required]
+    public AvatarType Avatar { get; set; } = AvatarType.Penguin;
 
     public ICollection<Friendship> Friendships { get; set; } = new List<Friendship>();
     public ICollection<SessionUser> Sessions { get; set; } = new List<SessionUser>();

@@ -5,6 +5,7 @@ import { AuthService } from './auth.service';
 import { FriendshipDTO } from '../Models/friendshipDto';
 import { UserNotification } from '../Models/notification';
 import { SessionNotification } from '../Models/notificationSession';
+import { CurrentUserDTO } from '../Models/current-user.dto';
 
 export interface UserDTO {
   id: number;
@@ -118,5 +119,14 @@ export class UserService {
       Authorization: `Bearer ${token}`
     });
     return this.http.delete(`http://localhost:5062/api/notifications/s/${notificationId}`, {headers});
+  }
+
+  getCurrentUser(): Observable<CurrentUserDTO>{
+    const token = localStorage.getItem('token');
+    const headers = new HttpHeaders({
+      Authorization: `Bearer ${token}`
+    });
+
+    return this.http.get<CurrentUserDTO>(`http://localhost:5062/api/user/me`, {headers});
   }
 }

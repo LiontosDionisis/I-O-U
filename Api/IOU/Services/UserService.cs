@@ -159,7 +159,8 @@ public class UserService : IUserService
         {
             Id = user.Id,
             Username = user.Username,
-            Email = user.Email
+            Email = user.Email,
+            Avatar = user.Avatar
         };
     }
 

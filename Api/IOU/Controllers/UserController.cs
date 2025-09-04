@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Authorization;
 using Api.IOU.DTOs;
 using Api.IOU.Exceptions;
 using System.Xml;
+using System.Security.Claims;
 
 namespace Api.IOU.Controllers;
 
@@ -20,6 +21,30 @@ public class UserController : ControllerBase
         _logger = logger;
     }
 
+    [HttpGet("me")]
+    public async Task<IActionResult> GetCurrentUser()
+    {
+        try
+        {
+            var userId = int.Parse(User.Claims.First(c => c.Type == ClaimTypes.NameIdentifier).Value);
+
+            var userDto = await _userService.GetByIdAsync(userId);
+
+            return Ok(userDto);
+        }
+        catch (UserNotFoundException)
+        {
+            return NotFound(new { message = "User does not exist." });
+        }
+        catch (Exception)
+        {
+            return StatusCode(500, new { message = "Internal Server Error. Please try again later." });
+        }
+        
+
+
+
+    }
     [HttpGet()]
     public async Task<IActionResult> GetAll()
     {

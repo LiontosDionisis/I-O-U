@@ -55,7 +55,7 @@ public class SessionService : ISessionService
             SessionId = session.Id,
             UserId = userId
         };
-
+        //TODO: Fix notification notifying yourself when creating a session (if (ownerId != userId)
         await _unitOfWork.SessionUsers.AddUserToSessionAsync(sessionUser);
         await _unitOfWork.SessionNotifications.CreateAsync(notification);
         await _unitOfWork.SaveChangesAsync();
