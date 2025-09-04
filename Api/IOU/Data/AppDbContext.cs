@@ -18,6 +18,7 @@ public class AppDbContext : DbContext
     public DbSet<Expense> Expenses { get; set; }
     public DbSet<ExpenseSplit> ExpenseSplits { get; set; }
     public DbSet<Notification> Notifications { get; set; }
+    public DbSet<NotificationSession> SessionNotifications { get; set; }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
@@ -103,6 +104,18 @@ public class AppDbContext : DbContext
             .HasOne(f => f.Friendship)
             .WithMany()
             .HasForeignKey(e => e.FriendshipId)
+            .OnDelete(DeleteBehavior.Cascade);
+
+        modelBuilder.Entity<NotificationSession>()
+            .HasOne(s => s.Session)
+            .WithMany()
+            .HasForeignKey(fk => fk.SessionId)
+            .OnDelete(DeleteBehavior.Cascade);
+
+        modelBuilder.Entity<NotificationSession>()
+            .HasOne(u => u.User)
+            .WithMany(n => n.SessionNotifications)
+            .HasForeignKey(fk => fk.UserId)
             .OnDelete(DeleteBehavior.Cascade);
     }
 

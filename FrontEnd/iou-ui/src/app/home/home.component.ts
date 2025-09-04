@@ -6,6 +6,7 @@ import { RouterLink, RouterOutlet } from '@angular/router';
 import { UserService } from '../services/user.service.service';
 import { Observable } from 'rxjs';
 import { UserNotification } from '../Models/notification';
+import { SessionNotification } from '../Models/notificationSession';
 
 interface UserDTO {
   id: number;
@@ -31,6 +32,7 @@ export class HomeComponent implements OnInit {
   errorMessage = signal('');
   successMessage = signal('');
   notifications: UserNotification[] = [];
+  sessionNotifications: SessionNotification[] = [];
   loadingNotifications = false;
   errorNotifications: string | null = null;
 
@@ -38,6 +40,7 @@ export class HomeComponent implements OnInit {
   ngOnInit() {
     window.addEventListener('click', this.handleClickOutside.bind(this));
     this.loadNotifications();
+    this.loadSessionNotifications();
   }
 
   handleClickOutside(event: Event) {
@@ -122,7 +125,6 @@ export class HomeComponent implements OnInit {
 
     this.userService.getNotifications().subscribe({
       next: (data: UserNotification[]) => {
-         console.log('API notifications:', data);
         this.notifications = data;
         this.loadingNotifications = false;
       },
@@ -133,10 +135,23 @@ export class HomeComponent implements OnInit {
     });
   }
 
-  acceptFriendRequest(friendshipId: number) {
+  loadSessionNotifications() {
+    this.userService.getSessionNotifications().subscribe({
+      next: (data: SessionNotification[]) => {
+        this.sessionNotifications = data;
+        this.loadingNotifications = false;
+      },
+      error: (err: any) => {
+        this.errorNotifications = err.error?.message || "Failed to load notifications";
+        this.loadingNotifications = false;
+      }
+    });
+  }
+
+  acceptFriendRequest(friendshipId: number, notificationId: number) {
     this.userService.acceptFriendRequest(friendshipId).subscribe({
       next: () => {
-        this.notifications = this.notifications.filter((n) => n.friendshipId !== friendshipId);
+        this.deleteNotification(notificationId);
         this.loadingNotifications = false;
       },
       error: (err: any) => {
@@ -144,17 +159,39 @@ export class HomeComponent implements OnInit {
       }
     })
   }
-
-  denyFriendRequest(friendshipId: number) {
+  denyFriendRequest(friendshipId: number, notificationId: number) {
     this.userService.denyFriendRequest(friendshipId).subscribe({
       next: () => {
-        this.notifications = this.notifications.filter((n) => n.friendshipId !== friendshipId);
+        this.deleteNotification(notificationId);
         this.loadingNotifications = false;
       },
       error: (err: any) => {
         this.loadingNotifications = false;
       }
-    })
+    });
   }
 
+  deleteNotification(notificationId: number) {
+    this.userService.deleteNotification(notificationId).subscribe({
+      next: () => {
+        this.loadingNotifications = false;
+        this.loadNotifications();
+      },
+      error: (err: any) => {
+        this.loadingNotifications = false;
+      }
+    });
+  }
+  
+  deleteSessionNotification(notificationId: number) {
+    this.userService.deleteSessionNotification(notificationId).subscribe({
+      next: () => {
+        this.loadingNotifications = false;
+        this.loadSessionNotifications();
+      },
+      error: (err: any) => {
+        this.loadingNotifications = false;
+      }
+    });
+  }
 }

@@ -54,6 +54,7 @@ builder.Services.AddScoped<ISessionUserRepository, SessionUserRepository>();
 builder.Services.AddScoped<IExpenseRepository, ExpenseRepository>();
 builder.Services.AddScoped<IExpenseSplitRepository, ExpenseSplitRepository>();
 builder.Services.AddScoped<INotificationRepository, NotificationRepository>();
+builder.Services.AddScoped<INotificationSessionRepository, NotificationSessionRepository>();
 
 // Unit of Work
 builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
@@ -64,6 +65,7 @@ builder.Services.AddScoped<IFriendshipService, FriendshipService>();
 builder.Services.AddScoped<ISessionService, SessionService>();
 builder.Services.AddScoped<IExpenseService, ExpenseService>();
 builder.Services.AddScoped<INotificationService, NotificationService>();
+builder.Services.AddScoped<INotificationSessionService, NotificationSessionService>(); 
 
 // CORS
 builder.Services.AddCors(options =>

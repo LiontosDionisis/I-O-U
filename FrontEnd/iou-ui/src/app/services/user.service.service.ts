@@ -4,6 +4,7 @@ import { Observable } from 'rxjs';
 import { AuthService } from './auth.service';
 import { FriendshipDTO } from '../Models/friendshipDto';
 import { UserNotification } from '../Models/notification';
+import { SessionNotification } from '../Models/notificationSession';
 
 export interface UserDTO {
   id: number;
@@ -72,7 +73,16 @@ export class UserService {
       Authorization: `Bearer ${token}`
     });
 
-    return this.http.get<UserNotification[]>(`http://localhost:5062/api/notifications/all`, {headers})
+    return this.http.get<UserNotification[]>(`http://localhost:5062/api/notifications/all`, {headers});
+  }
+
+  getSessionNotifications(): Observable<SessionNotification[]> {
+    const token = localStorage.getItem('token');
+    const headers = new HttpHeaders({
+      Authorization: `Bearer ${token}`
+    });
+
+    return this.http.get<SessionNotification[]>(`http://localhost:5062/api/notifications/s/all`, {headers});
   }
 
   acceptFriendRequest(friendshipId: number) {
@@ -91,5 +101,22 @@ export class UserService {
     });
 
     return this.http.delete(`http://localhost:5062/api/friendship/deny/${friendshipId}`, {headers})
+  }
+
+  deleteNotification(notificationId: number) {
+    const token = localStorage.getItem('token');
+    const headers = new HttpHeaders({
+      Authorization: `Bearer ${token}`
+    });
+    return this.http.delete(`http://localhost:5062/api/notifications/delete/${notificationId}`, {headers});
+  }
+
+
+  deleteSessionNotification(notificationId: number) {
+    const token = localStorage.getItem('token');
+    const headers = new HttpHeaders({
+      Authorization: `Bearer ${token}`
+    });
+    return this.http.delete(`http://localhost:5062/api/notifications/s/${notificationId}`, {headers});
   }
 }

@@ -1,4 +1,5 @@
 using System.Security.Claims;
+using Api.IOU.DTOs;
 using Api.IOU.Exceptions;
 using Api.IOU.Services;
 using Microsoft.AspNetCore.Authorization;
@@ -29,7 +30,15 @@ public class FriendshipController : ControllerBase
         {
             var friendship = await _friendshipService.SendFriendRequestAsync(userId, friendId);
             _logger.LogInformation("Friend request send by user with iD {userId} to User with ID {friendID}", userId, friendId);
-            return Ok(new { message = "Friend request sent!", friendship });
+
+            var dto = new FriendshipDTO
+            {
+                Id = friendship.Id,
+                FriendId = friendship.FriendId,
+                Status = friendship.Status
+            };
+
+            return Ok(new { message = "Friend request sent!", friendship = dto });
         }
         catch (InvalidFriendRequest e)
         {

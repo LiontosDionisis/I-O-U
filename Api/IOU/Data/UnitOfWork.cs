@@ -13,8 +13,9 @@ public class UnitOfWork : IUnitOfWork
     public IExpenseRepository Expenses { get; }
     public IExpenseSplitRepository ExpenseSplits { get; }
     public INotificationRepository Notifications { get; }
+    public INotificationSessionRepository SessionNotifications{ get; }
 
-    public UnitOfWork(AppDbContext context, IUserRepository users, IFriendshipRepository friendships, ISessionRepository sessions, ISessionUserRepository sessionUsers, IExpenseRepository expenses, IExpenseSplitRepository expenseSplits, INotificationRepository notifications)
+    public UnitOfWork(AppDbContext context, IUserRepository users, IFriendshipRepository friendships, ISessionRepository sessions, ISessionUserRepository sessionUsers, IExpenseRepository expenses, IExpenseSplitRepository expenseSplits, INotificationRepository notifications, INotificationSessionRepository sessionNotifications)
     {
         _context = context;
         Users = users;
@@ -24,6 +25,7 @@ public class UnitOfWork : IUnitOfWork
         Expenses = expenses;
         ExpenseSplits = expenseSplits;
         Notifications = notifications;
+        SessionNotifications = sessionNotifications;
     }
 
     public async Task<int> SaveChangesAsync()

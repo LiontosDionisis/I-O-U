@@ -11,6 +11,7 @@ public interface IUnitOfWork : IDisposable
     IExpenseRepository Expenses { get; }
     IExpenseSplitRepository ExpenseSplits { get; }
     INotificationRepository Notifications { get; }
+    INotificationSessionRepository SessionNotifications {get;}
 
     Task<int> SaveChangesAsync();
 }
