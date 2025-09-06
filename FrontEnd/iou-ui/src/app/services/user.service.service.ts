@@ -6,6 +6,7 @@ import { FriendshipDTO } from '../Models/friendshipDto';
 import { UserNotification } from '../Models/notification';
 import { SessionNotification } from '../Models/notificationSession';
 import { CurrentUserDTO } from '../Models/current-user.dto';
+import { UpdateUserDto } from '../Models/updateUser.dto';
 
 export interface UserDTO {
   id: number;
@@ -128,5 +129,14 @@ export class UserService {
     });
 
     return this.http.get<CurrentUserDTO>(`http://localhost:5062/api/user/me`, {headers});
+  }
+
+  updateUser(userId: number, userDto: UpdateUserDto) {
+    const token = localStorage.getItem('token');
+    const headers = new HttpHeaders({
+      Authorization: `Bearer ${token}`
+    });
+
+    return this.http.put(`http://localhost:5062/api/user/${userId}`, userDto,  {headers});
   }
 }

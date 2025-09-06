@@ -127,25 +127,34 @@ public class UserService : IUserService
             throw new UserNotFoundException($"User with id {id} not found");
         }
 
-        // Check if username is already in use
-        var existingUsername = await _unitOfWork.Users.GetByUsername(dto.Username);
-        if (existingUsername != null && existingUsername.Id != id)
+        // Update Username
+        if (!string.IsNullOrWhiteSpace(dto.Username) && dto.Username != user.Username)
         {
-            _logger.LogWarning("Username {Username} is already taken", dto.Username);
-            throw new UserAlreadyExistsException($"Username {dto.Username} is already taken");
+            var existingUsername = await _unitOfWork.Users.GetByUsername(dto.Username);
+            if (existingUsername != null && existingUsername.Id != id)
+            {
+                _logger.LogWarning("Username {Username} is already taken", dto.Username);
+                throw new UserAlreadyExistsException($"Username {dto.Username} is already taken");
+            }
+
+            user.Username = dto.Username;
         }
 
-        // Check if email is already in use
-        var existingEmail = await _unitOfWork.Users.GetByEmailAsync(dto.Email);
-        if (existingEmail != null && existingEmail.Id != id)
+        // Update Email
+        if (!string.IsNullOrWhiteSpace(dto.Email) && dto.Email != user.Email)
         {
-            _logger.LogWarning("Email {Email} is already in use", dto.Email);
-            throw new EmailAlreadyExistsException($"Email {dto.Email} is already in use");
-        }
-        
+            var existingEmail = await _unitOfWork.Users.GetByEmailAsync(dto.Email);
+            if (existingEmail != null && existingEmail.Id != id)
+            {
+                _logger.LogWarning("Email {Email} is already in use", dto.Email);
+                throw new EmailAlreadyExistsException($"Email {dto.Email} is already in use");
+            }
 
-        user.Username = dto.Username;
-        user.Email = dto.Email;
+            user.Email = dto.Email;
+        }
+
+        // user.Username = dto.Username;
+        // user.Email = dto.Email;
 
         await _unitOfWork.Users.UpdateAsync(user);
         await _unitOfWork.SaveChangesAsync();
