@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Authorization;
 using Api.IOU.DTOs;
 using Api.IOU.Exceptions;
 using System.Xml;
+using System.Security.Claims;
 
 namespace Api.IOU.Controllers;
 
@@ -20,6 +21,30 @@ public class UserController : ControllerBase
         _logger = logger;
     }
 
+    [HttpGet("me")]
+    public async Task<IActionResult> GetCurrentUser()
+    {
+        try
+        {
+            var userId = int.Parse(User.Claims.First(c => c.Type == ClaimTypes.NameIdentifier).Value);
+
+            var userDto = await _userService.GetByIdAsync(userId);
+
+            return Ok(userDto);
+        }
+        catch (UserNotFoundException)
+        {
+            return NotFound(new { message = "User does not exist." });
+        }
+        catch (Exception)
+        {
+            return StatusCode(500, new { message = "Internal Server Error. Please try again later." });
+        }
+
+
+
+
+    }
     [HttpGet()]
     public async Task<IActionResult> GetAll()
     {
@@ -151,6 +176,43 @@ public class UserController : ControllerBase
         {
             _logger.LogWarning(e, "Unexpected error while updating user with ID {Id}", id);
             return StatusCode(500, new { message = "An unexpected error has occured. Please try again later.", code = "INTERNAL_SERVER_ERROR" });
+        }
+    }
+
+    [HttpPatch("update-username/{id:int}")]
+    public async Task<IActionResult> UpdateUsername(int id, [FromBody] UserUpdateUsernameDTO dto)
+    {
+        try
+        {
+            var updatedUser = await _userService.UpdateUsernameAsync(id, dto);
+            return Ok(updatedUser);
+        }
+        catch (UserNotFoundException)
+        {
+            return NotFound(new { message = "User does not exist" });
+        }
+        catch (UserAlreadyExistsException)
+        {
+            return Conflict(new { message = "Username is already in use." });
+        }
+
+    }
+
+    [HttpPatch("update-email/{id:int}")]
+    public async Task<IActionResult> UpdateEmail(int id, [FromBody] UserUpdateEmailDTO dto)
+    {
+        try
+        {
+            var updatedUser = await _userService.UpdateEmailAsync(id, dto);
+            return Ok(updatedUser);
+        }
+        catch (UserNotFoundException)
+        {
+            return NotFound(new { message = "User does not exist." });
+        }
+        catch (EmailAlreadyExistsException)
+        {
+            return Conflict(new { message = "Email is already in use" });
         }
     }
 }
