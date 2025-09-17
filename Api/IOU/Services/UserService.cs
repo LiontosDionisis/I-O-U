@@ -204,4 +204,47 @@ public class UserService : IUserService
 
         return jwtToken;
     }
+
+    public async Task<UserDTO> UpdateUsernameAsync(int id, UserUpdateUsernameDTO dto)
+    {
+        var user = await _unitOfWork.Users.GetById(id);
+        if (user == null) throw new UserNotFoundException("User does not exist");
+
+        if (!string.IsNullOrWhiteSpace(dto.Username) && dto.Username != user.Username)
+        {
+            var existingUsername = await _unitOfWork.Users.GetByUsername(dto.Username);
+            if (existingUsername != null && existingUsername.Id != id)
+            {
+                _logger.LogWarning("Username {Username} is already taken", dto.Username);
+                throw new UserAlreadyExistsException($"Username {dto.Username} is already taken");
+            }
+
+            user.Username = dto.Username;
+        }
+
+        await _unitOfWork.Users.UpdateAsync(user);
+        await _unitOfWork.SaveChangesAsync();
+        return ToUserDto(user);
+    }
+
+    public async Task<UserDTO> UpdateEmailAsync(int id, UserUpdateEmailDTO dto)
+    {
+        var user = await _unitOfWork.Users.GetById(id);
+        if (user == null) throw new UserNotFoundException("User does not exist");
+
+        if (!string.IsNullOrWhiteSpace(dto.Email) && dto.Email != user.Email)
+        {
+            var existingEmail = await _unitOfWork.Users.GetByEmailAsync(dto.Email);
+            if (existingEmail != null && existingEmail.Id != id)
+            {
+                throw new EmailAlreadyExistsException($"Email {dto.Email} is in use.");
+            }
+
+            user.Email = dto.Email;
+        }
+
+        await _unitOfWork.Users.UpdateAsync(user);
+        await _unitOfWork.SaveChangesAsync();
+        return ToUserDto(user);
+    }
 }

@@ -32,6 +32,8 @@ export class ProfileComponent {
       this.matIconRegistry.setDefaultFontSetClass('material-icons');
     }
 
+    //TODO: Fix Username and email becoming null after updating one of them
+    
   ngOnInit(): void {
     this.userService.getCurrentUser().subscribe(user => {
       this.user = user;

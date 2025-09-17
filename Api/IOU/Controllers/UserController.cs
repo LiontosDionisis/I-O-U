@@ -40,7 +40,7 @@ public class UserController : ControllerBase
         {
             return StatusCode(500, new { message = "Internal Server Error. Please try again later." });
         }
-        
+
 
 
 
@@ -176,6 +176,43 @@ public class UserController : ControllerBase
         {
             _logger.LogWarning(e, "Unexpected error while updating user with ID {Id}", id);
             return StatusCode(500, new { message = "An unexpected error has occured. Please try again later.", code = "INTERNAL_SERVER_ERROR" });
+        }
+    }
+
+    [HttpPatch("update-username/{id:int}")]
+    public async Task<IActionResult> UpdateUsername(int id, [FromBody] UserUpdateUsernameDTO dto)
+    {
+        try
+        {
+            var updatedUser = await _userService.UpdateUsernameAsync(id, dto);
+            return Ok(updatedUser);
+        }
+        catch (UserNotFoundException)
+        {
+            return NotFound(new { message = "User does not exist" });
+        }
+        catch (UserAlreadyExistsException)
+        {
+            return Conflict(new { message = "Username is already in use." });
+        }
+
+    }
+
+    [HttpPatch("update-email/{id:int}")]
+    public async Task<IActionResult> UpdateEmail(int id, [FromBody] UserUpdateEmailDTO dto)
+    {
+        try
+        {
+            var updatedUser = await _userService.UpdateEmailAsync(id, dto);
+            return Ok(updatedUser);
+        }
+        catch (UserNotFoundException)
+        {
+            return NotFound(new { message = "User does not exist." });
+        }
+        catch (EmailAlreadyExistsException)
+        {
+            return Conflict(new { message = "Email is already in use" });
         }
     }
 }
