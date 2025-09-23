@@ -7,6 +7,8 @@ import { UserNotification } from '../Models/notification';
 import { SessionNotification } from '../Models/notificationSession';
 import { CurrentUserDTO } from '../Models/current-user.dto';
 import { UpdateUserDto } from '../Models/updateUser.dto';
+import { UpdateUsernameDto } from '../Models/UpdateUsernameDto';
+import { UpdateEmailDto } from '../Models/updateEmailDto';
 
 export interface UserDTO {
   id: number;
@@ -138,5 +140,23 @@ export class UserService {
     });
 
     return this.http.put(`http://localhost:5062/api/user/${userId}`, userDto,  {headers});
+  }
+
+  updateUsername(userId: number, dto: UpdateUsernameDto) {
+    const token = localStorage.getItem('token');
+    const headers = new HttpHeaders({
+      Authorization: `Bearer ${token}`
+    });
+
+    return this.http.patch(`http://localhost:5062/api/user/update-username/${userId}`, dto, {headers});
+  }
+
+  updateEmail(userId: number, dto: UpdateEmailDto) {
+    const token = localStorage.getItem('token');
+    const headers = new HttpHeaders({
+      Authorization: `Bearer ${token}`
+    });
+
+    return this.http.patch(`http://localhost:5062/api/user/update-email/${userId}`, dto, {headers});
   }
 }

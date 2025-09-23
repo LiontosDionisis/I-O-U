@@ -9,6 +9,8 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { MatIconRegistry } from '@angular/material/icon';
 import { DomSanitizer } from '@angular/platform-browser';
+import { UpdateUsernameDto } from '../Models/UpdateUsernameDto';
+import { UpdateEmailDto } from '../Models/updateEmailDto';
 
 @Component({
   selector: 'app-profile',
@@ -42,8 +44,8 @@ export class ProfileComponent {
   }
 
   updateUsername(userId: number, newUsername: string) {
-    const dto: UpdateUserDto = { username: newUsername };
-    this.userService.updateUser(userId, dto).subscribe({
+    const dto: UpdateUsernameDto = { username: newUsername };
+    this.userService.updateUsername(userId, dto).subscribe({
       next: res => {
         console.log('Username updated');
         if (this.user) this.user.username = newUsername;
@@ -54,8 +56,8 @@ export class ProfileComponent {
   }
 
   updateEmail(userId: number, newEmail: string) {
-    const dto: UpdateUserDto = { email: newEmail };
-    this.userService.updateUser(userId, dto).subscribe({
+    const dto: UpdateEmailDto = { email: newEmail };
+    this.userService.updateEmail(userId, dto).subscribe({
       next: res => {
         console.log('Email updated');
         if (this.user) this.user.email = newEmail;
