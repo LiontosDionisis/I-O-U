@@ -110,17 +110,27 @@ public class SessionService : ISessionService
         return newSession;
     }
 
-    public async Task<bool> DeleteSessionAsync(int sessionId)
+    public async Task<bool> DeleteSessionAsync(int sessionId, int userId)
     {
         var sessionToDelete = await _unitOfWork.Sessions.GetByIdAsync(sessionId);
+        var owner = await _unitOfWork.Users.GetById(userId);
 
         if (sessionToDelete == null)
         {
             throw new SessionNotFoundException("Session does not exist.");
         }
 
-        await _unitOfWork.Sessions.DeleteAsync(sessionId);
-        await _unitOfWork.SaveChangesAsync();
+        if (owner!.Id == sessionToDelete.CreatedById)
+        {
+            await _unitOfWork.Sessions.DeleteAsync(sessionId);
+            await _unitOfWork.SaveChangesAsync();
+        }
+        else
+        {
+            throw new UnauthorizedAccessException("You're not the session owner.");
+        }
+
+        
 
         _logger.LogInformation("Session with ID {SessionId} was deleted!", sessionId);
         return true;

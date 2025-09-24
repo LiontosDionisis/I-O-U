@@ -97,6 +97,25 @@ public class SessionController : ControllerBase
             return BadRequest("You are not the session owner.");
         }
     }
+    [HttpDelete("{sessionId}")]
+    public async Task<IActionResult> DeleteSession(int sessionId)
+    {
+        var ownerId = int.Parse(User.Claims.First(c => c.Type == ClaimTypes.NameIdentifier).Value);
+
+        try
+        {
+            await _sessionService.DeleteSessionAsync(sessionId, ownerId);
+            return Ok();
+        }
+        catch (SessionNotFoundException)
+        {
+            return NotFound("Session does not exist");
+        }
+        catch (UnauthorizedAccessException)
+        {
+            return BadRequest("You are not the session owner.");
+        }
+    }
 
     [HttpGet("{sessionId}")]
     public async Task<IActionResult> GetParticiapnts(int sessionId)

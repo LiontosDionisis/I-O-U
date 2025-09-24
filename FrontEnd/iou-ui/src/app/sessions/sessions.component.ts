@@ -9,6 +9,8 @@ import { ExpenseService } from '../services/expense.service';
 import { ExpenseSplitDto } from '../Models/expenseSplitDto';
 import { AddExpenseDto } from '../Models/AddExpenseDto';
 import { ExpenseDto } from '../Models/expenseDto';
+import { HttpErrorResponse } from '@angular/common/http';
+import { Observable } from 'rxjs';
 
 
 @Component({
@@ -119,7 +121,7 @@ export class SessionsComponent implements OnInit {
     next: (res: any) => {
       console.log(res.message);
       // Update participants locally
-      const session = this.sessions.find(s => s.id === sessionId); // <- use 'id'
+      const session = this.sessions.find(s => s.id === sessionId); 
       if (session) {
         session.participants = session.participants.filter(u => u.userId !== userId);
       }
@@ -211,8 +213,21 @@ export class SessionsComponent implements OnInit {
     if (!expense.splits) return [];
 
     return expense.splits.filter(s => s.userId !== expense.paidById);
-}
+  }
 
+  deleteSession(sessionid: number) {
+    if(confirm("Are you sure you want to delete this session?")){
+      this.sessionService.deleteSession(sessionid).subscribe({
+      next: (res) => {
+        console.log("Session deleted successfully");
+      },
+      error: (err) => {
+        console.error("Error deleting session", err.status, err.message);
+      }
+    })
+    }
+    
+  }
 
 
 }

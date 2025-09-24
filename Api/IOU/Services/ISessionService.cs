@@ -9,5 +9,5 @@ public interface ISessionService
     Task<IEnumerable<SessionDTO>> GetSessionsForUserAsync(int userId);
     Task<bool> RemoveUserFromSessionAsync(int sessionId, int userId, int friendId);
     Task<IEnumerable<UserDTO>> GetParticipantsAsync(int sessionId);
-    Task<bool> DeleteSessionAsync(int sessionId);
+    Task<bool> DeleteSessionAsync(int sessionId, int userId);
 }

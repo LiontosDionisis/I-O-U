@@ -37,6 +37,7 @@
       <div class="flex justify-between items-center">
         <h3 class="text-xl font-semibold text-gray-900">{{ session.name }}</h3>
         <span class="text-xs text-gray-400">{{ session.createdAt | date }}</span>
+        <button (click)="deleteSession(session.id)" class="px-2 py-1 text-sm bg-red-600 text-white rounded shadow hover:bg-red-700 transition">Delete</button>
       </div>
 
       <!-- Participants List -->
@@ -108,7 +109,7 @@
                 <span>Paid by: {{ getUsername(session, expense.paidById) }}</span>
               </div>
 
-              <!-- Splits excluding payer -->
+              <!-- Splits  -->
               <div *ngFor="let split of getSplitsForDisplay(expense, session)" class="ml-2 text-gray-700">
                  <span>{{ getUsername(session, split.userId) }} owes {{ split.amount | currency }} - {{ split.status === 0 ? 'Pending' : 'Settled' }}</span>
               </div>

@@ -33,5 +33,14 @@ export class SessionServiceService {
     return this.http.post(`${this.apiUrl}`, nameData, {headers});
   }
 
+  deleteSession(sessionid: number): Observable<void> {
+    const token = localStorage.getItem('token');
+    const headers = new HttpHeaders({
+      Authorization: `Bearer ${token}`
+    });
+
+    return this.http.delete<void>(`${this.apiUrl}/${sessionid}`, {headers});
+  }
+
 }
 
