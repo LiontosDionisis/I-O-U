@@ -4004,3 +4004,1050 @@ ORDER BY `e`.`Id`"
 2025-09-24 02:58:28 [Information] Executed endpoint '"405 HTTP Method Not Supported"'
 2025-09-24 02:58:28 [Information] Request finished "HTTP/1.1" "DELETE" "http"://"localhost:5062""""/api/sessions/10""" - 405 0 null 5.9187ms
 2025-09-24 03:00:37 [Information] Application is shutting down...
+2025-09-24 03:00:49 [Information] User profile is available. Using '"C:\Users\agame\AppData\Local\ASP.NET\DataProtection-Keys"' as key repository and Windows DPAPI to encrypt keys at rest.
+2025-09-24 03:00:49 [Information] Now listening on: "http://localhost:5062"
+2025-09-24 03:00:49 [Information] Application started. Press Ctrl+C to shut down.
+2025-09-24 03:00:49 [Information] Hosting environment: "Development"
+2025-09-24 03:00:49 [Information] Content root path: "C:\Users\agame\OneDrive\Desktop\Projects\I-O-U\api\iou"
+2025-09-24 03:00:57 [Information] Request starting "HTTP/1.1" "OPTIONS" "http"://"localhost:5062""""/api/sessions/10""" - null null
+2025-09-24 03:00:57 [Warning] Failed to determine the https port for redirect.
+2025-09-24 03:00:57 [Information] CORS policy execution successful.
+2025-09-24 03:00:57 [Information] Request finished "HTTP/1.1" "OPTIONS" "http"://"localhost:5062""""/api/sessions/10""" - 204 null null 40.9767ms
+2025-09-24 03:00:57 [Information] Request starting "HTTP/1.1" "DELETE" "http"://"localhost:5062""""/api/sessions/10""" - null null
+2025-09-24 03:00:57 [Information] CORS policy execution successful.
+2025-09-24 03:00:57 [Information] Executing endpoint '"Api.IOU.Controllers.SessionController.DeleteSession (IOU)"'
+2025-09-24 03:00:57 [Information] Route matched with "{action = \"DeleteSession\", controller = \"Session\"}". Executing controller action with signature "System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] DeleteSession(Int32)" on controller "Api.IOU.Controllers.SessionController" ("IOU").
+2025-09-24 03:00:59 [Warning] Compiling a query which loads related collections for more than one collection navigation, either via 'Include' or through projection, but no 'QuerySplittingBehavior' has been configured. By default, Entity Framework will use 'QuerySplittingBehavior.SingleQuery', which can potentially result in slow query performance. See https://go.microsoft.com/fwlink/?linkid=2134277 for more information. To identify the query that's triggering this warning call 'ConfigureWarnings(w => w.Throw(RelationalEventId.MultipleCollectionIncludeWarning))'.
+2025-09-24 03:00:59 [Information] Executed DbCommand ("38"ms) [Parameters=["@__id_0='?' (DbType = Int32)"], CommandType='Text', CommandTimeout='30']"
+""SELECT `s1`.`Id`, `s1`.`CreatedAt`, `s1`.`CreatedById`, `s1`.`Name`, `s2`.`SessionId`, `s2`.`UserId`, `s2`.`Id`, `s2`.`Avatar`, `s2`.`Email`, `s2`.`Password`, `s2`.`Username`, `s3`.`Id`, `s3`.`CreatedAt`, `s3`.`Description`, `s3`.`PaidById`, `s3`.`SessionId`, `s3`.`TotalAmount`, `s3`.`Id0`, `s3`.`Amount`, `s3`.`ExpenseId`, `s3`.`Status`, `s3`.`UserId`
+FROM (
+    SELECT `s`.`Id`, `s`.`CreatedAt`, `s`.`CreatedById`, `s`.`Name`
+    FROM `Sessions` AS `s`
+    WHERE `s`.`Id` = @__id_0
+    LIMIT 1
+) AS `s1`
+LEFT JOIN (
+    SELECT `s0`.`SessionId`, `s0`.`UserId`, `u`.`Id`, `u`.`Avatar`, `u`.`Email`, `u`.`Password`, `u`.`Username`
+    FROM `Sessionusers` AS `s0`
+    INNER JOIN `Users` AS `u` ON `s0`.`UserId` = `u`.`Id`
+) AS `s2` ON `s1`.`Id` = `s2`.`SessionId`
+LEFT JOIN (
+    SELECT `e`.`Id`, `e`.`CreatedAt`, `e`.`Description`, `e`.`PaidById`, `e`.`SessionId`, `e`.`TotalAmount`, `e0`.`Id` AS `Id0`, `e0`.`Amount`, `e0`.`ExpenseId`, `e0`.`Status`, `e0`.`UserId`
+    FROM `Expenses` AS `e`
+    LEFT JOIN `ExpenseSplits` AS `e0` ON `e`.`Id` = `e0`.`ExpenseId`
+) AS `s3` ON `s1`.`Id` = `s3`.`SessionId`
+ORDER BY `s1`.`Id`, `s2`.`SessionId`, `s2`.`UserId`, `s2`.`Id`, `s3`.`Id`"
+2025-09-24 03:00:59 [Information] Executed DbCommand ("5"ms) [Parameters=["@p0='?' (DbType = Int32), @p1='?' (DbType = Int32), @p2='?' (DbType = Int32), @p3='?' (DbType = Int32), @p4='?' (DbType = Int32), @p5='?' (DbType = Int32)"], CommandType='Text', CommandTimeout='30']"
+""DELETE FROM `ExpenseSplits`
+WHERE `Id` = @p0;
+SELECT ROW_COUNT();
+
+DELETE FROM `ExpenseSplits`
+WHERE `Id` = @p1;
+SELECT ROW_COUNT();
+
+DELETE FROM `Sessionusers`
+WHERE `SessionId` = @p2 AND `UserId` = @p3;
+SELECT ROW_COUNT();
+
+DELETE FROM `Expenses`
+WHERE `Id` = @p4;
+SELECT ROW_COUNT();
+
+DELETE FROM `Sessions`
+WHERE `Id` = @p5;
+SELECT ROW_COUNT();"
+2025-09-24 03:00:59 [Information] Session with ID 10 was deleted!
+2025-09-24 03:00:59 [Information] Executing StatusCodeResult, setting HTTP status code 200
+2025-09-24 03:00:59 [Information] Executed action "Api.IOU.Controllers.SessionController.DeleteSession (IOU)" in 1690.6008ms
+2025-09-24 03:00:59 [Information] Executed endpoint '"Api.IOU.Controllers.SessionController.DeleteSession (IOU)"'
+2025-09-24 03:00:59 [Information] Request finished "HTTP/1.1" "DELETE" "http"://"localhost:5062""""/api/sessions/10""" - 200 0 null 1797.4009ms
+2025-09-24 03:01:02 [Information] Request starting "HTTP/1.1" "OPTIONS" "http"://"localhost:5062""""/api/friendship/friends""" - null null
+2025-09-24 03:01:02 [Information] Request starting "HTTP/1.1" "OPTIONS" "http"://"localhost:5062""""/api/sessions/my-sessions""" - null null
+2025-09-24 03:01:02 [Information] CORS policy execution successful.
+2025-09-24 03:01:02 [Information] CORS policy execution successful.
+2025-09-24 03:01:02 [Information] Request finished "HTTP/1.1" "OPTIONS" "http"://"localhost:5062""""/api/friendship/friends""" - 204 null null 24.2984ms
+2025-09-24 03:01:02 [Information] Request finished "HTTP/1.1" "OPTIONS" "http"://"localhost:5062""""/api/sessions/my-sessions""" - 204 null null 24.6797ms
+2025-09-24 03:01:02 [Information] Request starting "HTTP/1.1" "GET" "http"://"localhost:5062""""/api/sessions/my-sessions""" - "application/json" null
+2025-09-24 03:01:02 [Information] Request starting "HTTP/1.1" "GET" "http"://"localhost:5062""""/api/friendship/friends""" - null null
+2025-09-24 03:01:02 [Information] CORS policy execution successful.
+2025-09-24 03:01:02 [Information] CORS policy execution successful.
+2025-09-24 03:01:02 [Information] Executing endpoint '"Api.IOU.Controllers.SessionController.GetMySessions (IOU)"'
+2025-09-24 03:01:02 [Information] Executing endpoint '"Api.IOU.Controllers.FriendshipController.GetFriends (IOU)"'
+2025-09-24 03:01:02 [Information] Route matched with "{action = \"GetMySessions\", controller = \"Session\"}". Executing controller action with signature "System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] GetMySessions()" on controller "Api.IOU.Controllers.SessionController" ("IOU").
+2025-09-24 03:01:02 [Information] Route matched with "{action = \"GetFriends\", controller = \"Friendship\"}". Executing controller action with signature "System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] GetFriends()" on controller "Api.IOU.Controllers.FriendshipController" ("IOU").
+2025-09-24 03:01:02 [Information] Executed DbCommand ("2"ms) [Parameters=["@__p_0='?' (DbType = Int32)"], CommandType='Text', CommandTimeout='30']"
+""SELECT `u`.`Id`, `u`.`Avatar`, `u`.`Email`, `u`.`Password`, `u`.`Username`
+FROM `Users` AS `u`
+WHERE `u`.`Id` = @__p_0
+LIMIT 1"
+2025-09-24 03:01:02 [Information] Executed DbCommand ("3"ms) [Parameters=["@__userId_0='?' (DbType = Int32)"], CommandType='Text', CommandTimeout='30']"
+""SELECT `f`.`Id`, `f`.`FriendId`, `f`.`Status`, `f`.`UserId`, `u`.`Id`, `u`.`Avatar`, `u`.`Email`, `u`.`Password`, `u`.`Username`, `u0`.`Id`, `u0`.`Avatar`, `u0`.`Email`, `u0`.`Password`, `u0`.`Username`
+FROM `Friendships` AS `f`
+INNER JOIN `Users` AS `u` ON `f`.`UserId` = `u`.`Id`
+INNER JOIN `Users` AS `u0` ON `f`.`FriendId` = `u0`.`Id`
+WHERE (`f`.`UserId` = @__userId_0) OR (`f`.`FriendId` = @__userId_0)"
+2025-09-24 03:01:02 [Information] Friendlist for user with ID 11 was found and returned
+2025-09-24 03:01:02 [Information] Executed DbCommand ("1"ms) [Parameters=["@__userId_0='?' (DbType = Int32)"], CommandType='Text', CommandTimeout='30']"
+""SELECT `s`.`SessionId`, `s`.`UserId`, `s0`.`Id`, `s0`.`CreatedAt`, `s0`.`CreatedById`, `s0`.`Name`, `s2`.`SessionId`, `s2`.`UserId`, `s2`.`Id`, `s2`.`Avatar`, `s2`.`Email`, `s2`.`Password`, `s2`.`Username`
+FROM `Sessionusers` AS `s`
+INNER JOIN `Sessions` AS `s0` ON `s`.`SessionId` = `s0`.`Id`
+LEFT JOIN (
+    SELECT `s1`.`SessionId`, `s1`.`UserId`, `u`.`Id`, `u`.`Avatar`, `u`.`Email`, `u`.`Password`, `u`.`Username`
+    FROM `Sessionusers` AS `s1`
+    INNER JOIN `Users` AS `u` ON `s1`.`UserId` = `u`.`Id`
+) AS `s2` ON `s0`.`Id` = `s2`.`SessionId`
+WHERE `s`.`UserId` = @__userId_0
+ORDER BY `s`.`SessionId`, `s`.`UserId`, `s0`.`Id`, `s2`.`SessionId`, `s2`.`UserId`"
+2025-09-24 03:01:02 [Information] Executing "OkObjectResult", writing value of type '"System.Linq.Enumerable+ListWhereSelectIterator`2[[Api.IOU.Models.Friendship, IOU, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null],[Api.IOU.DTOs.FriendshipDTO, IOU, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]"'.
+2025-09-24 03:01:02 [Information] Executing "OkObjectResult", writing value of type '"System.Linq.Enumerable+IteratorSelectIterator`2[[Api.IOU.Models.Session, IOU, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null],[Api.IOU.DTOs.SessionDTO, IOU, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]"'.
+2025-09-24 03:01:02 [Information] Executed action "Api.IOU.Controllers.FriendshipController.GetFriends (IOU)" in 122.3453ms
+2025-09-24 03:01:02 [Information] Executed endpoint '"Api.IOU.Controllers.FriendshipController.GetFriends (IOU)"'
+2025-09-24 03:01:02 [Information] Request finished "HTTP/1.1" "GET" "http"://"localhost:5062""""/api/friendship/friends""" - 200 null "application/json; charset=utf-8" 165.4996ms
+2025-09-24 03:01:02 [Information] Executed action "Api.IOU.Controllers.SessionController.GetMySessions (IOU)" in 138.5908ms
+2025-09-24 03:01:02 [Information] Executed endpoint '"Api.IOU.Controllers.SessionController.GetMySessions (IOU)"'
+2025-09-24 03:01:02 [Information] Request finished "HTTP/1.1" "GET" "http"://"localhost:5062""""/api/sessions/my-sessions""" - 200 null "application/json; charset=utf-8" 240.58ms
+2025-09-24 03:01:02 [Information] Request starting "HTTP/1.1" "OPTIONS" "http"://"localhost:5062""""/api/expenses/session/11""" - null null
+2025-09-24 03:01:02 [Information] CORS policy execution successful.
+2025-09-24 03:01:02 [Information] Request finished "HTTP/1.1" "OPTIONS" "http"://"localhost:5062""""/api/expenses/session/11""" - 204 null null 4.1716ms
+2025-09-24 03:01:02 [Information] Request starting "HTTP/1.1" "GET" "http"://"localhost:5062""""/api/expenses/session/11""" - null null
+2025-09-24 03:01:02 [Information] CORS policy execution successful.
+2025-09-24 03:01:02 [Information] Executing endpoint '"Api.IOU.Controllers.ExpenseController.GetExpensesBySession (IOU)"'
+2025-09-24 03:01:02 [Information] Route matched with "{action = \"GetExpensesBySession\", controller = \"Expense\"}". Executing controller action with signature "System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] GetExpensesBySession(Int32)" on controller "Api.IOU.Controllers.ExpenseController" ("IOU").
+2025-09-24 03:01:03 [Information] Executed DbCommand ("2"ms) [Parameters=["@__sessionId_0='?' (DbType = Int32)"], CommandType='Text', CommandTimeout='30']"
+""SELECT `e`.`Id`, `e`.`CreatedAt`, `e`.`Description`, `e`.`PaidById`, `e`.`SessionId`, `e`.`TotalAmount`, `e0`.`Id`, `e0`.`Amount`, `e0`.`ExpenseId`, `e0`.`Status`, `e0`.`UserId`
+FROM `Expenses` AS `e`
+LEFT JOIN `ExpenseSplits` AS `e0` ON `e`.`Id` = `e0`.`ExpenseId`
+WHERE `e`.`SessionId` = @__sessionId_0
+ORDER BY `e`.`Id`"
+2025-09-24 03:01:03 [Information] Executing "OkObjectResult", writing value of type '"System.Linq.Enumerable+ListSelectIterator`2[[Api.IOU.Models.Expense, IOU, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null],[Api.IOU.DTOs.ExpenseDTO, IOU, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]"'.
+2025-09-24 03:01:03 [Information] Executed action "Api.IOU.Controllers.ExpenseController.GetExpensesBySession (IOU)" in 90.4135ms
+2025-09-24 03:01:03 [Information] Executed endpoint '"Api.IOU.Controllers.ExpenseController.GetExpensesBySession (IOU)"'
+2025-09-24 03:01:03 [Information] Request finished "HTTP/1.1" "GET" "http"://"localhost:5062""""/api/expenses/session/11""" - 200 null "application/json; charset=utf-8" 109.5035ms
+2025-09-24 03:01:18 [Information] Request starting "HTTP/1.1" "OPTIONS" "http"://"localhost:5062""""/api/sessions/my-sessions""" - null null
+2025-09-24 03:01:18 [Information] Request starting "HTTP/1.1" "OPTIONS" "http"://"localhost:5062""""/api/friendship/friends""" - null null
+2025-09-24 03:01:18 [Information] CORS policy execution successful.
+2025-09-24 03:01:18 [Information] CORS policy execution successful.
+2025-09-24 03:01:18 [Information] Request finished "HTTP/1.1" "OPTIONS" "http"://"localhost:5062""""/api/sessions/my-sessions""" - 204 null null 40.9143ms
+2025-09-24 03:01:18 [Information] Request finished "HTTP/1.1" "OPTIONS" "http"://"localhost:5062""""/api/friendship/friends""" - 204 null null 39.2822ms
+2025-09-24 03:01:18 [Information] Request starting "HTTP/1.1" "GET" "http"://"localhost:5062""""/api/sessions/my-sessions""" - "application/json" null
+2025-09-24 03:01:18 [Information] Request starting "HTTP/1.1" "GET" "http"://"localhost:5062""""/api/friendship/friends""" - null null
+2025-09-24 03:01:18 [Information] CORS policy execution successful.
+2025-09-24 03:01:18 [Information] CORS policy execution successful.
+2025-09-24 03:01:18 [Information] Executing endpoint '"Api.IOU.Controllers.SessionController.GetMySessions (IOU)"'
+2025-09-24 03:01:18 [Information] Executing endpoint '"Api.IOU.Controllers.FriendshipController.GetFriends (IOU)"'
+2025-09-24 03:01:18 [Information] Route matched with "{action = \"GetMySessions\", controller = \"Session\"}". Executing controller action with signature "System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] GetMySessions()" on controller "Api.IOU.Controllers.SessionController" ("IOU").
+2025-09-24 03:01:18 [Information] Route matched with "{action = \"GetFriends\", controller = \"Friendship\"}". Executing controller action with signature "System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] GetFriends()" on controller "Api.IOU.Controllers.FriendshipController" ("IOU").
+2025-09-24 03:01:18 [Information] Executed DbCommand ("1"ms) [Parameters=["@__userId_0='?' (DbType = Int32)"], CommandType='Text', CommandTimeout='30']"
+""SELECT `f`.`Id`, `f`.`FriendId`, `f`.`Status`, `f`.`UserId`, `u`.`Id`, `u`.`Avatar`, `u`.`Email`, `u`.`Password`, `u`.`Username`, `u0`.`Id`, `u0`.`Avatar`, `u0`.`Email`, `u0`.`Password`, `u0`.`Username`
+FROM `Friendships` AS `f`
+INNER JOIN `Users` AS `u` ON `f`.`UserId` = `u`.`Id`
+INNER JOIN `Users` AS `u0` ON `f`.`FriendId` = `u0`.`Id`
+WHERE (`f`.`UserId` = @__userId_0) OR (`f`.`FriendId` = @__userId_0)"
+2025-09-24 03:01:18 [Information] Friendlist for user with ID 11 was found and returned
+2025-09-24 03:01:18 [Information] Executed DbCommand ("1"ms) [Parameters=["@__p_0='?' (DbType = Int32)"], CommandType='Text', CommandTimeout='30']"
+""SELECT `u`.`Id`, `u`.`Avatar`, `u`.`Email`, `u`.`Password`, `u`.`Username`
+FROM `Users` AS `u`
+WHERE `u`.`Id` = @__p_0
+LIMIT 1"
+2025-09-24 03:01:18 [Information] Executing "OkObjectResult", writing value of type '"System.Linq.Enumerable+ListWhereSelectIterator`2[[Api.IOU.Models.Friendship, IOU, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null],[Api.IOU.DTOs.FriendshipDTO, IOU, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]"'.
+2025-09-24 03:01:18 [Information] Executed action "Api.IOU.Controllers.FriendshipController.GetFriends (IOU)" in 21.3666ms
+2025-09-24 03:01:18 [Information] Executed DbCommand ("2"ms) [Parameters=["@__userId_0='?' (DbType = Int32)"], CommandType='Text', CommandTimeout='30']"
+""SELECT `s`.`SessionId`, `s`.`UserId`, `s0`.`Id`, `s0`.`CreatedAt`, `s0`.`CreatedById`, `s0`.`Name`, `s2`.`SessionId`, `s2`.`UserId`, `s2`.`Id`, `s2`.`Avatar`, `s2`.`Email`, `s2`.`Password`, `s2`.`Username`
+FROM `Sessionusers` AS `s`
+INNER JOIN `Sessions` AS `s0` ON `s`.`SessionId` = `s0`.`Id`
+LEFT JOIN (
+    SELECT `s1`.`SessionId`, `s1`.`UserId`, `u`.`Id`, `u`.`Avatar`, `u`.`Email`, `u`.`Password`, `u`.`Username`
+    FROM `Sessionusers` AS `s1`
+    INNER JOIN `Users` AS `u` ON `s1`.`UserId` = `u`.`Id`
+) AS `s2` ON `s0`.`Id` = `s2`.`SessionId`
+WHERE `s`.`UserId` = @__userId_0
+ORDER BY `s`.`SessionId`, `s`.`UserId`, `s0`.`Id`, `s2`.`SessionId`, `s2`.`UserId`"
+2025-09-24 03:01:18 [Information] Executed endpoint '"Api.IOU.Controllers.FriendshipController.GetFriends (IOU)"'
+2025-09-24 03:01:18 [Information] Executing "OkObjectResult", writing value of type '"System.Linq.Enumerable+IteratorSelectIterator`2[[Api.IOU.Models.Session, IOU, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null],[Api.IOU.DTOs.SessionDTO, IOU, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]"'.
+2025-09-24 03:01:18 [Information] Request finished "HTTP/1.1" "GET" "http"://"localhost:5062""""/api/friendship/friends""" - 200 null "application/json; charset=utf-8" 56.0349ms
+2025-09-24 03:01:18 [Information] Executed action "Api.IOU.Controllers.SessionController.GetMySessions (IOU)" in 38.0298ms
+2025-09-24 03:01:18 [Information] Executed endpoint '"Api.IOU.Controllers.SessionController.GetMySessions (IOU)"'
+2025-09-24 03:01:18 [Information] Request finished "HTTP/1.1" "GET" "http"://"localhost:5062""""/api/sessions/my-sessions""" - 200 null "application/json; charset=utf-8" 63.4727ms
+2025-09-24 03:01:18 [Information] Request starting "HTTP/1.1" "OPTIONS" "http"://"localhost:5062""""/api/expenses/session/11""" - null null
+2025-09-24 03:01:18 [Information] CORS policy execution successful.
+2025-09-24 03:01:18 [Information] Request finished "HTTP/1.1" "OPTIONS" "http"://"localhost:5062""""/api/expenses/session/11""" - 204 null null 5.5152ms
+2025-09-24 03:01:18 [Information] Request starting "HTTP/1.1" "GET" "http"://"localhost:5062""""/api/expenses/session/11""" - null null
+2025-09-24 03:01:18 [Information] CORS policy execution successful.
+2025-09-24 03:01:19 [Information] Executing endpoint '"Api.IOU.Controllers.ExpenseController.GetExpensesBySession (IOU)"'
+2025-09-24 03:01:19 [Information] Route matched with "{action = \"GetExpensesBySession\", controller = \"Expense\"}". Executing controller action with signature "System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] GetExpensesBySession(Int32)" on controller "Api.IOU.Controllers.ExpenseController" ("IOU").
+2025-09-24 03:01:19 [Information] Executed DbCommand ("1"ms) [Parameters=["@__sessionId_0='?' (DbType = Int32)"], CommandType='Text', CommandTimeout='30']"
+""SELECT `e`.`Id`, `e`.`CreatedAt`, `e`.`Description`, `e`.`PaidById`, `e`.`SessionId`, `e`.`TotalAmount`, `e0`.`Id`, `e0`.`Amount`, `e0`.`ExpenseId`, `e0`.`Status`, `e0`.`UserId`
+FROM `Expenses` AS `e`
+LEFT JOIN `ExpenseSplits` AS `e0` ON `e`.`Id` = `e0`.`ExpenseId`
+WHERE `e`.`SessionId` = @__sessionId_0
+ORDER BY `e`.`Id`"
+2025-09-24 03:01:19 [Information] Executing "OkObjectResult", writing value of type '"System.Linq.Enumerable+ListSelectIterator`2[[Api.IOU.Models.Expense, IOU, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null],[Api.IOU.DTOs.ExpenseDTO, IOU, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]"'.
+2025-09-24 03:01:19 [Information] Executed action "Api.IOU.Controllers.ExpenseController.GetExpensesBySession (IOU)" in 10.4062ms
+2025-09-24 03:01:19 [Information] Executed endpoint '"Api.IOU.Controllers.ExpenseController.GetExpensesBySession (IOU)"'
+2025-09-24 03:01:19 [Information] Request finished "HTTP/1.1" "GET" "http"://"localhost:5062""""/api/expenses/session/11""" - 200 null "application/json; charset=utf-8" 24.073ms
+2025-09-24 03:01:33 [Information] Request starting "HTTP/1.1" "OPTIONS" "http"://"localhost:5062""""/api/sessions/my-sessions""" - null null
+2025-09-24 03:01:33 [Information] Request starting "HTTP/1.1" "OPTIONS" "http"://"localhost:5062""""/api/friendship/friends""" - null null
+2025-09-24 03:01:33 [Information] CORS policy execution successful.
+2025-09-24 03:01:33 [Information] CORS policy execution successful.
+2025-09-24 03:01:33 [Information] Request finished "HTTP/1.1" "OPTIONS" "http"://"localhost:5062""""/api/sessions/my-sessions""" - 204 null null 11.6362ms
+2025-09-24 03:01:33 [Information] Request finished "HTTP/1.1" "OPTIONS" "http"://"localhost:5062""""/api/friendship/friends""" - 204 null null 10.8425ms
+2025-09-24 03:01:33 [Information] Request starting "HTTP/1.1" "GET" "http"://"localhost:5062""""/api/friendship/friends""" - null null
+2025-09-24 03:01:33 [Information] Request starting "HTTP/1.1" "GET" "http"://"localhost:5062""""/api/sessions/my-sessions""" - "application/json" null
+2025-09-24 03:01:33 [Information] CORS policy execution successful.
+2025-09-24 03:01:33 [Information] CORS policy execution successful.
+2025-09-24 03:01:33 [Information] Executing endpoint '"Api.IOU.Controllers.FriendshipController.GetFriends (IOU)"'
+2025-09-24 03:01:33 [Information] Executing endpoint '"Api.IOU.Controllers.SessionController.GetMySessions (IOU)"'
+2025-09-24 03:01:33 [Information] Route matched with "{action = \"GetFriends\", controller = \"Friendship\"}". Executing controller action with signature "System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] GetFriends()" on controller "Api.IOU.Controllers.FriendshipController" ("IOU").
+2025-09-24 03:01:33 [Information] Route matched with "{action = \"GetMySessions\", controller = \"Session\"}". Executing controller action with signature "System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] GetMySessions()" on controller "Api.IOU.Controllers.SessionController" ("IOU").
+2025-09-24 03:01:33 [Information] Executed DbCommand ("0"ms) [Parameters=["@__p_0='?' (DbType = Int32)"], CommandType='Text', CommandTimeout='30']"
+""SELECT `u`.`Id`, `u`.`Avatar`, `u`.`Email`, `u`.`Password`, `u`.`Username`
+FROM `Users` AS `u`
+WHERE `u`.`Id` = @__p_0
+LIMIT 1"
+2025-09-24 03:01:33 [Information] Executed DbCommand ("1"ms) [Parameters=["@__userId_0='?' (DbType = Int32)"], CommandType='Text', CommandTimeout='30']"
+""SELECT `f`.`Id`, `f`.`FriendId`, `f`.`Status`, `f`.`UserId`, `u`.`Id`, `u`.`Avatar`, `u`.`Email`, `u`.`Password`, `u`.`Username`, `u0`.`Id`, `u0`.`Avatar`, `u0`.`Email`, `u0`.`Password`, `u0`.`Username`
+FROM `Friendships` AS `f`
+INNER JOIN `Users` AS `u` ON `f`.`UserId` = `u`.`Id`
+INNER JOIN `Users` AS `u0` ON `f`.`FriendId` = `u0`.`Id`
+WHERE (`f`.`UserId` = @__userId_0) OR (`f`.`FriendId` = @__userId_0)"
+2025-09-24 03:01:33 [Information] Executed DbCommand ("1"ms) [Parameters=["@__userId_0='?' (DbType = Int32)"], CommandType='Text', CommandTimeout='30']"
+""SELECT `s`.`SessionId`, `s`.`UserId`, `s0`.`Id`, `s0`.`CreatedAt`, `s0`.`CreatedById`, `s0`.`Name`, `s2`.`SessionId`, `s2`.`UserId`, `s2`.`Id`, `s2`.`Avatar`, `s2`.`Email`, `s2`.`Password`, `s2`.`Username`
+FROM `Sessionusers` AS `s`
+INNER JOIN `Sessions` AS `s0` ON `s`.`SessionId` = `s0`.`Id`
+LEFT JOIN (
+    SELECT `s1`.`SessionId`, `s1`.`UserId`, `u`.`Id`, `u`.`Avatar`, `u`.`Email`, `u`.`Password`, `u`.`Username`
+    FROM `Sessionusers` AS `s1`
+    INNER JOIN `Users` AS `u` ON `s1`.`UserId` = `u`.`Id`
+) AS `s2` ON `s0`.`Id` = `s2`.`SessionId`
+WHERE `s`.`UserId` = @__userId_0
+ORDER BY `s`.`SessionId`, `s`.`UserId`, `s0`.`Id`, `s2`.`SessionId`, `s2`.`UserId`"
+2025-09-24 03:01:33 [Information] Friendlist for user with ID 11 was found and returned
+2025-09-24 03:01:33 [Information] Executing "OkObjectResult", writing value of type '"System.Linq.Enumerable+IteratorSelectIterator`2[[Api.IOU.Models.Session, IOU, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null],[Api.IOU.DTOs.SessionDTO, IOU, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]"'.
+2025-09-24 03:01:33 [Information] Executing "OkObjectResult", writing value of type '"System.Linq.Enumerable+ListWhereSelectIterator`2[[Api.IOU.Models.Friendship, IOU, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null],[Api.IOU.DTOs.FriendshipDTO, IOU, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]"'.
+2025-09-24 03:01:33 [Information] Executed action "Api.IOU.Controllers.SessionController.GetMySessions (IOU)" in 11.6992ms
+2025-09-24 03:01:33 [Information] Executed action "Api.IOU.Controllers.FriendshipController.GetFriends (IOU)" in 18.312ms
+2025-09-24 03:01:33 [Information] Executed endpoint '"Api.IOU.Controllers.SessionController.GetMySessions (IOU)"'
+2025-09-24 03:01:33 [Information] Executed endpoint '"Api.IOU.Controllers.FriendshipController.GetFriends (IOU)"'
+2025-09-24 03:01:33 [Information] Request finished "HTTP/1.1" "GET" "http"://"localhost:5062""""/api/sessions/my-sessions""" - 200 null "application/json; charset=utf-8" 28.5998ms
+2025-09-24 03:01:33 [Information] Request finished "HTTP/1.1" "GET" "http"://"localhost:5062""""/api/friendship/friends""" - 200 null "application/json; charset=utf-8" 34.3741ms
+2025-09-24 03:01:33 [Information] Request starting "HTTP/1.1" "OPTIONS" "http"://"localhost:5062""""/api/expenses/session/11""" - null null
+2025-09-24 03:01:33 [Information] CORS policy execution successful.
+2025-09-24 03:01:33 [Information] Request finished "HTTP/1.1" "OPTIONS" "http"://"localhost:5062""""/api/expenses/session/11""" - 204 null null 3.7656ms
+2025-09-24 03:01:33 [Information] Request starting "HTTP/1.1" "GET" "http"://"localhost:5062""""/api/expenses/session/11""" - null null
+2025-09-24 03:01:33 [Information] CORS policy execution successful.
+2025-09-24 03:01:33 [Information] Executing endpoint '"Api.IOU.Controllers.ExpenseController.GetExpensesBySession (IOU)"'
+2025-09-24 03:01:33 [Information] Route matched with "{action = \"GetExpensesBySession\", controller = \"Expense\"}". Executing controller action with signature "System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] GetExpensesBySession(Int32)" on controller "Api.IOU.Controllers.ExpenseController" ("IOU").
+2025-09-24 03:01:33 [Information] Executed DbCommand ("1"ms) [Parameters=["@__sessionId_0='?' (DbType = Int32)"], CommandType='Text', CommandTimeout='30']"
+""SELECT `e`.`Id`, `e`.`CreatedAt`, `e`.`Description`, `e`.`PaidById`, `e`.`SessionId`, `e`.`TotalAmount`, `e0`.`Id`, `e0`.`Amount`, `e0`.`ExpenseId`, `e0`.`Status`, `e0`.`UserId`
+FROM `Expenses` AS `e`
+LEFT JOIN `ExpenseSplits` AS `e0` ON `e`.`Id` = `e0`.`ExpenseId`
+WHERE `e`.`SessionId` = @__sessionId_0
+ORDER BY `e`.`Id`"
+2025-09-24 03:01:33 [Information] Executing "OkObjectResult", writing value of type '"System.Linq.Enumerable+ListSelectIterator`2[[Api.IOU.Models.Expense, IOU, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null],[Api.IOU.DTOs.ExpenseDTO, IOU, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]"'.
+2025-09-24 03:01:33 [Information] Executed action "Api.IOU.Controllers.ExpenseController.GetExpensesBySession (IOU)" in 6.1566ms
+2025-09-24 03:01:33 [Information] Executed endpoint '"Api.IOU.Controllers.ExpenseController.GetExpensesBySession (IOU)"'
+2025-09-24 03:01:33 [Information] Request finished "HTTP/1.1" "GET" "http"://"localhost:5062""""/api/expenses/session/11""" - 200 null "application/json; charset=utf-8" 15.4672ms
+2025-09-24 03:02:11 [Information] Request starting "HTTP/1.1" "OPTIONS" "http"://"localhost:5062""""/api/friendship/friends""" - null null
+2025-09-24 03:02:11 [Information] Request starting "HTTP/1.1" "OPTIONS" "http"://"localhost:5062""""/api/sessions/my-sessions""" - null null
+2025-09-24 03:02:11 [Information] CORS policy execution successful.
+2025-09-24 03:02:11 [Information] CORS policy execution successful.
+2025-09-24 03:02:11 [Information] Request finished "HTTP/1.1" "OPTIONS" "http"://"localhost:5062""""/api/friendship/friends""" - 204 null null 12.4162ms
+2025-09-24 03:02:11 [Information] Request finished "HTTP/1.1" "OPTIONS" "http"://"localhost:5062""""/api/sessions/my-sessions""" - 204 null null 13.6431ms
+2025-09-24 03:02:11 [Information] Request starting "HTTP/1.1" "GET" "http"://"localhost:5062""""/api/sessions/my-sessions""" - "application/json" null
+2025-09-24 03:02:11 [Information] Request starting "HTTP/1.1" "GET" "http"://"localhost:5062""""/api/friendship/friends""" - null null
+2025-09-24 03:02:11 [Information] CORS policy execution successful.
+2025-09-24 03:02:11 [Information] CORS policy execution successful.
+2025-09-24 03:02:11 [Information] Executing endpoint '"Api.IOU.Controllers.SessionController.GetMySessions (IOU)"'
+2025-09-24 03:02:11 [Information] Executing endpoint '"Api.IOU.Controllers.FriendshipController.GetFriends (IOU)"'
+2025-09-24 03:02:11 [Information] Route matched with "{action = \"GetMySessions\", controller = \"Session\"}". Executing controller action with signature "System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] GetMySessions()" on controller "Api.IOU.Controllers.SessionController" ("IOU").
+2025-09-24 03:02:11 [Information] Route matched with "{action = \"GetFriends\", controller = \"Friendship\"}". Executing controller action with signature "System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] GetFriends()" on controller "Api.IOU.Controllers.FriendshipController" ("IOU").
+2025-09-24 03:02:11 [Information] Executed DbCommand ("1"ms) [Parameters=["@__p_0='?' (DbType = Int32)"], CommandType='Text', CommandTimeout='30']"
+""SELECT `u`.`Id`, `u`.`Avatar`, `u`.`Email`, `u`.`Password`, `u`.`Username`
+FROM `Users` AS `u`
+WHERE `u`.`Id` = @__p_0
+LIMIT 1"
+2025-09-24 03:02:11 [Information] Executed DbCommand ("2"ms) [Parameters=["@__userId_0='?' (DbType = Int32)"], CommandType='Text', CommandTimeout='30']"
+""SELECT `f`.`Id`, `f`.`FriendId`, `f`.`Status`, `f`.`UserId`, `u`.`Id`, `u`.`Avatar`, `u`.`Email`, `u`.`Password`, `u`.`Username`, `u0`.`Id`, `u0`.`Avatar`, `u0`.`Email`, `u0`.`Password`, `u0`.`Username`
+FROM `Friendships` AS `f`
+INNER JOIN `Users` AS `u` ON `f`.`UserId` = `u`.`Id`
+INNER JOIN `Users` AS `u0` ON `f`.`FriendId` = `u0`.`Id`
+WHERE (`f`.`UserId` = @__userId_0) OR (`f`.`FriendId` = @__userId_0)"
+2025-09-24 03:02:11 [Information] Friendlist for user with ID 11 was found and returned
+2025-09-24 03:02:11 [Information] Executed DbCommand ("1"ms) [Parameters=["@__userId_0='?' (DbType = Int32)"], CommandType='Text', CommandTimeout='30']"
+""SELECT `s`.`SessionId`, `s`.`UserId`, `s0`.`Id`, `s0`.`CreatedAt`, `s0`.`CreatedById`, `s0`.`Name`, `s2`.`SessionId`, `s2`.`UserId`, `s2`.`Id`, `s2`.`Avatar`, `s2`.`Email`, `s2`.`Password`, `s2`.`Username`
+FROM `Sessionusers` AS `s`
+INNER JOIN `Sessions` AS `s0` ON `s`.`SessionId` = `s0`.`Id`
+LEFT JOIN (
+    SELECT `s1`.`SessionId`, `s1`.`UserId`, `u`.`Id`, `u`.`Avatar`, `u`.`Email`, `u`.`Password`, `u`.`Username`
+    FROM `Sessionusers` AS `s1`
+    INNER JOIN `Users` AS `u` ON `s1`.`UserId` = `u`.`Id`
+) AS `s2` ON `s0`.`Id` = `s2`.`SessionId`
+WHERE `s`.`UserId` = @__userId_0
+ORDER BY `s`.`SessionId`, `s`.`UserId`, `s0`.`Id`, `s2`.`SessionId`, `s2`.`UserId`"
+2025-09-24 03:02:11 [Information] Executing "OkObjectResult", writing value of type '"System.Linq.Enumerable+ListWhereSelectIterator`2[[Api.IOU.Models.Friendship, IOU, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null],[Api.IOU.DTOs.FriendshipDTO, IOU, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]"'.
+2025-09-24 03:02:11 [Information] Executing "OkObjectResult", writing value of type '"System.Linq.Enumerable+IteratorSelectIterator`2[[Api.IOU.Models.Session, IOU, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null],[Api.IOU.DTOs.SessionDTO, IOU, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]"'.
+2025-09-24 03:02:11 [Information] Executed action "Api.IOU.Controllers.FriendshipController.GetFriends (IOU)" in 19.8559ms
+2025-09-24 03:02:11 [Information] Executed endpoint '"Api.IOU.Controllers.FriendshipController.GetFriends (IOU)"'
+2025-09-24 03:02:11 [Information] Executed action "Api.IOU.Controllers.SessionController.GetMySessions (IOU)" in 22.9764ms
+2025-09-24 03:02:11 [Information] Request finished "HTTP/1.1" "GET" "http"://"localhost:5062""""/api/friendship/friends""" - 200 null "application/json; charset=utf-8" 40.8135ms
+2025-09-24 03:02:11 [Information] Executed endpoint '"Api.IOU.Controllers.SessionController.GetMySessions (IOU)"'
+2025-09-24 03:02:11 [Information] Request finished "HTTP/1.1" "GET" "http"://"localhost:5062""""/api/sessions/my-sessions""" - 200 null "application/json; charset=utf-8" 52.9314ms
+2025-09-24 03:02:11 [Information] Request starting "HTTP/1.1" "OPTIONS" "http"://"localhost:5062""""/api/expenses/session/11""" - null null
+2025-09-24 03:02:11 [Information] CORS policy execution successful.
+2025-09-24 03:02:11 [Information] Request finished "HTTP/1.1" "OPTIONS" "http"://"localhost:5062""""/api/expenses/session/11""" - 204 null null 4.9078ms
+2025-09-24 03:02:11 [Information] Request starting "HTTP/1.1" "GET" "http"://"localhost:5062""""/api/expenses/session/11""" - null null
+2025-09-24 03:02:11 [Information] CORS policy execution successful.
+2025-09-24 03:02:11 [Information] Executing endpoint '"Api.IOU.Controllers.ExpenseController.GetExpensesBySession (IOU)"'
+2025-09-24 03:02:11 [Information] Route matched with "{action = \"GetExpensesBySession\", controller = \"Expense\"}". Executing controller action with signature "System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] GetExpensesBySession(Int32)" on controller "Api.IOU.Controllers.ExpenseController" ("IOU").
+2025-09-24 03:02:11 [Information] Executed DbCommand ("1"ms) [Parameters=["@__sessionId_0='?' (DbType = Int32)"], CommandType='Text', CommandTimeout='30']"
+""SELECT `e`.`Id`, `e`.`CreatedAt`, `e`.`Description`, `e`.`PaidById`, `e`.`SessionId`, `e`.`TotalAmount`, `e0`.`Id`, `e0`.`Amount`, `e0`.`ExpenseId`, `e0`.`Status`, `e0`.`UserId`
+FROM `Expenses` AS `e`
+LEFT JOIN `ExpenseSplits` AS `e0` ON `e`.`Id` = `e0`.`ExpenseId`
+WHERE `e`.`SessionId` = @__sessionId_0
+ORDER BY `e`.`Id`"
+2025-09-24 03:02:11 [Information] Executing "OkObjectResult", writing value of type '"System.Linq.Enumerable+ListSelectIterator`2[[Api.IOU.Models.Expense, IOU, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null],[Api.IOU.DTOs.ExpenseDTO, IOU, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]"'.
+2025-09-24 03:02:11 [Information] Executed action "Api.IOU.Controllers.ExpenseController.GetExpensesBySession (IOU)" in 8.8763ms
+2025-09-24 03:02:11 [Information] Executed endpoint '"Api.IOU.Controllers.ExpenseController.GetExpensesBySession (IOU)"'
+2025-09-24 03:02:11 [Information] Request finished "HTTP/1.1" "GET" "http"://"localhost:5062""""/api/expenses/session/11""" - 200 null "application/json; charset=utf-8" 17.1384ms
+2025-09-24 03:04:38 [Information] Request starting "HTTP/1.1" "OPTIONS" "http"://"localhost:5062""""/api/sessions/my-sessions""" - null null
+2025-09-24 03:04:38 [Information] Request starting "HTTP/1.1" "OPTIONS" "http"://"localhost:5062""""/api/friendship/friends""" - null null
+2025-09-24 03:04:38 [Information] CORS policy execution successful.
+2025-09-24 03:04:38 [Information] CORS policy execution successful.
+2025-09-24 03:04:38 [Information] Request finished "HTTP/1.1" "OPTIONS" "http"://"localhost:5062""""/api/sessions/my-sessions""" - 204 null null 6.1981ms
+2025-09-24 03:04:38 [Information] Request finished "HTTP/1.1" "OPTIONS" "http"://"localhost:5062""""/api/friendship/friends""" - 204 null null 7.3073ms
+2025-09-24 03:04:38 [Information] Request starting "HTTP/1.1" "GET" "http"://"localhost:5062""""/api/friendship/friends""" - null null
+2025-09-24 03:04:38 [Information] Request starting "HTTP/1.1" "GET" "http"://"localhost:5062""""/api/sessions/my-sessions""" - "application/json" null
+2025-09-24 03:04:38 [Information] CORS policy execution successful.
+2025-09-24 03:04:38 [Information] CORS policy execution successful.
+2025-09-24 03:04:38 [Information] Executing endpoint '"Api.IOU.Controllers.FriendshipController.GetFriends (IOU)"'
+2025-09-24 03:04:38 [Information] Executing endpoint '"Api.IOU.Controllers.SessionController.GetMySessions (IOU)"'
+2025-09-24 03:04:38 [Information] Route matched with "{action = \"GetFriends\", controller = \"Friendship\"}". Executing controller action with signature "System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] GetFriends()" on controller "Api.IOU.Controllers.FriendshipController" ("IOU").
+2025-09-24 03:04:38 [Information] Route matched with "{action = \"GetMySessions\", controller = \"Session\"}". Executing controller action with signature "System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] GetMySessions()" on controller "Api.IOU.Controllers.SessionController" ("IOU").
+2025-09-24 03:04:38 [Information] Executed DbCommand ("1"ms) [Parameters=["@__userId_0='?' (DbType = Int32)"], CommandType='Text', CommandTimeout='30']"
+""SELECT `f`.`Id`, `f`.`FriendId`, `f`.`Status`, `f`.`UserId`, `u`.`Id`, `u`.`Avatar`, `u`.`Email`, `u`.`Password`, `u`.`Username`, `u0`.`Id`, `u0`.`Avatar`, `u0`.`Email`, `u0`.`Password`, `u0`.`Username`
+FROM `Friendships` AS `f`
+INNER JOIN `Users` AS `u` ON `f`.`UserId` = `u`.`Id`
+INNER JOIN `Users` AS `u0` ON `f`.`FriendId` = `u0`.`Id`
+WHERE (`f`.`UserId` = @__userId_0) OR (`f`.`FriendId` = @__userId_0)"
+2025-09-24 03:04:38 [Information] Executed DbCommand ("0"ms) [Parameters=["@__p_0='?' (DbType = Int32)"], CommandType='Text', CommandTimeout='30']"
+""SELECT `u`.`Id`, `u`.`Avatar`, `u`.`Email`, `u`.`Password`, `u`.`Username`
+FROM `Users` AS `u`
+WHERE `u`.`Id` = @__p_0
+LIMIT 1"
+2025-09-24 03:04:38 [Information] Friendlist for user with ID 11 was found and returned
+2025-09-24 03:04:38 [Information] Executing "OkObjectResult", writing value of type '"System.Linq.Enumerable+ListWhereSelectIterator`2[[Api.IOU.Models.Friendship, IOU, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null],[Api.IOU.DTOs.FriendshipDTO, IOU, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]"'.
+2025-09-24 03:04:38 [Information] Executed DbCommand ("4"ms) [Parameters=["@__userId_0='?' (DbType = Int32)"], CommandType='Text', CommandTimeout='30']"
+""SELECT `s`.`SessionId`, `s`.`UserId`, `s0`.`Id`, `s0`.`CreatedAt`, `s0`.`CreatedById`, `s0`.`Name`, `s2`.`SessionId`, `s2`.`UserId`, `s2`.`Id`, `s2`.`Avatar`, `s2`.`Email`, `s2`.`Password`, `s2`.`Username`
+FROM `Sessionusers` AS `s`
+INNER JOIN `Sessions` AS `s0` ON `s`.`SessionId` = `s0`.`Id`
+LEFT JOIN (
+    SELECT `s1`.`SessionId`, `s1`.`UserId`, `u`.`Id`, `u`.`Avatar`, `u`.`Email`, `u`.`Password`, `u`.`Username`
+    FROM `Sessionusers` AS `s1`
+    INNER JOIN `Users` AS `u` ON `s1`.`UserId` = `u`.`Id`
+) AS `s2` ON `s0`.`Id` = `s2`.`SessionId`
+WHERE `s`.`UserId` = @__userId_0
+ORDER BY `s`.`SessionId`, `s`.`UserId`, `s0`.`Id`, `s2`.`SessionId`, `s2`.`UserId`"
+2025-09-24 03:04:38 [Information] Executed action "Api.IOU.Controllers.FriendshipController.GetFriends (IOU)" in 10.5227ms
+2025-09-24 03:04:38 [Information] Executing "OkObjectResult", writing value of type '"System.Linq.Enumerable+IteratorSelectIterator`2[[Api.IOU.Models.Session, IOU, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null],[Api.IOU.DTOs.SessionDTO, IOU, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]"'.
+2025-09-24 03:04:38 [Information] Executed endpoint '"Api.IOU.Controllers.FriendshipController.GetFriends (IOU)"'
+2025-09-24 03:04:38 [Information] Executed action "Api.IOU.Controllers.SessionController.GetMySessions (IOU)" in 13.3251ms
+2025-09-24 03:04:38 [Information] Request finished "HTTP/1.1" "GET" "http"://"localhost:5062""""/api/friendship/friends""" - 200 null "application/json; charset=utf-8" 28.368ms
+2025-09-24 03:04:38 [Information] Executed endpoint '"Api.IOU.Controllers.SessionController.GetMySessions (IOU)"'
+2025-09-24 03:04:38 [Information] Request finished "HTTP/1.1" "GET" "http"://"localhost:5062""""/api/sessions/my-sessions""" - 200 null "application/json; charset=utf-8" 31.7298ms
+2025-09-24 03:04:38 [Information] Request starting "HTTP/1.1" "OPTIONS" "http"://"localhost:5062""""/api/expenses/session/11""" - null null
+2025-09-24 03:04:38 [Information] CORS policy execution successful.
+2025-09-24 03:04:38 [Information] Request finished "HTTP/1.1" "OPTIONS" "http"://"localhost:5062""""/api/expenses/session/11""" - 204 null null 2.7507ms
+2025-09-24 03:04:38 [Information] Request starting "HTTP/1.1" "GET" "http"://"localhost:5062""""/api/expenses/session/11""" - null null
+2025-09-24 03:04:38 [Information] CORS policy execution successful.
+2025-09-24 03:04:38 [Information] Executing endpoint '"Api.IOU.Controllers.ExpenseController.GetExpensesBySession (IOU)"'
+2025-09-24 03:04:38 [Information] Route matched with "{action = \"GetExpensesBySession\", controller = \"Expense\"}". Executing controller action with signature "System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] GetExpensesBySession(Int32)" on controller "Api.IOU.Controllers.ExpenseController" ("IOU").
+2025-09-24 03:04:38 [Information] Executed DbCommand ("1"ms) [Parameters=["@__sessionId_0='?' (DbType = Int32)"], CommandType='Text', CommandTimeout='30']"
+""SELECT `e`.`Id`, `e`.`CreatedAt`, `e`.`Description`, `e`.`PaidById`, `e`.`SessionId`, `e`.`TotalAmount`, `e0`.`Id`, `e0`.`Amount`, `e0`.`ExpenseId`, `e0`.`Status`, `e0`.`UserId`
+FROM `Expenses` AS `e`
+LEFT JOIN `ExpenseSplits` AS `e0` ON `e`.`Id` = `e0`.`ExpenseId`
+WHERE `e`.`SessionId` = @__sessionId_0
+ORDER BY `e`.`Id`"
+2025-09-24 03:04:38 [Information] Executing "OkObjectResult", writing value of type '"System.Linq.Enumerable+ListSelectIterator`2[[Api.IOU.Models.Expense, IOU, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null],[Api.IOU.DTOs.ExpenseDTO, IOU, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]"'.
+2025-09-24 03:04:38 [Information] Executed action "Api.IOU.Controllers.ExpenseController.GetExpensesBySession (IOU)" in 5.5705ms
+2025-09-24 03:04:38 [Information] Executed endpoint '"Api.IOU.Controllers.ExpenseController.GetExpensesBySession (IOU)"'
+2025-09-24 03:04:38 [Information] Request finished "HTTP/1.1" "GET" "http"://"localhost:5062""""/api/expenses/session/11""" - 200 null "application/json; charset=utf-8" 15.2949ms
+2025-09-24 03:04:44 [Information] Request starting "HTTP/1.1" "OPTIONS" "http"://"localhost:5062""""/api/sessions/11""" - null null
+2025-09-24 03:04:44 [Information] CORS policy execution successful.
+2025-09-24 03:04:44 [Information] Request finished "HTTP/1.1" "OPTIONS" "http"://"localhost:5062""""/api/sessions/11""" - 204 null null 3.0641ms
+2025-09-24 03:04:44 [Information] Request starting "HTTP/1.1" "DELETE" "http"://"localhost:5062""""/api/sessions/11""" - null null
+2025-09-24 03:04:45 [Information] CORS policy execution successful.
+2025-09-24 03:04:45 [Information] Executing endpoint '"Api.IOU.Controllers.SessionController.DeleteSession (IOU)"'
+2025-09-24 03:04:45 [Information] Route matched with "{action = \"DeleteSession\", controller = \"Session\"}". Executing controller action with signature "System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] DeleteSession(Int32)" on controller "Api.IOU.Controllers.SessionController" ("IOU").
+2025-09-24 03:04:45 [Information] Executed DbCommand ("1"ms) [Parameters=["@__id_0='?' (DbType = Int32)"], CommandType='Text', CommandTimeout='30']"
+""SELECT `s1`.`Id`, `s1`.`CreatedAt`, `s1`.`CreatedById`, `s1`.`Name`, `s2`.`SessionId`, `s2`.`UserId`, `s2`.`Id`, `s2`.`Avatar`, `s2`.`Email`, `s2`.`Password`, `s2`.`Username`, `s3`.`Id`, `s3`.`CreatedAt`, `s3`.`Description`, `s3`.`PaidById`, `s3`.`SessionId`, `s3`.`TotalAmount`, `s3`.`Id0`, `s3`.`Amount`, `s3`.`ExpenseId`, `s3`.`Status`, `s3`.`UserId`
+FROM (
+    SELECT `s`.`Id`, `s`.`CreatedAt`, `s`.`CreatedById`, `s`.`Name`
+    FROM `Sessions` AS `s`
+    WHERE `s`.`Id` = @__id_0
+    LIMIT 1
+) AS `s1`
+LEFT JOIN (
+    SELECT `s0`.`SessionId`, `s0`.`UserId`, `u`.`Id`, `u`.`Avatar`, `u`.`Email`, `u`.`Password`, `u`.`Username`
+    FROM `Sessionusers` AS `s0`
+    INNER JOIN `Users` AS `u` ON `s0`.`UserId` = `u`.`Id`
+) AS `s2` ON `s1`.`Id` = `s2`.`SessionId`
+LEFT JOIN (
+    SELECT `e`.`Id`, `e`.`CreatedAt`, `e`.`Description`, `e`.`PaidById`, `e`.`SessionId`, `e`.`TotalAmount`, `e0`.`Id` AS `Id0`, `e0`.`Amount`, `e0`.`ExpenseId`, `e0`.`Status`, `e0`.`UserId`
+    FROM `Expenses` AS `e`
+    LEFT JOIN `ExpenseSplits` AS `e0` ON `e`.`Id` = `e0`.`ExpenseId`
+) AS `s3` ON `s1`.`Id` = `s3`.`SessionId`
+ORDER BY `s1`.`Id`, `s2`.`SessionId`, `s2`.`UserId`, `s2`.`Id`, `s3`.`Id`"
+2025-09-24 03:04:45 [Information] Executing "BadRequestObjectResult", writing value of type '"System.String"'.
+2025-09-24 03:04:45 [Information] Executed action "Api.IOU.Controllers.SessionController.DeleteSession (IOU)" in 12.1609ms
+2025-09-24 03:04:45 [Information] Executed endpoint '"Api.IOU.Controllers.SessionController.DeleteSession (IOU)"'
+2025-09-24 03:04:45 [Information] Request finished "HTTP/1.1" "DELETE" "http"://"localhost:5062""""/api/sessions/11""" - 400 null "text/plain; charset=utf-8" 22.2325ms
+2025-09-24 03:04:46 [Information] Request starting "HTTP/1.1" "OPTIONS" "http"://"localhost:5062""""/api/sessions/my-sessions""" - null null
+2025-09-24 03:04:46 [Information] Request starting "HTTP/1.1" "OPTIONS" "http"://"localhost:5062""""/api/friendship/friends""" - null null
+2025-09-24 03:04:46 [Information] CORS policy execution successful.
+2025-09-24 03:04:46 [Information] CORS policy execution successful.
+2025-09-24 03:04:46 [Information] Request finished "HTTP/1.1" "OPTIONS" "http"://"localhost:5062""""/api/sessions/my-sessions""" - 204 null null 20.0469ms
+2025-09-24 03:04:46 [Information] Request finished "HTTP/1.1" "OPTIONS" "http"://"localhost:5062""""/api/friendship/friends""" - 204 null null 20.5645ms
+2025-09-24 03:04:46 [Information] Request starting "HTTP/1.1" "GET" "http"://"localhost:5062""""/api/friendship/friends""" - null null
+2025-09-24 03:04:46 [Information] Request starting "HTTP/1.1" "GET" "http"://"localhost:5062""""/api/sessions/my-sessions""" - "application/json" null
+2025-09-24 03:04:46 [Information] CORS policy execution successful.
+2025-09-24 03:04:46 [Information] CORS policy execution successful.
+2025-09-24 03:04:46 [Information] Executing endpoint '"Api.IOU.Controllers.FriendshipController.GetFriends (IOU)"'
+2025-09-24 03:04:46 [Information] Executing endpoint '"Api.IOU.Controllers.SessionController.GetMySessions (IOU)"'
+2025-09-24 03:04:46 [Information] Route matched with "{action = \"GetFriends\", controller = \"Friendship\"}". Executing controller action with signature "System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] GetFriends()" on controller "Api.IOU.Controllers.FriendshipController" ("IOU").
+2025-09-24 03:04:46 [Information] Route matched with "{action = \"GetMySessions\", controller = \"Session\"}". Executing controller action with signature "System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] GetMySessions()" on controller "Api.IOU.Controllers.SessionController" ("IOU").
+2025-09-24 03:04:46 [Information] Executed DbCommand ("1"ms) [Parameters=["@__userId_0='?' (DbType = Int32)"], CommandType='Text', CommandTimeout='30']"
+""SELECT `f`.`Id`, `f`.`FriendId`, `f`.`Status`, `f`.`UserId`, `u`.`Id`, `u`.`Avatar`, `u`.`Email`, `u`.`Password`, `u`.`Username`, `u0`.`Id`, `u0`.`Avatar`, `u0`.`Email`, `u0`.`Password`, `u0`.`Username`
+FROM `Friendships` AS `f`
+INNER JOIN `Users` AS `u` ON `f`.`UserId` = `u`.`Id`
+INNER JOIN `Users` AS `u0` ON `f`.`FriendId` = `u0`.`Id`
+WHERE (`f`.`UserId` = @__userId_0) OR (`f`.`FriendId` = @__userId_0)"
+2025-09-24 03:04:46 [Information] Executed DbCommand ("0"ms) [Parameters=["@__p_0='?' (DbType = Int32)"], CommandType='Text', CommandTimeout='30']"
+""SELECT `u`.`Id`, `u`.`Avatar`, `u`.`Email`, `u`.`Password`, `u`.`Username`
+FROM `Users` AS `u`
+WHERE `u`.`Id` = @__p_0
+LIMIT 1"
+2025-09-24 03:04:46 [Information] Friendlist for user with ID 11 was found and returned
+2025-09-24 03:04:46 [Information] Executing "OkObjectResult", writing value of type '"System.Linq.Enumerable+ListWhereSelectIterator`2[[Api.IOU.Models.Friendship, IOU, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null],[Api.IOU.DTOs.FriendshipDTO, IOU, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]"'.
+2025-09-24 03:04:46 [Information] Executed DbCommand ("1"ms) [Parameters=["@__userId_0='?' (DbType = Int32)"], CommandType='Text', CommandTimeout='30']"
+""SELECT `s`.`SessionId`, `s`.`UserId`, `s0`.`Id`, `s0`.`CreatedAt`, `s0`.`CreatedById`, `s0`.`Name`, `s2`.`SessionId`, `s2`.`UserId`, `s2`.`Id`, `s2`.`Avatar`, `s2`.`Email`, `s2`.`Password`, `s2`.`Username`
+FROM `Sessionusers` AS `s`
+INNER JOIN `Sessions` AS `s0` ON `s`.`SessionId` = `s0`.`Id`
+LEFT JOIN (
+    SELECT `s1`.`SessionId`, `s1`.`UserId`, `u`.`Id`, `u`.`Avatar`, `u`.`Email`, `u`.`Password`, `u`.`Username`
+    FROM `Sessionusers` AS `s1`
+    INNER JOIN `Users` AS `u` ON `s1`.`UserId` = `u`.`Id`
+) AS `s2` ON `s0`.`Id` = `s2`.`SessionId`
+WHERE `s`.`UserId` = @__userId_0
+ORDER BY `s`.`SessionId`, `s`.`UserId`, `s0`.`Id`, `s2`.`SessionId`, `s2`.`UserId`"
+2025-09-24 03:04:46 [Information] Executed action "Api.IOU.Controllers.FriendshipController.GetFriends (IOU)" in 10.4967ms
+2025-09-24 03:04:46 [Information] Executing "OkObjectResult", writing value of type '"System.Linq.Enumerable+IteratorSelectIterator`2[[Api.IOU.Models.Session, IOU, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null],[Api.IOU.DTOs.SessionDTO, IOU, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]"'.
+2025-09-24 03:04:46 [Information] Executed endpoint '"Api.IOU.Controllers.FriendshipController.GetFriends (IOU)"'
+2025-09-24 03:04:46 [Information] Executed action "Api.IOU.Controllers.SessionController.GetMySessions (IOU)" in 13.0466ms
+2025-09-24 03:04:46 [Information] Request finished "HTTP/1.1" "GET" "http"://"localhost:5062""""/api/friendship/friends""" - 200 null "application/json; charset=utf-8" 30.4974ms
+2025-09-24 03:04:46 [Information] Executed endpoint '"Api.IOU.Controllers.SessionController.GetMySessions (IOU)"'
+2025-09-24 03:04:46 [Information] Request finished "HTTP/1.1" "GET" "http"://"localhost:5062""""/api/sessions/my-sessions""" - 200 null "application/json; charset=utf-8" 34.2121ms
+2025-09-24 03:04:46 [Information] Request starting "HTTP/1.1" "OPTIONS" "http"://"localhost:5062""""/api/expenses/session/11""" - null null
+2025-09-24 03:04:46 [Information] CORS policy execution successful.
+2025-09-24 03:04:46 [Information] Request finished "HTTP/1.1" "OPTIONS" "http"://"localhost:5062""""/api/expenses/session/11""" - 204 null null 2.611ms
+2025-09-24 03:04:46 [Information] Request starting "HTTP/1.1" "GET" "http"://"localhost:5062""""/api/expenses/session/11""" - null null
+2025-09-24 03:04:46 [Information] CORS policy execution successful.
+2025-09-24 03:04:46 [Information] Executing endpoint '"Api.IOU.Controllers.ExpenseController.GetExpensesBySession (IOU)"'
+2025-09-24 03:04:46 [Information] Route matched with "{action = \"GetExpensesBySession\", controller = \"Expense\"}". Executing controller action with signature "System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] GetExpensesBySession(Int32)" on controller "Api.IOU.Controllers.ExpenseController" ("IOU").
+2025-09-24 03:04:46 [Information] Executed DbCommand ("1"ms) [Parameters=["@__sessionId_0='?' (DbType = Int32)"], CommandType='Text', CommandTimeout='30']"
+""SELECT `e`.`Id`, `e`.`CreatedAt`, `e`.`Description`, `e`.`PaidById`, `e`.`SessionId`, `e`.`TotalAmount`, `e0`.`Id`, `e0`.`Amount`, `e0`.`ExpenseId`, `e0`.`Status`, `e0`.`UserId`
+FROM `Expenses` AS `e`
+LEFT JOIN `ExpenseSplits` AS `e0` ON `e`.`Id` = `e0`.`ExpenseId`
+WHERE `e`.`SessionId` = @__sessionId_0
+ORDER BY `e`.`Id`"
+2025-09-24 03:04:46 [Information] Executing "OkObjectResult", writing value of type '"System.Linq.Enumerable+ListSelectIterator`2[[Api.IOU.Models.Expense, IOU, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null],[Api.IOU.DTOs.ExpenseDTO, IOU, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]"'.
+2025-09-24 03:04:46 [Information] Executed action "Api.IOU.Controllers.ExpenseController.GetExpensesBySession (IOU)" in 7.5287ms
+2025-09-24 03:04:46 [Information] Executed endpoint '"Api.IOU.Controllers.ExpenseController.GetExpensesBySession (IOU)"'
+2025-09-24 03:04:46 [Information] Request finished "HTTP/1.1" "GET" "http"://"localhost:5062""""/api/expenses/session/11""" - 200 null "application/json; charset=utf-8" 17.4519ms
+2025-09-24 03:04:49 [Information] Request starting "HTTP/1.1" "DELETE" "http"://"localhost:5062""""/api/sessions/11""" - null null
+2025-09-24 03:04:49 [Information] CORS policy execution successful.
+2025-09-24 03:04:49 [Information] Executing endpoint '"Api.IOU.Controllers.SessionController.DeleteSession (IOU)"'
+2025-09-24 03:04:49 [Information] Route matched with "{action = \"DeleteSession\", controller = \"Session\"}". Executing controller action with signature "System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] DeleteSession(Int32)" on controller "Api.IOU.Controllers.SessionController" ("IOU").
+2025-09-24 03:04:49 [Information] Executed DbCommand ("2"ms) [Parameters=["@__id_0='?' (DbType = Int32)"], CommandType='Text', CommandTimeout='30']"
+""SELECT `s1`.`Id`, `s1`.`CreatedAt`, `s1`.`CreatedById`, `s1`.`Name`, `s2`.`SessionId`, `s2`.`UserId`, `s2`.`Id`, `s2`.`Avatar`, `s2`.`Email`, `s2`.`Password`, `s2`.`Username`, `s3`.`Id`, `s3`.`CreatedAt`, `s3`.`Description`, `s3`.`PaidById`, `s3`.`SessionId`, `s3`.`TotalAmount`, `s3`.`Id0`, `s3`.`Amount`, `s3`.`ExpenseId`, `s3`.`Status`, `s3`.`UserId`
+FROM (
+    SELECT `s`.`Id`, `s`.`CreatedAt`, `s`.`CreatedById`, `s`.`Name`
+    FROM `Sessions` AS `s`
+    WHERE `s`.`Id` = @__id_0
+    LIMIT 1
+) AS `s1`
+LEFT JOIN (
+    SELECT `s0`.`SessionId`, `s0`.`UserId`, `u`.`Id`, `u`.`Avatar`, `u`.`Email`, `u`.`Password`, `u`.`Username`
+    FROM `Sessionusers` AS `s0`
+    INNER JOIN `Users` AS `u` ON `s0`.`UserId` = `u`.`Id`
+) AS `s2` ON `s1`.`Id` = `s2`.`SessionId`
+LEFT JOIN (
+    SELECT `e`.`Id`, `e`.`CreatedAt`, `e`.`Description`, `e`.`PaidById`, `e`.`SessionId`, `e`.`TotalAmount`, `e0`.`Id` AS `Id0`, `e0`.`Amount`, `e0`.`ExpenseId`, `e0`.`Status`, `e0`.`UserId`
+    FROM `Expenses` AS `e`
+    LEFT JOIN `ExpenseSplits` AS `e0` ON `e`.`Id` = `e0`.`ExpenseId`
+) AS `s3` ON `s1`.`Id` = `s3`.`SessionId`
+ORDER BY `s1`.`Id`, `s2`.`SessionId`, `s2`.`UserId`, `s2`.`Id`, `s3`.`Id`"
+2025-09-24 03:04:49 [Information] Executing "BadRequestObjectResult", writing value of type '"System.String"'.
+2025-09-24 03:04:49 [Information] Executed action "Api.IOU.Controllers.SessionController.DeleteSession (IOU)" in 10.6898ms
+2025-09-24 03:04:49 [Information] Executed endpoint '"Api.IOU.Controllers.SessionController.DeleteSession (IOU)"'
+2025-09-24 03:04:49 [Information] Request finished "HTTP/1.1" "DELETE" "http"://"localhost:5062""""/api/sessions/11""" - 400 null "text/plain; charset=utf-8" 19.9851ms
+2025-09-24 03:04:50 [Information] Request starting "HTTP/1.1" "GET" "http"://"localhost:5062""""/api/sessions/my-sessions""" - "application/json" null
+2025-09-24 03:04:50 [Information] Request starting "HTTP/1.1" "GET" "http"://"localhost:5062""""/api/friendship/friends""" - null null
+2025-09-24 03:04:50 [Information] CORS policy execution successful.
+2025-09-24 03:04:50 [Information] CORS policy execution successful.
+2025-09-24 03:04:50 [Information] Executing endpoint '"Api.IOU.Controllers.SessionController.GetMySessions (IOU)"'
+2025-09-24 03:04:50 [Information] Executing endpoint '"Api.IOU.Controllers.FriendshipController.GetFriends (IOU)"'
+2025-09-24 03:04:50 [Information] Route matched with "{action = \"GetFriends\", controller = \"Friendship\"}". Executing controller action with signature "System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] GetFriends()" on controller "Api.IOU.Controllers.FriendshipController" ("IOU").
+2025-09-24 03:04:50 [Information] Route matched with "{action = \"GetMySessions\", controller = \"Session\"}". Executing controller action with signature "System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] GetMySessions()" on controller "Api.IOU.Controllers.SessionController" ("IOU").
+2025-09-24 03:04:50 [Information] Executed DbCommand ("1"ms) [Parameters=["@__userId_0='?' (DbType = Int32)"], CommandType='Text', CommandTimeout='30']"
+""SELECT `f`.`Id`, `f`.`FriendId`, `f`.`Status`, `f`.`UserId`, `u`.`Id`, `u`.`Avatar`, `u`.`Email`, `u`.`Password`, `u`.`Username`, `u0`.`Id`, `u0`.`Avatar`, `u0`.`Email`, `u0`.`Password`, `u0`.`Username`
+FROM `Friendships` AS `f`
+INNER JOIN `Users` AS `u` ON `f`.`UserId` = `u`.`Id`
+INNER JOIN `Users` AS `u0` ON `f`.`FriendId` = `u0`.`Id`
+WHERE (`f`.`UserId` = @__userId_0) OR (`f`.`FriendId` = @__userId_0)"
+2025-09-24 03:04:50 [Information] Executed DbCommand ("0"ms) [Parameters=["@__p_0='?' (DbType = Int32)"], CommandType='Text', CommandTimeout='30']"
+""SELECT `u`.`Id`, `u`.`Avatar`, `u`.`Email`, `u`.`Password`, `u`.`Username`
+FROM `Users` AS `u`
+WHERE `u`.`Id` = @__p_0
+LIMIT 1"
+2025-09-24 03:04:50 [Information] Friendlist for user with ID 11 was found and returned
+2025-09-24 03:04:50 [Information] Executed DbCommand ("1"ms) [Parameters=["@__userId_0='?' (DbType = Int32)"], CommandType='Text', CommandTimeout='30']"
+""SELECT `s`.`SessionId`, `s`.`UserId`, `s0`.`Id`, `s0`.`CreatedAt`, `s0`.`CreatedById`, `s0`.`Name`, `s2`.`SessionId`, `s2`.`UserId`, `s2`.`Id`, `s2`.`Avatar`, `s2`.`Email`, `s2`.`Password`, `s2`.`Username`
+FROM `Sessionusers` AS `s`
+INNER JOIN `Sessions` AS `s0` ON `s`.`SessionId` = `s0`.`Id`
+LEFT JOIN (
+    SELECT `s1`.`SessionId`, `s1`.`UserId`, `u`.`Id`, `u`.`Avatar`, `u`.`Email`, `u`.`Password`, `u`.`Username`
+    FROM `Sessionusers` AS `s1`
+    INNER JOIN `Users` AS `u` ON `s1`.`UserId` = `u`.`Id`
+) AS `s2` ON `s0`.`Id` = `s2`.`SessionId`
+WHERE `s`.`UserId` = @__userId_0
+ORDER BY `s`.`SessionId`, `s`.`UserId`, `s0`.`Id`, `s2`.`SessionId`, `s2`.`UserId`"
+2025-09-24 03:04:50 [Information] Executing "OkObjectResult", writing value of type '"System.Linq.Enumerable+ListWhereSelectIterator`2[[Api.IOU.Models.Friendship, IOU, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null],[Api.IOU.DTOs.FriendshipDTO, IOU, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]"'.
+2025-09-24 03:04:50 [Information] Executing "OkObjectResult", writing value of type '"System.Linq.Enumerable+IteratorSelectIterator`2[[Api.IOU.Models.Session, IOU, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null],[Api.IOU.DTOs.SessionDTO, IOU, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]"'.
+2025-09-24 03:04:50 [Information] Executed action "Api.IOU.Controllers.FriendshipController.GetFriends (IOU)" in 14.9766ms
+2025-09-24 03:04:50 [Information] Executed action "Api.IOU.Controllers.SessionController.GetMySessions (IOU)" in 14.8881ms
+2025-09-24 03:04:50 [Information] Executed endpoint '"Api.IOU.Controllers.FriendshipController.GetFriends (IOU)"'
+2025-09-24 03:04:50 [Information] Executed endpoint '"Api.IOU.Controllers.SessionController.GetMySessions (IOU)"'
+2025-09-24 03:04:50 [Information] Request finished "HTTP/1.1" "GET" "http"://"localhost:5062""""/api/sessions/my-sessions""" - 200 null "application/json; charset=utf-8" 40.628ms
+2025-09-24 03:04:50 [Information] Request finished "HTTP/1.1" "GET" "http"://"localhost:5062""""/api/friendship/friends""" - 200 null "application/json; charset=utf-8" 36.8826ms
+2025-09-24 03:04:50 [Information] Request starting "HTTP/1.1" "GET" "http"://"localhost:5062""""/api/expenses/session/11""" - null null
+2025-09-24 03:04:50 [Information] CORS policy execution successful.
+2025-09-24 03:04:50 [Information] Executing endpoint '"Api.IOU.Controllers.ExpenseController.GetExpensesBySession (IOU)"'
+2025-09-24 03:04:50 [Information] Route matched with "{action = \"GetExpensesBySession\", controller = \"Expense\"}". Executing controller action with signature "System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] GetExpensesBySession(Int32)" on controller "Api.IOU.Controllers.ExpenseController" ("IOU").
+2025-09-24 03:04:50 [Information] Executed DbCommand ("1"ms) [Parameters=["@__sessionId_0='?' (DbType = Int32)"], CommandType='Text', CommandTimeout='30']"
+""SELECT `e`.`Id`, `e`.`CreatedAt`, `e`.`Description`, `e`.`PaidById`, `e`.`SessionId`, `e`.`TotalAmount`, `e0`.`Id`, `e0`.`Amount`, `e0`.`ExpenseId`, `e0`.`Status`, `e0`.`UserId`
+FROM `Expenses` AS `e`
+LEFT JOIN `ExpenseSplits` AS `e0` ON `e`.`Id` = `e0`.`ExpenseId`
+WHERE `e`.`SessionId` = @__sessionId_0
+ORDER BY `e`.`Id`"
+2025-09-24 03:04:50 [Information] Executing "OkObjectResult", writing value of type '"System.Linq.Enumerable+ListSelectIterator`2[[Api.IOU.Models.Expense, IOU, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null],[Api.IOU.DTOs.ExpenseDTO, IOU, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]"'.
+2025-09-24 03:04:50 [Information] Executed action "Api.IOU.Controllers.ExpenseController.GetExpensesBySession (IOU)" in 6.1955ms
+2025-09-24 03:04:50 [Information] Executed endpoint '"Api.IOU.Controllers.ExpenseController.GetExpensesBySession (IOU)"'
+2025-09-24 03:04:50 [Information] Request finished "HTTP/1.1" "GET" "http"://"localhost:5062""""/api/expenses/session/11""" - 200 null "application/json; charset=utf-8" 24.2884ms
+2025-09-24 03:05:00 [Information] Request starting "HTTP/1.1" "OPTIONS" "http"://"localhost:5062""""/api/sessions/11""" - null null
+2025-09-24 03:05:00 [Information] CORS policy execution successful.
+2025-09-24 03:05:00 [Information] Request finished "HTTP/1.1" "OPTIONS" "http"://"localhost:5062""""/api/sessions/11""" - 204 null null 18.6361ms
+2025-09-24 03:05:00 [Information] Request starting "HTTP/1.1" "DELETE" "http"://"localhost:5062""""/api/sessions/11""" - null null
+2025-09-24 03:05:00 [Information] CORS policy execution successful.
+2025-09-24 03:05:00 [Information] Executing endpoint '"Api.IOU.Controllers.SessionController.DeleteSession (IOU)"'
+2025-09-24 03:05:00 [Information] Route matched with "{action = \"DeleteSession\", controller = \"Session\"}". Executing controller action with signature "System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] DeleteSession(Int32)" on controller "Api.IOU.Controllers.SessionController" ("IOU").
+2025-09-24 03:05:00 [Information] Executed DbCommand ("1"ms) [Parameters=["@__id_0='?' (DbType = Int32)"], CommandType='Text', CommandTimeout='30']"
+""SELECT `s1`.`Id`, `s1`.`CreatedAt`, `s1`.`CreatedById`, `s1`.`Name`, `s2`.`SessionId`, `s2`.`UserId`, `s2`.`Id`, `s2`.`Avatar`, `s2`.`Email`, `s2`.`Password`, `s2`.`Username`, `s3`.`Id`, `s3`.`CreatedAt`, `s3`.`Description`, `s3`.`PaidById`, `s3`.`SessionId`, `s3`.`TotalAmount`, `s3`.`Id0`, `s3`.`Amount`, `s3`.`ExpenseId`, `s3`.`Status`, `s3`.`UserId`
+FROM (
+    SELECT `s`.`Id`, `s`.`CreatedAt`, `s`.`CreatedById`, `s`.`Name`
+    FROM `Sessions` AS `s`
+    WHERE `s`.`Id` = @__id_0
+    LIMIT 1
+) AS `s1`
+LEFT JOIN (
+    SELECT `s0`.`SessionId`, `s0`.`UserId`, `u`.`Id`, `u`.`Avatar`, `u`.`Email`, `u`.`Password`, `u`.`Username`
+    FROM `Sessionusers` AS `s0`
+    INNER JOIN `Users` AS `u` ON `s0`.`UserId` = `u`.`Id`
+) AS `s2` ON `s1`.`Id` = `s2`.`SessionId`
+LEFT JOIN (
+    SELECT `e`.`Id`, `e`.`CreatedAt`, `e`.`Description`, `e`.`PaidById`, `e`.`SessionId`, `e`.`TotalAmount`, `e0`.`Id` AS `Id0`, `e0`.`Amount`, `e0`.`ExpenseId`, `e0`.`Status`, `e0`.`UserId`
+    FROM `Expenses` AS `e`
+    LEFT JOIN `ExpenseSplits` AS `e0` ON `e`.`Id` = `e0`.`ExpenseId`
+) AS `s3` ON `s1`.`Id` = `s3`.`SessionId`
+ORDER BY `s1`.`Id`, `s2`.`SessionId`, `s2`.`UserId`, `s2`.`Id`, `s3`.`Id`"
+2025-09-24 03:05:00 [Information] Executing "BadRequestObjectResult", writing value of type '"System.String"'.
+2025-09-24 03:05:00 [Information] Executed action "Api.IOU.Controllers.SessionController.DeleteSession (IOU)" in 6.966ms
+2025-09-24 03:05:00 [Information] Executed endpoint '"Api.IOU.Controllers.SessionController.DeleteSession (IOU)"'
+2025-09-24 03:05:00 [Information] Request finished "HTTP/1.1" "DELETE" "http"://"localhost:5062""""/api/sessions/11""" - 400 null "text/plain; charset=utf-8" 18.0753ms
+2025-09-24 03:05:27 [Information] Request starting "HTTP/1.1" "OPTIONS" "http"://"localhost:5062""""/api/sessions""" - null null
+2025-09-24 03:05:27 [Information] CORS policy execution successful.
+2025-09-24 03:05:27 [Information] Request finished "HTTP/1.1" "OPTIONS" "http"://"localhost:5062""""/api/sessions""" - 204 null null 2.8408ms
+2025-09-24 03:05:27 [Information] Request starting "HTTP/1.1" "POST" "http"://"localhost:5062""""/api/sessions""" - "application/json" 19
+2025-09-24 03:05:27 [Information] CORS policy execution successful.
+2025-09-24 03:05:27 [Information] Executing endpoint '"Api.IOU.Controllers.SessionController.CreateSession (IOU)"'
+2025-09-24 03:05:27 [Information] Route matched with "{action = \"CreateSession\", controller = \"Session\"}". Executing controller action with signature "System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] CreateSession(Api.IOU.DTOs.CreateSessionDTO)" on controller "Api.IOU.Controllers.SessionController" ("IOU").
+2025-09-24 03:05:27 [Information] Executed DbCommand ("11"ms) [Parameters=["@p0='?' (DbType = DateTime), @p1='?' (DbType = Int32), @p2='?' (Size = 200)"], CommandType='Text', CommandTimeout='30']"
+""INSERT INTO `Sessions` (`CreatedAt`, `CreatedById`, `Name`)
+VALUES (@p0, @p1, @p2);
+SELECT `Id`
+FROM `Sessions`
+WHERE ROW_COUNT() = 1 AND `Id` = LAST_INSERT_ID();"
+2025-09-24 03:05:27 [Information] Executed DbCommand ("4"ms) [Parameters=["@p0='?' (DbType = Int32), @p1='?' (DbType = Int32)"], CommandType='Text', CommandTimeout='30']"
+""SET AUTOCOMMIT = 1;
+INSERT INTO `Sessionusers` (`SessionId`, `UserId`)
+VALUES (@p0, @p1);"
+2025-09-24 03:05:27 [Information] Session "Holidays" created by user 11
+2025-09-24 03:05:27 [Information] Executed DbCommand ("0"ms) [Parameters=["@__p_0='?' (DbType = Int32)"], CommandType='Text', CommandTimeout='30']"
+""SELECT `u`.`Id`, `u`.`Avatar`, `u`.`Email`, `u`.`Password`, `u`.`Username`
+FROM `Users` AS `u`
+WHERE `u`.`Id` = @__p_0
+LIMIT 1"
+2025-09-24 03:05:27 [Information] Session Created with ID: 12
+2025-09-24 03:05:27 [Information] Executing "OkObjectResult", writing value of type '"Api.IOU.DTOs.SessionDTO"'.
+2025-09-24 03:05:27 [Information] Executed action "Api.IOU.Controllers.SessionController.CreateSession (IOU)" in 86.9872ms
+2025-09-24 03:05:27 [Information] Executed endpoint '"Api.IOU.Controllers.SessionController.CreateSession (IOU)"'
+2025-09-24 03:05:27 [Information] Request finished "HTTP/1.1" "POST" "http"://"localhost:5062""""/api/sessions""" - 200 null "application/json; charset=utf-8" 101.1362ms
+2025-09-24 03:05:27 [Information] Request starting "HTTP/1.1" "OPTIONS" "http"://"localhost:5062""""/api/sessions/my-sessions""" - null null
+2025-09-24 03:05:27 [Information] CORS policy execution successful.
+2025-09-24 03:05:27 [Information] Request finished "HTTP/1.1" "OPTIONS" "http"://"localhost:5062""""/api/sessions/my-sessions""" - 204 null null 4.0152ms
+2025-09-24 03:05:27 [Information] Request starting "HTTP/1.1" "GET" "http"://"localhost:5062""""/api/sessions/my-sessions""" - "application/json" null
+2025-09-24 03:05:27 [Information] CORS policy execution successful.
+2025-09-24 03:05:27 [Information] Executing endpoint '"Api.IOU.Controllers.SessionController.GetMySessions (IOU)"'
+2025-09-24 03:05:27 [Information] Route matched with "{action = \"GetMySessions\", controller = \"Session\"}". Executing controller action with signature "System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] GetMySessions()" on controller "Api.IOU.Controllers.SessionController" ("IOU").
+2025-09-24 03:05:27 [Information] Executed DbCommand ("0"ms) [Parameters=["@__p_0='?' (DbType = Int32)"], CommandType='Text', CommandTimeout='30']"
+""SELECT `u`.`Id`, `u`.`Avatar`, `u`.`Email`, `u`.`Password`, `u`.`Username`
+FROM `Users` AS `u`
+WHERE `u`.`Id` = @__p_0
+LIMIT 1"
+2025-09-24 03:05:27 [Information] Executed DbCommand ("1"ms) [Parameters=["@__userId_0='?' (DbType = Int32)"], CommandType='Text', CommandTimeout='30']"
+""SELECT `s`.`SessionId`, `s`.`UserId`, `s0`.`Id`, `s0`.`CreatedAt`, `s0`.`CreatedById`, `s0`.`Name`, `s2`.`SessionId`, `s2`.`UserId`, `s2`.`Id`, `s2`.`Avatar`, `s2`.`Email`, `s2`.`Password`, `s2`.`Username`
+FROM `Sessionusers` AS `s`
+INNER JOIN `Sessions` AS `s0` ON `s`.`SessionId` = `s0`.`Id`
+LEFT JOIN (
+    SELECT `s1`.`SessionId`, `s1`.`UserId`, `u`.`Id`, `u`.`Avatar`, `u`.`Email`, `u`.`Password`, `u`.`Username`
+    FROM `Sessionusers` AS `s1`
+    INNER JOIN `Users` AS `u` ON `s1`.`UserId` = `u`.`Id`
+) AS `s2` ON `s0`.`Id` = `s2`.`SessionId`
+WHERE `s`.`UserId` = @__userId_0
+ORDER BY `s`.`SessionId`, `s`.`UserId`, `s0`.`Id`, `s2`.`SessionId`, `s2`.`UserId`"
+2025-09-24 03:05:27 [Information] Executing "OkObjectResult", writing value of type '"System.Linq.Enumerable+IteratorSelectIterator`2[[Api.IOU.Models.Session, IOU, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null],[Api.IOU.DTOs.SessionDTO, IOU, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]"'.
+2025-09-24 03:05:27 [Information] Executed action "Api.IOU.Controllers.SessionController.GetMySessions (IOU)" in 9.2425ms
+2025-09-24 03:05:27 [Information] Executed endpoint '"Api.IOU.Controllers.SessionController.GetMySessions (IOU)"'
+2025-09-24 03:05:27 [Information] Request finished "HTTP/1.1" "GET" "http"://"localhost:5062""""/api/sessions/my-sessions""" - 200 null "application/json; charset=utf-8" 17.0689ms
+2025-09-24 03:05:27 [Information] Request starting "HTTP/1.1" "OPTIONS" "http"://"localhost:5062""""/api/expenses/session/12""" - null null
+2025-09-24 03:05:27 [Information] CORS policy execution successful.
+2025-09-24 03:05:27 [Information] Request starting "HTTP/1.1" "OPTIONS" "http"://"localhost:5062""""/api/expenses/session/11""" - null null
+2025-09-24 03:05:27 [Information] Request finished "HTTP/1.1" "OPTIONS" "http"://"localhost:5062""""/api/expenses/session/12""" - 204 null null 12.5934ms
+2025-09-24 03:05:27 [Information] CORS policy execution successful.
+2025-09-24 03:05:27 [Information] Request starting "HTTP/1.1" "GET" "http"://"localhost:5062""""/api/expenses/session/12""" - null null
+2025-09-24 03:05:27 [Information] Request finished "HTTP/1.1" "OPTIONS" "http"://"localhost:5062""""/api/expenses/session/11""" - 204 null null 17.4492ms
+2025-09-24 03:05:27 [Information] CORS policy execution successful.
+2025-09-24 03:05:27 [Information] Request starting "HTTP/1.1" "GET" "http"://"localhost:5062""""/api/expenses/session/11""" - null null
+2025-09-24 03:05:27 [Information] Executing endpoint '"Api.IOU.Controllers.ExpenseController.GetExpensesBySession (IOU)"'
+2025-09-24 03:05:27 [Information] CORS policy execution successful.
+2025-09-24 03:05:27 [Information] Route matched with "{action = \"GetExpensesBySession\", controller = \"Expense\"}". Executing controller action with signature "System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] GetExpensesBySession(Int32)" on controller "Api.IOU.Controllers.ExpenseController" ("IOU").
+2025-09-24 03:05:27 [Information] Executing endpoint '"Api.IOU.Controllers.ExpenseController.GetExpensesBySession (IOU)"'
+2025-09-24 03:05:27 [Information] Route matched with "{action = \"GetExpensesBySession\", controller = \"Expense\"}". Executing controller action with signature "System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] GetExpensesBySession(Int32)" on controller "Api.IOU.Controllers.ExpenseController" ("IOU").
+2025-09-24 03:05:27 [Information] Executed DbCommand ("1"ms) [Parameters=["@__sessionId_0='?' (DbType = Int32)"], CommandType='Text', CommandTimeout='30']"
+""SELECT `e`.`Id`, `e`.`CreatedAt`, `e`.`Description`, `e`.`PaidById`, `e`.`SessionId`, `e`.`TotalAmount`, `e0`.`Id`, `e0`.`Amount`, `e0`.`ExpenseId`, `e0`.`Status`, `e0`.`UserId`
+FROM `Expenses` AS `e`
+LEFT JOIN `ExpenseSplits` AS `e0` ON `e`.`Id` = `e0`.`ExpenseId`
+WHERE `e`.`SessionId` = @__sessionId_0
+ORDER BY `e`.`Id`"
+2025-09-24 03:05:27 [Information] Executed DbCommand ("1"ms) [Parameters=["@__sessionId_0='?' (DbType = Int32)"], CommandType='Text', CommandTimeout='30']"
+""SELECT `e`.`Id`, `e`.`CreatedAt`, `e`.`Description`, `e`.`PaidById`, `e`.`SessionId`, `e`.`TotalAmount`, `e0`.`Id`, `e0`.`Amount`, `e0`.`ExpenseId`, `e0`.`Status`, `e0`.`UserId`
+FROM `Expenses` AS `e`
+LEFT JOIN `ExpenseSplits` AS `e0` ON `e`.`Id` = `e0`.`ExpenseId`
+WHERE `e`.`SessionId` = @__sessionId_0
+ORDER BY `e`.`Id`"
+2025-09-24 03:05:27 [Information] Executing "OkObjectResult", writing value of type '"System.Linq.Enumerable+ListSelectIterator`2[[Api.IOU.Models.Expense, IOU, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null],[Api.IOU.DTOs.ExpenseDTO, IOU, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]"'.
+2025-09-24 03:05:27 [Information] Executing "OkObjectResult", writing value of type '"System.Linq.Enumerable+ListSelectIterator`2[[Api.IOU.Models.Expense, IOU, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null],[Api.IOU.DTOs.ExpenseDTO, IOU, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]"'.
+2025-09-24 03:05:27 [Information] Executed action "Api.IOU.Controllers.ExpenseController.GetExpensesBySession (IOU)" in 10.8656ms
+2025-09-24 03:05:27 [Information] Executed action "Api.IOU.Controllers.ExpenseController.GetExpensesBySession (IOU)" in 7.5182ms
+2025-09-24 03:05:27 [Information] Executed endpoint '"Api.IOU.Controllers.ExpenseController.GetExpensesBySession (IOU)"'
+2025-09-24 03:05:27 [Information] Executed endpoint '"Api.IOU.Controllers.ExpenseController.GetExpensesBySession (IOU)"'
+2025-09-24 03:05:27 [Information] Request finished "HTTP/1.1" "GET" "http"://"localhost:5062""""/api/expenses/session/12""" - 200 null "application/json; charset=utf-8" 31.423ms
+2025-09-24 03:05:27 [Information] Request finished "HTTP/1.1" "GET" "http"://"localhost:5062""""/api/expenses/session/11""" - 200 null "application/json; charset=utf-8" 25.1489ms
+2025-09-24 03:05:29 [Information] Request starting "HTTP/1.1" "OPTIONS" "http"://"localhost:5062""""/api/sessions/12/add/7""" - null null
+2025-09-24 03:05:29 [Information] CORS policy execution successful.
+2025-09-24 03:05:29 [Information] Request finished "HTTP/1.1" "OPTIONS" "http"://"localhost:5062""""/api/sessions/12/add/7""" - 204 null null 2.5407ms
+2025-09-24 03:05:29 [Information] Request starting "HTTP/1.1" "POST" "http"://"localhost:5062""""/api/sessions/12/add/7""" - "application/json" 2
+2025-09-24 03:05:29 [Information] CORS policy execution successful.
+2025-09-24 03:05:29 [Information] Executing endpoint '"Api.IOU.Controllers.SessionController.AddUserToSession (IOU)"'
+2025-09-24 03:05:29 [Information] Route matched with "{action = \"AddUserToSession\", controller = \"Session\"}". Executing controller action with signature "System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] AddUserToSession(Int32, Int32)" on controller "Api.IOU.Controllers.SessionController" ("IOU").
+2025-09-24 03:05:29 [Information] Executed DbCommand ("1"ms) [Parameters=["@__id_0='?' (DbType = Int32)"], CommandType='Text', CommandTimeout='30']"
+""SELECT `s1`.`Id`, `s1`.`CreatedAt`, `s1`.`CreatedById`, `s1`.`Name`, `s2`.`SessionId`, `s2`.`UserId`, `s2`.`Id`, `s2`.`Avatar`, `s2`.`Email`, `s2`.`Password`, `s2`.`Username`, `s3`.`Id`, `s3`.`CreatedAt`, `s3`.`Description`, `s3`.`PaidById`, `s3`.`SessionId`, `s3`.`TotalAmount`, `s3`.`Id0`, `s3`.`Amount`, `s3`.`ExpenseId`, `s3`.`Status`, `s3`.`UserId`
+FROM (
+    SELECT `s`.`Id`, `s`.`CreatedAt`, `s`.`CreatedById`, `s`.`Name`
+    FROM `Sessions` AS `s`
+    WHERE `s`.`Id` = @__id_0
+    LIMIT 1
+) AS `s1`
+LEFT JOIN (
+    SELECT `s0`.`SessionId`, `s0`.`UserId`, `u`.`Id`, `u`.`Avatar`, `u`.`Email`, `u`.`Password`, `u`.`Username`
+    FROM `Sessionusers` AS `s0`
+    INNER JOIN `Users` AS `u` ON `s0`.`UserId` = `u`.`Id`
+) AS `s2` ON `s1`.`Id` = `s2`.`SessionId`
+LEFT JOIN (
+    SELECT `e`.`Id`, `e`.`CreatedAt`, `e`.`Description`, `e`.`PaidById`, `e`.`SessionId`, `e`.`TotalAmount`, `e0`.`Id` AS `Id0`, `e0`.`Amount`, `e0`.`ExpenseId`, `e0`.`Status`, `e0`.`UserId`
+    FROM `Expenses` AS `e`
+    LEFT JOIN `ExpenseSplits` AS `e0` ON `e`.`Id` = `e0`.`ExpenseId`
+) AS `s3` ON `s1`.`Id` = `s3`.`SessionId`
+ORDER BY `s1`.`Id`, `s2`.`SessionId`, `s2`.`UserId`, `s2`.`Id`, `s3`.`Id`"
+2025-09-24 03:05:29 [Information] Executed DbCommand ("0"ms) [Parameters=["@__p_0='?' (DbType = Int32)"], CommandType='Text', CommandTimeout='30']"
+""SELECT `u`.`Id`, `u`.`Avatar`, `u`.`Email`, `u`.`Password`, `u`.`Username`
+FROM `Users` AS `u`
+WHERE `u`.`Id` = @__p_0
+LIMIT 1"
+2025-09-24 03:05:29 [Information] Executed DbCommand ("1"ms) [Parameters=["@__userId_0='?' (DbType = Int32), @__friendId_1='?' (DbType = Int32)"], CommandType='Text', CommandTimeout='30']"
+""SELECT `f`.`Id`, `f`.`FriendId`, `f`.`Status`, `f`.`UserId`
+FROM `Friendships` AS `f`
+WHERE ((`f`.`UserId` = @__userId_0) AND (`f`.`FriendId` = @__friendId_1)) OR ((`f`.`UserId` = @__friendId_1) AND (`f`.`FriendId` = @__userId_0))
+LIMIT 1"
+2025-09-24 03:05:29 [Information] Executed DbCommand ("5"ms) [Parameters=["@p0='?' (DbType = Int32), @p1='?' (DbType = Int32)"], CommandType='Text', CommandTimeout='30']"
+""SET AUTOCOMMIT = 1;
+INSERT INTO `Sessionusers` (`SessionId`, `UserId`)
+VALUES (@p0, @p1);"
+2025-09-24 03:05:29 [Information] Executed DbCommand ("1"ms) [Parameters=["@p0='?' (Size = 4000), @p1='?' (DbType = Int32), @p2='?' (DbType = Int32)"], CommandType='Text', CommandTimeout='30']"
+""INSERT INTO `notificationsession` (`Message`, `SessionId`, `UserId`)
+VALUES (@p0, @p1, @p2);
+SELECT `Id`
+FROM `notificationsession`
+WHERE ROW_COUNT() = 1 AND `Id` = LAST_INSERT_ID();"
+2025-09-24 03:05:29 [Information] Executing "OkObjectResult", writing value of type '"<>f__AnonymousType0`1[[System.String, System.Private.CoreLib, Version=9.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]"'.
+2025-09-24 03:05:29 [Information] Executed action "Api.IOU.Controllers.SessionController.AddUserToSession (IOU)" in 72.7109ms
+2025-09-24 03:05:29 [Information] Executed endpoint '"Api.IOU.Controllers.SessionController.AddUserToSession (IOU)"'
+2025-09-24 03:05:29 [Information] Request finished "HTTP/1.1" "POST" "http"://"localhost:5062""""/api/sessions/12/add/7""" - 200 null "application/json; charset=utf-8" 86.3844ms
+2025-09-24 03:05:29 [Information] Request starting "HTTP/1.1" "GET" "http"://"localhost:5062""""/api/sessions/my-sessions""" - "application/json" null
+2025-09-24 03:05:29 [Information] CORS policy execution successful.
+2025-09-24 03:05:29 [Information] Executing endpoint '"Api.IOU.Controllers.SessionController.GetMySessions (IOU)"'
+2025-09-24 03:05:29 [Information] Route matched with "{action = \"GetMySessions\", controller = \"Session\"}". Executing controller action with signature "System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] GetMySessions()" on controller "Api.IOU.Controllers.SessionController" ("IOU").
+2025-09-24 03:05:29 [Information] Executed DbCommand ("0"ms) [Parameters=["@__p_0='?' (DbType = Int32)"], CommandType='Text', CommandTimeout='30']"
+""SELECT `u`.`Id`, `u`.`Avatar`, `u`.`Email`, `u`.`Password`, `u`.`Username`
+FROM `Users` AS `u`
+WHERE `u`.`Id` = @__p_0
+LIMIT 1"
+2025-09-24 03:05:29 [Information] Executed DbCommand ("1"ms) [Parameters=["@__userId_0='?' (DbType = Int32)"], CommandType='Text', CommandTimeout='30']"
+""SELECT `s`.`SessionId`, `s`.`UserId`, `s0`.`Id`, `s0`.`CreatedAt`, `s0`.`CreatedById`, `s0`.`Name`, `s2`.`SessionId`, `s2`.`UserId`, `s2`.`Id`, `s2`.`Avatar`, `s2`.`Email`, `s2`.`Password`, `s2`.`Username`
+FROM `Sessionusers` AS `s`
+INNER JOIN `Sessions` AS `s0` ON `s`.`SessionId` = `s0`.`Id`
+LEFT JOIN (
+    SELECT `s1`.`SessionId`, `s1`.`UserId`, `u`.`Id`, `u`.`Avatar`, `u`.`Email`, `u`.`Password`, `u`.`Username`
+    FROM `Sessionusers` AS `s1`
+    INNER JOIN `Users` AS `u` ON `s1`.`UserId` = `u`.`Id`
+) AS `s2` ON `s0`.`Id` = `s2`.`SessionId`
+WHERE `s`.`UserId` = @__userId_0
+ORDER BY `s`.`SessionId`, `s`.`UserId`, `s0`.`Id`, `s2`.`SessionId`, `s2`.`UserId`"
+2025-09-24 03:05:29 [Information] Executing "OkObjectResult", writing value of type '"System.Linq.Enumerable+IteratorSelectIterator`2[[Api.IOU.Models.Session, IOU, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null],[Api.IOU.DTOs.SessionDTO, IOU, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]"'.
+2025-09-24 03:05:29 [Information] Executed action "Api.IOU.Controllers.SessionController.GetMySessions (IOU)" in 9.6288ms
+2025-09-24 03:05:29 [Information] Executed endpoint '"Api.IOU.Controllers.SessionController.GetMySessions (IOU)"'
+2025-09-24 03:05:29 [Information] Request finished "HTTP/1.1" "GET" "http"://"localhost:5062""""/api/sessions/my-sessions""" - 200 null "application/json; charset=utf-8" 22.1761ms
+2025-09-24 03:05:29 [Information] Request starting "HTTP/1.1" "GET" "http"://"localhost:5062""""/api/expenses/session/12""" - null null
+2025-09-24 03:05:29 [Information] Request starting "HTTP/1.1" "GET" "http"://"localhost:5062""""/api/expenses/session/11""" - null null
+2025-09-24 03:05:29 [Information] CORS policy execution successful.
+2025-09-24 03:05:29 [Information] CORS policy execution successful.
+2025-09-24 03:05:29 [Information] Executing endpoint '"Api.IOU.Controllers.ExpenseController.GetExpensesBySession (IOU)"'
+2025-09-24 03:05:29 [Information] Executing endpoint '"Api.IOU.Controllers.ExpenseController.GetExpensesBySession (IOU)"'
+2025-09-24 03:05:29 [Information] Route matched with "{action = \"GetExpensesBySession\", controller = \"Expense\"}". Executing controller action with signature "System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] GetExpensesBySession(Int32)" on controller "Api.IOU.Controllers.ExpenseController" ("IOU").
+2025-09-24 03:05:29 [Information] Route matched with "{action = \"GetExpensesBySession\", controller = \"Expense\"}". Executing controller action with signature "System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] GetExpensesBySession(Int32)" on controller "Api.IOU.Controllers.ExpenseController" ("IOU").
+2025-09-24 03:05:29 [Information] Executed DbCommand ("1"ms) [Parameters=["@__sessionId_0='?' (DbType = Int32)"], CommandType='Text', CommandTimeout='30']"
+""SELECT `e`.`Id`, `e`.`CreatedAt`, `e`.`Description`, `e`.`PaidById`, `e`.`SessionId`, `e`.`TotalAmount`, `e0`.`Id`, `e0`.`Amount`, `e0`.`ExpenseId`, `e0`.`Status`, `e0`.`UserId`
+FROM `Expenses` AS `e`
+LEFT JOIN `ExpenseSplits` AS `e0` ON `e`.`Id` = `e0`.`ExpenseId`
+WHERE `e`.`SessionId` = @__sessionId_0
+ORDER BY `e`.`Id`"
+2025-09-24 03:05:29 [Information] Executed DbCommand ("1"ms) [Parameters=["@__sessionId_0='?' (DbType = Int32)"], CommandType='Text', CommandTimeout='30']"
+""SELECT `e`.`Id`, `e`.`CreatedAt`, `e`.`Description`, `e`.`PaidById`, `e`.`SessionId`, `e`.`TotalAmount`, `e0`.`Id`, `e0`.`Amount`, `e0`.`ExpenseId`, `e0`.`Status`, `e0`.`UserId`
+FROM `Expenses` AS `e`
+LEFT JOIN `ExpenseSplits` AS `e0` ON `e`.`Id` = `e0`.`ExpenseId`
+WHERE `e`.`SessionId` = @__sessionId_0
+ORDER BY `e`.`Id`"
+2025-09-24 03:05:29 [Information] Executing "OkObjectResult", writing value of type '"System.Linq.Enumerable+ListSelectIterator`2[[Api.IOU.Models.Expense, IOU, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null],[Api.IOU.DTOs.ExpenseDTO, IOU, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]"'.
+2025-09-24 03:05:29 [Information] Executing "OkObjectResult", writing value of type '"System.Linq.Enumerable+ListSelectIterator`2[[Api.IOU.Models.Expense, IOU, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null],[Api.IOU.DTOs.ExpenseDTO, IOU, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]"'.
+2025-09-24 03:05:29 [Information] Executed action "Api.IOU.Controllers.ExpenseController.GetExpensesBySession (IOU)" in 7.6529ms
+2025-09-24 03:05:29 [Information] Executed action "Api.IOU.Controllers.ExpenseController.GetExpensesBySession (IOU)" in 6.5319ms
+2025-09-24 03:05:29 [Information] Executed endpoint '"Api.IOU.Controllers.ExpenseController.GetExpensesBySession (IOU)"'
+2025-09-24 03:05:29 [Information] Executed endpoint '"Api.IOU.Controllers.ExpenseController.GetExpensesBySession (IOU)"'
+2025-09-24 03:05:29 [Information] Request finished "HTTP/1.1" "GET" "http"://"localhost:5062""""/api/expenses/session/12""" - 200 null "application/json; charset=utf-8" 24.8375ms
+2025-09-24 03:05:29 [Information] Request finished "HTTP/1.1" "GET" "http"://"localhost:5062""""/api/expenses/session/11""" - 200 null "application/json; charset=utf-8" 24.9842ms
+2025-09-24 03:06:44 [Information] Request starting "HTTP/1.1" "OPTIONS" "http"://"localhost:5062""""/api/expenses""" - null null
+2025-09-24 03:06:44 [Information] CORS policy execution successful.
+2025-09-24 03:06:44 [Information] Request finished "HTTP/1.1" "OPTIONS" "http"://"localhost:5062""""/api/expenses""" - 204 null null 2.7568ms
+2025-09-24 03:06:44 [Information] Request starting "HTTP/1.1" "POST" "http"://"localhost:5062""""/api/expenses""" - "application/json" 214
+2025-09-24 03:06:44 [Information] CORS policy execution successful.
+2025-09-24 03:06:44 [Information] Executing endpoint '"Api.IOU.Controllers.ExpenseController.CreateExpense (IOU)"'
+2025-09-24 03:06:44 [Information] Route matched with "{action = \"CreateExpense\", controller = \"Expense\"}". Executing controller action with signature "System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] CreateExpense(Api.IOU.DTOs.AddExpenseDTO)" on controller "Api.IOU.Controllers.ExpenseController" ("IOU").
+2025-09-24 03:06:44 [Information] Executed DbCommand ("1"ms) [Parameters=["@__id_0='?' (DbType = Int32)"], CommandType='Text', CommandTimeout='30']"
+""SELECT `s1`.`Id`, `s1`.`CreatedAt`, `s1`.`CreatedById`, `s1`.`Name`, `s2`.`SessionId`, `s2`.`UserId`, `s2`.`Id`, `s2`.`Avatar`, `s2`.`Email`, `s2`.`Password`, `s2`.`Username`, `s3`.`Id`, `s3`.`CreatedAt`, `s3`.`Description`, `s3`.`PaidById`, `s3`.`SessionId`, `s3`.`TotalAmount`, `s3`.`Id0`, `s3`.`Amount`, `s3`.`ExpenseId`, `s3`.`Status`, `s3`.`UserId`
+FROM (
+    SELECT `s`.`Id`, `s`.`CreatedAt`, `s`.`CreatedById`, `s`.`Name`
+    FROM `Sessions` AS `s`
+    WHERE `s`.`Id` = @__id_0
+    LIMIT 1
+) AS `s1`
+LEFT JOIN (
+    SELECT `s0`.`SessionId`, `s0`.`UserId`, `u`.`Id`, `u`.`Avatar`, `u`.`Email`, `u`.`Password`, `u`.`Username`
+    FROM `Sessionusers` AS `s0`
+    INNER JOIN `Users` AS `u` ON `s0`.`UserId` = `u`.`Id`
+) AS `s2` ON `s1`.`Id` = `s2`.`SessionId`
+LEFT JOIN (
+    SELECT `e`.`Id`, `e`.`CreatedAt`, `e`.`Description`, `e`.`PaidById`, `e`.`SessionId`, `e`.`TotalAmount`, `e0`.`Id` AS `Id0`, `e0`.`Amount`, `e0`.`ExpenseId`, `e0`.`Status`, `e0`.`UserId`
+    FROM `Expenses` AS `e`
+    LEFT JOIN `ExpenseSplits` AS `e0` ON `e`.`Id` = `e0`.`ExpenseId`
+) AS `s3` ON `s1`.`Id` = `s3`.`SessionId`
+ORDER BY `s1`.`Id`, `s2`.`SessionId`, `s2`.`UserId`, `s2`.`Id`, `s3`.`Id`"
+2025-09-24 03:06:44 [Information] Executed DbCommand ("1"ms) [Parameters=["@p0='?' (DbType = DateTime), @p1='?' (Size = 500), @p2='?' (DbType = Int32), @p3='?' (DbType = Int32), @p4='?' (DbType = Decimal)"], CommandType='Text', CommandTimeout='30']"
+""INSERT INTO `Expenses` (`CreatedAt`, `Description`, `PaidById`, `SessionId`, `TotalAmount`)
+VALUES (@p0, @p1, @p2, @p3, @p4);
+SELECT `Id`
+FROM `Expenses`
+WHERE ROW_COUNT() = 1 AND `Id` = LAST_INSERT_ID();"
+2025-09-24 03:06:44 [Information] Executed DbCommand ("1"ms) [Parameters=["@p5='?' (DbType = Decimal), @p6='?' (DbType = Int32), @p7='?' (Size = 4000), @p8='?' (DbType = Int32), @p9='?' (DbType = Decimal), @p10='?' (DbType = Int32), @p11='?' (Size = 4000), @p12='?' (DbType = Int32)"], CommandType='Text', CommandTimeout='30']"
+""INSERT INTO `ExpenseSplits` (`Amount`, `ExpenseId`, `Status`, `UserId`)
+VALUES (@p5, @p6, @p7, @p8);
+SELECT `Id`
+FROM `ExpenseSplits`
+WHERE ROW_COUNT() = 1 AND `Id` = LAST_INSERT_ID();
+
+INSERT INTO `ExpenseSplits` (`Amount`, `ExpenseId`, `Status`, `UserId`)
+VALUES (@p9, @p10, @p11, @p12);
+SELECT `Id`
+FROM `ExpenseSplits`
+WHERE ROW_COUNT() = 1 AND `Id` = LAST_INSERT_ID();"
+2025-09-24 03:06:44 [Information] Expense with ID 5 created in session 12
+2025-09-24 03:06:44 [Information] Executing "OkObjectResult", writing value of type '"Api.IOU.DTOs.ExpenseDTO"'.
+2025-09-24 03:06:44 [Information] Executed action "Api.IOU.Controllers.ExpenseController.CreateExpense (IOU)" in 42.4023ms
+2025-09-24 03:06:44 [Information] Executed endpoint '"Api.IOU.Controllers.ExpenseController.CreateExpense (IOU)"'
+2025-09-24 03:06:44 [Information] Request finished "HTTP/1.1" "POST" "http"://"localhost:5062""""/api/expenses""" - 200 null "application/json; charset=utf-8" 53.8518ms
+2025-09-24 03:06:52 [Information] Request starting "HTTP/1.1" "OPTIONS" "http"://"localhost:5062""""/api/sessions/my-sessions""" - null null
+2025-09-24 03:06:52 [Information] Request starting "HTTP/1.1" "OPTIONS" "http"://"localhost:5062""""/api/friendship/friends""" - null null
+2025-09-24 03:06:52 [Information] CORS policy execution successful.
+2025-09-24 03:06:52 [Information] CORS policy execution successful.
+2025-09-24 03:06:52 [Information] Request finished "HTTP/1.1" "OPTIONS" "http"://"localhost:5062""""/api/friendship/friends""" - 204 null null 44.9488ms
+2025-09-24 03:06:52 [Information] Request finished "HTTP/1.1" "OPTIONS" "http"://"localhost:5062""""/api/sessions/my-sessions""" - 204 null null 52.3143ms
+2025-09-24 03:06:52 [Information] Request starting "HTTP/1.1" "GET" "http"://"localhost:5062""""/api/sessions/my-sessions""" - "application/json" null
+2025-09-24 03:06:52 [Information] Request starting "HTTP/1.1" "GET" "http"://"localhost:5062""""/api/friendship/friends""" - null null
+2025-09-24 03:06:52 [Information] CORS policy execution successful.
+2025-09-24 03:06:52 [Information] CORS policy execution successful.
+2025-09-24 03:06:52 [Information] Executing endpoint '"Api.IOU.Controllers.SessionController.GetMySessions (IOU)"'
+2025-09-24 03:06:52 [Information] Executing endpoint '"Api.IOU.Controllers.FriendshipController.GetFriends (IOU)"'
+2025-09-24 03:06:52 [Information] Route matched with "{action = \"GetFriends\", controller = \"Friendship\"}". Executing controller action with signature "System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] GetFriends()" on controller "Api.IOU.Controllers.FriendshipController" ("IOU").
+2025-09-24 03:06:52 [Information] Route matched with "{action = \"GetMySessions\", controller = \"Session\"}". Executing controller action with signature "System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] GetMySessions()" on controller "Api.IOU.Controllers.SessionController" ("IOU").
+2025-09-24 03:06:52 [Information] Executed DbCommand ("1"ms) [Parameters=["@__userId_0='?' (DbType = Int32)"], CommandType='Text', CommandTimeout='30']"
+""SELECT `f`.`Id`, `f`.`FriendId`, `f`.`Status`, `f`.`UserId`, `u`.`Id`, `u`.`Avatar`, `u`.`Email`, `u`.`Password`, `u`.`Username`, `u0`.`Id`, `u0`.`Avatar`, `u0`.`Email`, `u0`.`Password`, `u0`.`Username`
+FROM `Friendships` AS `f`
+INNER JOIN `Users` AS `u` ON `f`.`UserId` = `u`.`Id`
+INNER JOIN `Users` AS `u0` ON `f`.`FriendId` = `u0`.`Id`
+WHERE (`f`.`UserId` = @__userId_0) OR (`f`.`FriendId` = @__userId_0)"
+2025-09-24 03:06:52 [Information] Executed DbCommand ("2"ms) [Parameters=["@__p_0='?' (DbType = Int32)"], CommandType='Text', CommandTimeout='30']"
+""SELECT `u`.`Id`, `u`.`Avatar`, `u`.`Email`, `u`.`Password`, `u`.`Username`
+FROM `Users` AS `u`
+WHERE `u`.`Id` = @__p_0
+LIMIT 1"
+2025-09-24 03:06:52 [Information] Friendlist for user with ID 11 was found and returned
+2025-09-24 03:06:52 [Information] Executing "OkObjectResult", writing value of type '"System.Linq.Enumerable+ListWhereSelectIterator`2[[Api.IOU.Models.Friendship, IOU, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null],[Api.IOU.DTOs.FriendshipDTO, IOU, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]"'.
+2025-09-24 03:06:52 [Information] Executed DbCommand ("1"ms) [Parameters=["@__userId_0='?' (DbType = Int32)"], CommandType='Text', CommandTimeout='30']"
+""SELECT `s`.`SessionId`, `s`.`UserId`, `s0`.`Id`, `s0`.`CreatedAt`, `s0`.`CreatedById`, `s0`.`Name`, `s2`.`SessionId`, `s2`.`UserId`, `s2`.`Id`, `s2`.`Avatar`, `s2`.`Email`, `s2`.`Password`, `s2`.`Username`
+FROM `Sessionusers` AS `s`
+INNER JOIN `Sessions` AS `s0` ON `s`.`SessionId` = `s0`.`Id`
+LEFT JOIN (
+    SELECT `s1`.`SessionId`, `s1`.`UserId`, `u`.`Id`, `u`.`Avatar`, `u`.`Email`, `u`.`Password`, `u`.`Username`
+    FROM `Sessionusers` AS `s1`
+    INNER JOIN `Users` AS `u` ON `s1`.`UserId` = `u`.`Id`
+) AS `s2` ON `s0`.`Id` = `s2`.`SessionId`
+WHERE `s`.`UserId` = @__userId_0
+ORDER BY `s`.`SessionId`, `s`.`UserId`, `s0`.`Id`, `s2`.`SessionId`, `s2`.`UserId`"
+2025-09-24 03:06:52 [Information] Executed action "Api.IOU.Controllers.FriendshipController.GetFriends (IOU)" in 11.0769ms
+2025-09-24 03:06:52 [Information] Executing "OkObjectResult", writing value of type '"System.Linq.Enumerable+IteratorSelectIterator`2[[Api.IOU.Models.Session, IOU, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null],[Api.IOU.DTOs.SessionDTO, IOU, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]"'.
+2025-09-24 03:06:52 [Information] Executed action "Api.IOU.Controllers.SessionController.GetMySessions (IOU)" in 24.8793ms
+2025-09-24 03:06:52 [Information] Executed endpoint '"Api.IOU.Controllers.FriendshipController.GetFriends (IOU)"'
+2025-09-24 03:06:52 [Information] Executed endpoint '"Api.IOU.Controllers.SessionController.GetMySessions (IOU)"'
+2025-09-24 03:06:52 [Information] Request finished "HTTP/1.1" "GET" "http"://"localhost:5062""""/api/sessions/my-sessions""" - 200 null "application/json; charset=utf-8" 86.0914ms
+2025-09-24 03:06:52 [Information] Request starting "HTTP/1.1" "OPTIONS" "http"://"localhost:5062""""/api/expenses/session/11""" - null null
+2025-09-24 03:06:52 [Information] CORS policy execution successful.
+2025-09-24 03:06:52 [Information] Request finished "HTTP/1.1" "GET" "http"://"localhost:5062""""/api/friendship/friends""" - 200 null "application/json; charset=utf-8" 80.3009ms
+2025-09-24 03:06:52 [Information] Request finished "HTTP/1.1" "OPTIONS" "http"://"localhost:5062""""/api/expenses/session/11""" - 204 null null 22.6009ms
+2025-09-24 03:06:52 [Information] Request starting "HTTP/1.1" "OPTIONS" "http"://"localhost:5062""""/api/expenses/session/12""" - null null
+2025-09-24 03:06:52 [Information] Request starting "HTTP/1.1" "GET" "http"://"localhost:5062""""/api/expenses/session/11""" - null null
+2025-09-24 03:06:52 [Information] CORS policy execution successful.
+2025-09-24 03:06:52 [Information] Request finished "HTTP/1.1" "OPTIONS" "http"://"localhost:5062""""/api/expenses/session/12""" - 204 null null 15.4695ms
+2025-09-24 03:06:52 [Information] Request starting "HTTP/1.1" "GET" "http"://"localhost:5062""""/api/expenses/session/12""" - null null
+2025-09-24 03:06:52 [Information] CORS policy execution successful.
+2025-09-24 03:06:52 [Information] CORS policy execution successful.
+2025-09-24 03:06:52 [Information] Executing endpoint '"Api.IOU.Controllers.ExpenseController.GetExpensesBySession (IOU)"'
+2025-09-24 03:06:52 [Information] Executing endpoint '"Api.IOU.Controllers.ExpenseController.GetExpensesBySession (IOU)"'
+2025-09-24 03:06:52 [Information] Route matched with "{action = \"GetExpensesBySession\", controller = \"Expense\"}". Executing controller action with signature "System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] GetExpensesBySession(Int32)" on controller "Api.IOU.Controllers.ExpenseController" ("IOU").
+2025-09-24 03:06:52 [Information] Route matched with "{action = \"GetExpensesBySession\", controller = \"Expense\"}". Executing controller action with signature "System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] GetExpensesBySession(Int32)" on controller "Api.IOU.Controllers.ExpenseController" ("IOU").
+2025-09-24 03:06:52 [Information] Executed DbCommand ("2"ms) [Parameters=["@__sessionId_0='?' (DbType = Int32)"], CommandType='Text', CommandTimeout='30']"
+""SELECT `e`.`Id`, `e`.`CreatedAt`, `e`.`Description`, `e`.`PaidById`, `e`.`SessionId`, `e`.`TotalAmount`, `e0`.`Id`, `e0`.`Amount`, `e0`.`ExpenseId`, `e0`.`Status`, `e0`.`UserId`
+FROM `Expenses` AS `e`
+LEFT JOIN `ExpenseSplits` AS `e0` ON `e`.`Id` = `e0`.`ExpenseId`
+WHERE `e`.`SessionId` = @__sessionId_0
+ORDER BY `e`.`Id`"
+2025-09-24 03:06:52 [Information] Executed DbCommand ("1"ms) [Parameters=["@__sessionId_0='?' (DbType = Int32)"], CommandType='Text', CommandTimeout='30']"
+""SELECT `e`.`Id`, `e`.`CreatedAt`, `e`.`Description`, `e`.`PaidById`, `e`.`SessionId`, `e`.`TotalAmount`, `e0`.`Id`, `e0`.`Amount`, `e0`.`ExpenseId`, `e0`.`Status`, `e0`.`UserId`
+FROM `Expenses` AS `e`
+LEFT JOIN `ExpenseSplits` AS `e0` ON `e`.`Id` = `e0`.`ExpenseId`
+WHERE `e`.`SessionId` = @__sessionId_0
+ORDER BY `e`.`Id`"
+2025-09-24 03:06:52 [Information] Executing "OkObjectResult", writing value of type '"System.Linq.Enumerable+ListSelectIterator`2[[Api.IOU.Models.Expense, IOU, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null],[Api.IOU.DTOs.ExpenseDTO, IOU, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]"'.
+2025-09-24 03:06:52 [Information] Executing "OkObjectResult", writing value of type '"System.Linq.Enumerable+ListSelectIterator`2[[Api.IOU.Models.Expense, IOU, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null],[Api.IOU.DTOs.ExpenseDTO, IOU, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]"'.
+2025-09-24 03:06:52 [Information] Executed action "Api.IOU.Controllers.ExpenseController.GetExpensesBySession (IOU)" in 13.193ms
+2025-09-24 03:06:52 [Information] Executed action "Api.IOU.Controllers.ExpenseController.GetExpensesBySession (IOU)" in 9.5818ms
+2025-09-24 03:06:52 [Information] Executed endpoint '"Api.IOU.Controllers.ExpenseController.GetExpensesBySession (IOU)"'
+2025-09-24 03:06:52 [Information] Executed endpoint '"Api.IOU.Controllers.ExpenseController.GetExpensesBySession (IOU)"'
+2025-09-24 03:06:52 [Information] Request finished "HTTP/1.1" "GET" "http"://"localhost:5062""""/api/expenses/session/12""" - 200 null "application/json; charset=utf-8" 37.0931ms
+2025-09-24 03:06:52 [Information] Request finished "HTTP/1.1" "GET" "http"://"localhost:5062""""/api/expenses/session/11""" - 200 null "application/json; charset=utf-8" 47.1079ms
+2025-09-24 03:07:57 [Information] Request starting "HTTP/1.1" "OPTIONS" "http"://"localhost:5062""""/api/expenses""" - null null
+2025-09-24 03:07:57 [Information] CORS policy execution successful.
+2025-09-24 03:07:57 [Information] Request finished "HTTP/1.1" "OPTIONS" "http"://"localhost:5062""""/api/expenses""" - 204 null null 2.3926ms
+2025-09-24 03:07:57 [Information] Request starting "HTTP/1.1" "POST" "http"://"localhost:5062""""/api/expenses""" - "application/json" 217
+2025-09-24 03:07:57 [Information] CORS policy execution successful.
+2025-09-24 03:07:57 [Information] Executing endpoint '"Api.IOU.Controllers.ExpenseController.CreateExpense (IOU)"'
+2025-09-24 03:07:57 [Information] Route matched with "{action = \"CreateExpense\", controller = \"Expense\"}". Executing controller action with signature "System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] CreateExpense(Api.IOU.DTOs.AddExpenseDTO)" on controller "Api.IOU.Controllers.ExpenseController" ("IOU").
+2025-09-24 03:07:57 [Information] Executed DbCommand ("1"ms) [Parameters=["@__id_0='?' (DbType = Int32)"], CommandType='Text', CommandTimeout='30']"
+""SELECT `s1`.`Id`, `s1`.`CreatedAt`, `s1`.`CreatedById`, `s1`.`Name`, `s2`.`SessionId`, `s2`.`UserId`, `s2`.`Id`, `s2`.`Avatar`, `s2`.`Email`, `s2`.`Password`, `s2`.`Username`, `s3`.`Id`, `s3`.`CreatedAt`, `s3`.`Description`, `s3`.`PaidById`, `s3`.`SessionId`, `s3`.`TotalAmount`, `s3`.`Id0`, `s3`.`Amount`, `s3`.`ExpenseId`, `s3`.`Status`, `s3`.`UserId`
+FROM (
+    SELECT `s`.`Id`, `s`.`CreatedAt`, `s`.`CreatedById`, `s`.`Name`
+    FROM `Sessions` AS `s`
+    WHERE `s`.`Id` = @__id_0
+    LIMIT 1
+) AS `s1`
+LEFT JOIN (
+    SELECT `s0`.`SessionId`, `s0`.`UserId`, `u`.`Id`, `u`.`Avatar`, `u`.`Email`, `u`.`Password`, `u`.`Username`
+    FROM `Sessionusers` AS `s0`
+    INNER JOIN `Users` AS `u` ON `s0`.`UserId` = `u`.`Id`
+) AS `s2` ON `s1`.`Id` = `s2`.`SessionId`
+LEFT JOIN (
+    SELECT `e`.`Id`, `e`.`CreatedAt`, `e`.`Description`, `e`.`PaidById`, `e`.`SessionId`, `e`.`TotalAmount`, `e0`.`Id` AS `Id0`, `e0`.`Amount`, `e0`.`ExpenseId`, `e0`.`Status`, `e0`.`UserId`
+    FROM `Expenses` AS `e`
+    LEFT JOIN `ExpenseSplits` AS `e0` ON `e`.`Id` = `e0`.`ExpenseId`
+) AS `s3` ON `s1`.`Id` = `s3`.`SessionId`
+ORDER BY `s1`.`Id`, `s2`.`SessionId`, `s2`.`UserId`, `s2`.`Id`, `s3`.`Id`"
+2025-09-24 03:07:57 [Information] Executed DbCommand ("1"ms) [Parameters=["@p0='?' (DbType = DateTime), @p1='?' (Size = 500), @p2='?' (DbType = Int32), @p3='?' (DbType = Int32), @p4='?' (DbType = Decimal)"], CommandType='Text', CommandTimeout='30']"
+""INSERT INTO `Expenses` (`CreatedAt`, `Description`, `PaidById`, `SessionId`, `TotalAmount`)
+VALUES (@p0, @p1, @p2, @p3, @p4);
+SELECT `Id`
+FROM `Expenses`
+WHERE ROW_COUNT() = 1 AND `Id` = LAST_INSERT_ID();"
+2025-09-24 03:07:57 [Information] Executed DbCommand ("1"ms) [Parameters=["@p5='?' (DbType = Decimal), @p6='?' (DbType = Int32), @p7='?' (Size = 4000), @p8='?' (DbType = Int32), @p9='?' (DbType = Decimal), @p10='?' (DbType = Int32), @p11='?' (Size = 4000), @p12='?' (DbType = Int32)"], CommandType='Text', CommandTimeout='30']"
+""INSERT INTO `ExpenseSplits` (`Amount`, `ExpenseId`, `Status`, `UserId`)
+VALUES (@p5, @p6, @p7, @p8);
+SELECT `Id`
+FROM `ExpenseSplits`
+WHERE ROW_COUNT() = 1 AND `Id` = LAST_INSERT_ID();
+
+INSERT INTO `ExpenseSplits` (`Amount`, `ExpenseId`, `Status`, `UserId`)
+VALUES (@p9, @p10, @p11, @p12);
+SELECT `Id`
+FROM `ExpenseSplits`
+WHERE ROW_COUNT() = 1 AND `Id` = LAST_INSERT_ID();"
+2025-09-24 03:07:57 [Information] Expense with ID 6 created in session 12
+2025-09-24 03:07:57 [Information] Executing "OkObjectResult", writing value of type '"Api.IOU.DTOs.ExpenseDTO"'.
+2025-09-24 03:07:57 [Information] Executed action "Api.IOU.Controllers.ExpenseController.CreateExpense (IOU)" in 18.5709ms
+2025-09-24 03:07:57 [Information] Executed endpoint '"Api.IOU.Controllers.ExpenseController.CreateExpense (IOU)"'
+2025-09-24 03:07:57 [Information] Request finished "HTTP/1.1" "POST" "http"://"localhost:5062""""/api/expenses""" - 200 null "application/json; charset=utf-8" 25.5515ms
+2025-09-24 03:07:58 [Information] Request starting "HTTP/1.1" "OPTIONS" "http"://"localhost:5062""""/api/sessions/my-sessions""" - null null
+2025-09-24 03:07:58 [Information] Request starting "HTTP/1.1" "OPTIONS" "http"://"localhost:5062""""/api/friendship/friends""" - null null
+2025-09-24 03:07:58 [Information] CORS policy execution successful.
+2025-09-24 03:07:58 [Information] CORS policy execution successful.
+2025-09-24 03:07:58 [Information] Request finished "HTTP/1.1" "OPTIONS" "http"://"localhost:5062""""/api/friendship/friends""" - 204 null null 4.7999ms
+2025-09-24 03:07:58 [Information] Request finished "HTTP/1.1" "OPTIONS" "http"://"localhost:5062""""/api/sessions/my-sessions""" - 204 null null 4.7426ms
+2025-09-24 03:07:58 [Information] Request starting "HTTP/1.1" "GET" "http"://"localhost:5062""""/api/sessions/my-sessions""" - "application/json" null
+2025-09-24 03:07:58 [Information] Request starting "HTTP/1.1" "GET" "http"://"localhost:5062""""/api/friendship/friends""" - null null
+2025-09-24 03:07:58 [Information] CORS policy execution successful.
+2025-09-24 03:07:58 [Information] CORS policy execution successful.
+2025-09-24 03:07:58 [Information] Executing endpoint '"Api.IOU.Controllers.SessionController.GetMySessions (IOU)"'
+2025-09-24 03:07:58 [Information] Executing endpoint '"Api.IOU.Controllers.FriendshipController.GetFriends (IOU)"'
+2025-09-24 03:07:58 [Information] Route matched with "{action = \"GetMySessions\", controller = \"Session\"}". Executing controller action with signature "System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] GetMySessions()" on controller "Api.IOU.Controllers.SessionController" ("IOU").
+2025-09-24 03:07:58 [Information] Route matched with "{action = \"GetFriends\", controller = \"Friendship\"}". Executing controller action with signature "System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] GetFriends()" on controller "Api.IOU.Controllers.FriendshipController" ("IOU").
+2025-09-24 03:07:58 [Information] Executed DbCommand ("0"ms) [Parameters=["@__p_0='?' (DbType = Int32)"], CommandType='Text', CommandTimeout='30']"
+""SELECT `u`.`Id`, `u`.`Avatar`, `u`.`Email`, `u`.`Password`, `u`.`Username`
+FROM `Users` AS `u`
+WHERE `u`.`Id` = @__p_0
+LIMIT 1"
+2025-09-24 03:07:58 [Information] Executed DbCommand ("1"ms) [Parameters=["@__userId_0='?' (DbType = Int32)"], CommandType='Text', CommandTimeout='30']"
+""SELECT `f`.`Id`, `f`.`FriendId`, `f`.`Status`, `f`.`UserId`, `u`.`Id`, `u`.`Avatar`, `u`.`Email`, `u`.`Password`, `u`.`Username`, `u0`.`Id`, `u0`.`Avatar`, `u0`.`Email`, `u0`.`Password`, `u0`.`Username`
+FROM `Friendships` AS `f`
+INNER JOIN `Users` AS `u` ON `f`.`UserId` = `u`.`Id`
+INNER JOIN `Users` AS `u0` ON `f`.`FriendId` = `u0`.`Id`
+WHERE (`f`.`UserId` = @__userId_0) OR (`f`.`FriendId` = @__userId_0)"
+2025-09-24 03:07:58 [Information] Executed DbCommand ("1"ms) [Parameters=["@__userId_0='?' (DbType = Int32)"], CommandType='Text', CommandTimeout='30']"
+""SELECT `s`.`SessionId`, `s`.`UserId`, `s0`.`Id`, `s0`.`CreatedAt`, `s0`.`CreatedById`, `s0`.`Name`, `s2`.`SessionId`, `s2`.`UserId`, `s2`.`Id`, `s2`.`Avatar`, `s2`.`Email`, `s2`.`Password`, `s2`.`Username`
+FROM `Sessionusers` AS `s`
+INNER JOIN `Sessions` AS `s0` ON `s`.`SessionId` = `s0`.`Id`
+LEFT JOIN (
+    SELECT `s1`.`SessionId`, `s1`.`UserId`, `u`.`Id`, `u`.`Avatar`, `u`.`Email`, `u`.`Password`, `u`.`Username`
+    FROM `Sessionusers` AS `s1`
+    INNER JOIN `Users` AS `u` ON `s1`.`UserId` = `u`.`Id`
+) AS `s2` ON `s0`.`Id` = `s2`.`SessionId`
+WHERE `s`.`UserId` = @__userId_0
+ORDER BY `s`.`SessionId`, `s`.`UserId`, `s0`.`Id`, `s2`.`SessionId`, `s2`.`UserId`"
+2025-09-24 03:07:58 [Information] Friendlist for user with ID 11 was found and returned
+2025-09-24 03:07:58 [Information] Executing "OkObjectResult", writing value of type '"System.Linq.Enumerable+IteratorSelectIterator`2[[Api.IOU.Models.Session, IOU, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null],[Api.IOU.DTOs.SessionDTO, IOU, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]"'.
+2025-09-24 03:07:58 [Information] Executing "OkObjectResult", writing value of type '"System.Linq.Enumerable+ListWhereSelectIterator`2[[Api.IOU.Models.Friendship, IOU, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null],[Api.IOU.DTOs.FriendshipDTO, IOU, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]"'.
+2025-09-24 03:07:58 [Information] Executed action "Api.IOU.Controllers.SessionController.GetMySessions (IOU)" in 12.1969ms
+2025-09-24 03:07:58 [Information] Executed action "Api.IOU.Controllers.FriendshipController.GetFriends (IOU)" in 12.9127ms
+2025-09-24 03:07:58 [Information] Executed endpoint '"Api.IOU.Controllers.SessionController.GetMySessions (IOU)"'
+2025-09-24 03:07:58 [Information] Executed endpoint '"Api.IOU.Controllers.FriendshipController.GetFriends (IOU)"'
+2025-09-24 03:07:58 [Information] Request finished "HTTP/1.1" "GET" "http"://"localhost:5062""""/api/sessions/my-sessions""" - 200 null "application/json; charset=utf-8" 37.657ms
+2025-09-24 03:07:58 [Information] Request finished "HTTP/1.1" "GET" "http"://"localhost:5062""""/api/friendship/friends""" - 200 null "application/json; charset=utf-8" 29.5029ms
+2025-09-24 03:07:58 [Information] Request starting "HTTP/1.1" "OPTIONS" "http"://"localhost:5062""""/api/expenses/session/11""" - null null
+2025-09-24 03:07:58 [Information] CORS policy execution successful.
+2025-09-24 03:07:58 [Information] Request starting "HTTP/1.1" "OPTIONS" "http"://"localhost:5062""""/api/expenses/session/12""" - null null
+2025-09-24 03:07:58 [Information] Request finished "HTTP/1.1" "OPTIONS" "http"://"localhost:5062""""/api/expenses/session/11""" - 204 null null 3.3335ms
+2025-09-24 03:07:58 [Information] CORS policy execution successful.
+2025-09-24 03:07:58 [Information] Request starting "HTTP/1.1" "GET" "http"://"localhost:5062""""/api/expenses/session/11""" - null null
+2025-09-24 03:07:58 [Information] Request finished "HTTP/1.1" "OPTIONS" "http"://"localhost:5062""""/api/expenses/session/12""" - 204 null null 10.942ms
+2025-09-24 03:07:58 [Information] Request starting "HTTP/1.1" "GET" "http"://"localhost:5062""""/api/expenses/session/12""" - null null
+2025-09-24 03:07:58 [Information] CORS policy execution successful.
+2025-09-24 03:07:58 [Information] CORS policy execution successful.
+2025-09-24 03:07:58 [Information] Executing endpoint '"Api.IOU.Controllers.ExpenseController.GetExpensesBySession (IOU)"'
+2025-09-24 03:07:58 [Information] Executing endpoint '"Api.IOU.Controllers.ExpenseController.GetExpensesBySession (IOU)"'
+2025-09-24 03:07:58 [Information] Route matched with "{action = \"GetExpensesBySession\", controller = \"Expense\"}". Executing controller action with signature "System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] GetExpensesBySession(Int32)" on controller "Api.IOU.Controllers.ExpenseController" ("IOU").
+2025-09-24 03:07:58 [Information] Route matched with "{action = \"GetExpensesBySession\", controller = \"Expense\"}". Executing controller action with signature "System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] GetExpensesBySession(Int32)" on controller "Api.IOU.Controllers.ExpenseController" ("IOU").
+2025-09-24 03:07:58 [Information] Executed DbCommand ("0"ms) [Parameters=["@__sessionId_0='?' (DbType = Int32)"], CommandType='Text', CommandTimeout='30']"
+""SELECT `e`.`Id`, `e`.`CreatedAt`, `e`.`Description`, `e`.`PaidById`, `e`.`SessionId`, `e`.`TotalAmount`, `e0`.`Id`, `e0`.`Amount`, `e0`.`ExpenseId`, `e0`.`Status`, `e0`.`UserId`
+FROM `Expenses` AS `e`
+LEFT JOIN `ExpenseSplits` AS `e0` ON `e`.`Id` = `e0`.`ExpenseId`
+WHERE `e`.`SessionId` = @__sessionId_0
+ORDER BY `e`.`Id`"
+2025-09-24 03:07:58 [Information] Executed DbCommand ("0"ms) [Parameters=["@__sessionId_0='?' (DbType = Int32)"], CommandType='Text', CommandTimeout='30']"
+""SELECT `e`.`Id`, `e`.`CreatedAt`, `e`.`Description`, `e`.`PaidById`, `e`.`SessionId`, `e`.`TotalAmount`, `e0`.`Id`, `e0`.`Amount`, `e0`.`ExpenseId`, `e0`.`Status`, `e0`.`UserId`
+FROM `Expenses` AS `e`
+LEFT JOIN `ExpenseSplits` AS `e0` ON `e`.`Id` = `e0`.`ExpenseId`
+WHERE `e`.`SessionId` = @__sessionId_0
+ORDER BY `e`.`Id`"
+2025-09-24 03:07:58 [Information] Executing "OkObjectResult", writing value of type '"System.Linq.Enumerable+ListSelectIterator`2[[Api.IOU.Models.Expense, IOU, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null],[Api.IOU.DTOs.ExpenseDTO, IOU, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]"'.
+2025-09-24 03:07:58 [Information] Executing "OkObjectResult", writing value of type '"System.Linq.Enumerable+ListSelectIterator`2[[Api.IOU.Models.Expense, IOU, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null],[Api.IOU.DTOs.ExpenseDTO, IOU, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]"'.
+2025-09-24 03:07:58 [Information] Executed action "Api.IOU.Controllers.ExpenseController.GetExpensesBySession (IOU)" in 7.8145ms
+2025-09-24 03:07:58 [Information] Executed action "Api.IOU.Controllers.ExpenseController.GetExpensesBySession (IOU)" in 7.4482ms
+2025-09-24 03:07:58 [Information] Executed endpoint '"Api.IOU.Controllers.ExpenseController.GetExpensesBySession (IOU)"'
+2025-09-24 03:07:58 [Information] Executed endpoint '"Api.IOU.Controllers.ExpenseController.GetExpensesBySession (IOU)"'
+2025-09-24 03:07:58 [Information] Request finished "HTTP/1.1" "GET" "http"://"localhost:5062""""/api/expenses/session/11""" - 200 null "application/json; charset=utf-8" 27.6167ms
+2025-09-24 03:07:58 [Information] Request finished "HTTP/1.1" "GET" "http"://"localhost:5062""""/api/expenses/session/12""" - 200 null "application/json; charset=utf-8" 19.8643ms
+2025-09-24 03:08:24 [Information] Request starting "HTTP/1.1" "OPTIONS" "http"://"localhost:5062""""/api/sessions/11""" - null null
+2025-09-24 03:08:24 [Information] CORS policy execution successful.
+2025-09-24 03:08:24 [Information] Request finished "HTTP/1.1" "OPTIONS" "http"://"localhost:5062""""/api/sessions/11""" - 204 null null 3.211ms
+2025-09-24 03:08:24 [Information] Request starting "HTTP/1.1" "DELETE" "http"://"localhost:5062""""/api/sessions/11""" - null null
+2025-09-24 03:08:24 [Information] CORS policy execution successful.
+2025-09-24 03:08:24 [Information] Executing endpoint '"Api.IOU.Controllers.SessionController.DeleteSession (IOU)"'
+2025-09-24 03:08:24 [Information] Route matched with "{action = \"DeleteSession\", controller = \"Session\"}". Executing controller action with signature "System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] DeleteSession(Int32)" on controller "Api.IOU.Controllers.SessionController" ("IOU").
+2025-09-24 03:08:24 [Information] Executed DbCommand ("1"ms) [Parameters=["@__id_0='?' (DbType = Int32)"], CommandType='Text', CommandTimeout='30']"
+""SELECT `s1`.`Id`, `s1`.`CreatedAt`, `s1`.`CreatedById`, `s1`.`Name`, `s2`.`SessionId`, `s2`.`UserId`, `s2`.`Id`, `s2`.`Avatar`, `s2`.`Email`, `s2`.`Password`, `s2`.`Username`, `s3`.`Id`, `s3`.`CreatedAt`, `s3`.`Description`, `s3`.`PaidById`, `s3`.`SessionId`, `s3`.`TotalAmount`, `s3`.`Id0`, `s3`.`Amount`, `s3`.`ExpenseId`, `s3`.`Status`, `s3`.`UserId`
+FROM (
+    SELECT `s`.`Id`, `s`.`CreatedAt`, `s`.`CreatedById`, `s`.`Name`
+    FROM `Sessions` AS `s`
+    WHERE `s`.`Id` = @__id_0
+    LIMIT 1
+) AS `s1`
+LEFT JOIN (
+    SELECT `s0`.`SessionId`, `s0`.`UserId`, `u`.`Id`, `u`.`Avatar`, `u`.`Email`, `u`.`Password`, `u`.`Username`
+    FROM `Sessionusers` AS `s0`
+    INNER JOIN `Users` AS `u` ON `s0`.`UserId` = `u`.`Id`
+) AS `s2` ON `s1`.`Id` = `s2`.`SessionId`
+LEFT JOIN (
+    SELECT `e`.`Id`, `e`.`CreatedAt`, `e`.`Description`, `e`.`PaidById`, `e`.`SessionId`, `e`.`TotalAmount`, `e0`.`Id` AS `Id0`, `e0`.`Amount`, `e0`.`ExpenseId`, `e0`.`Status`, `e0`.`UserId`
+    FROM `Expenses` AS `e`
+    LEFT JOIN `ExpenseSplits` AS `e0` ON `e`.`Id` = `e0`.`ExpenseId`
+) AS `s3` ON `s1`.`Id` = `s3`.`SessionId`
+ORDER BY `s1`.`Id`, `s2`.`SessionId`, `s2`.`UserId`, `s2`.`Id`, `s3`.`Id`"
+2025-09-24 03:08:24 [Information] Executing "BadRequestObjectResult", writing value of type '"System.String"'.
+2025-09-24 03:08:24 [Information] Executed action "Api.IOU.Controllers.SessionController.DeleteSession (IOU)" in 5.4232ms
+2025-09-24 03:08:24 [Information] Executed endpoint '"Api.IOU.Controllers.SessionController.DeleteSession (IOU)"'
+2025-09-24 03:08:24 [Information] Request finished "HTTP/1.1" "DELETE" "http"://"localhost:5062""""/api/sessions/11""" - 400 null "text/plain; charset=utf-8" 16.098ms

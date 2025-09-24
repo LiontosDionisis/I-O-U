@@ -9,14 +9,13 @@ import { ExpenseService } from '../services/expense.service';
 import { ExpenseSplitDto } from '../Models/expenseSplitDto';
 import { AddExpenseDto } from '../Models/AddExpenseDto';
 import { ExpenseDto } from '../Models/expenseDto';
-import { HttpErrorResponse } from '@angular/common/http';
-import { Observable } from 'rxjs';
+import { RouterLink, RouterOutlet } from '@angular/router';
 
 
 @Component({
   selector: 'app-sessions',
   standalone: true,
-  imports: [NgFor, NgIf, CommonModule, FormsModule],
+  imports: [NgFor, NgIf, CommonModule, FormsModule, RouterLink, RouterOutlet],
   templateUrl: './sessions.component.html',
   styleUrl: './sessions.component.css'
 })
