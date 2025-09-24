@@ -146,7 +146,8 @@ public class SessionService : ISessionService
         {
             Id = u.UserId,
             Username = u.User.Username,
-            Email = u.User.Email
+            Email = u.User.Email,
+            Avatar = u.User.Avatar
         });
     }
 
@@ -166,7 +167,8 @@ public class SessionService : ISessionService
             Participants = session.Participants.Select(p => new ParticipantDTO
             {
                 UserId = p.UserId,
-                Username = p.User.Username
+                Username = p.User.Username,
+                Avatar = p.User.Avatar
             }).ToList()
         });
 

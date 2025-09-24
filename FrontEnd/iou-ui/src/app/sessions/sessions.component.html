@@ -1,87 +1,101 @@
-<div class="p-8 bg-gray-50 min-h-screen">
+<div class="p-6 bg-gradient-to-b from-gray-50 to-gray-100 min-h-screen font-sans">
 
   <!-- Header -->
-  <div class="flex justify-between items-center mb-6">
-    <h2 class="text-3xl font-bold text-gray-800">My Sessions</h2>
-    <button 
-      (click)="toggleCreateSession()"
-      class="px-5 py-2.5 bg-blue-600 text-white font-medium rounded-full shadow-md hover:bg-blue-700 transition">
-      + Create Session
-    </button>
-    <button 
-      [routerLink]="['/home']"
-      class="px-5 py-2.5 bg-purple-600 text-white font-medium rounded-full shadow-md hover:bg-blue-700 transition">
-      Home
-    </button>
+  <div class="flex flex-col md:flex-row justify-between items-start md:items-center mb-8">
+    <h2 class="text-4xl font-extrabold text-gray-900 mb-4 md:mb-0">My Sessions</h2>
+    <div class="flex flex-wrap gap-3">
+      <button 
+        (click)="toggleCreateSession()"
+        class="px-5 py-3 bg-blue-600 text-white font-semibold rounded-full shadow-md hover:bg-blue-700 transform hover:scale-105 transition duration-200">
+        + Create Session
+      </button>
+      <button 
+        [routerLink]="['/home']"
+        class="px-5 py-3 bg-purple-600 text-white font-semibold rounded-full shadow-md hover:bg-purple-700 transform hover:scale-105 transition duration-200">
+        Home
+      </button>
+    </div>
   </div>
 
   <!-- Create Session Form -->
-  <div *ngIf="showCreateForm" class="bg-white shadow-md rounded-xl p-6 mb-6 max-w-md">
+  <div *ngIf="showCreateForm" class="bg-white/70 backdrop-blur-md shadow-lg rounded-2xl p-6 mb-8 max-w-md mx-auto">
     <label class="block mb-2 text-gray-700 font-medium">Session Name</label>
     <input 
       type="text" 
       [(ngModel)]="newSessionName" 
       placeholder="Enter session name..."
-      class="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:outline-none mb-4"
+      class="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-blue-500 focus:outline-none mb-4"
     />
     <div class="flex justify-end space-x-3">
-      <button (click)="createSession()" class="px-4 py-2 bg-green-600 text-white rounded-lg shadow hover:bg-green-700 transition">Create</button>
-      <button (click)="toggleCreateSession()" class="px-4 py-2 bg-gray-300 text-gray-700 rounded-lg shadow hover:bg-gray-400 transition">Cancel</button>
+      <button (click)="createSession()" class="px-5 py-2.5 bg-green-600 text-white rounded-xl shadow hover:bg-green-700 transform hover:scale-105 transition">Create</button>
+      <button (click)="toggleCreateSession()" class="px-5 py-2.5 bg-gray-300 text-gray-700 rounded-xl shadow hover:bg-gray-400 transform hover:scale-105 transition">Cancel</button>
     </div>
   </div>
 
   <!-- Loading & Error -->
-  <div *ngIf="loading" class="text-gray-500 animate-pulse">Loading sessions...</div>
-  <div *ngIf="error" class="text-red-500 font-medium">{{ error }}</div>
+  <div *ngIf="loading" class="text-gray-500 animate-pulse text-center">Loading sessions...</div>
+  <div *ngIf="error" class="text-red-500 font-medium text-center">{{ error }}</div>
 
   <!-- Sessions Grid -->
   <div *ngIf="sessions.length > 0; else noSessions" class="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
-    <div *ngFor="let session of sessions" class="bg-white rounded-2xl shadow-lg p-6 border border-gray-100 hover:shadow-xl transition">
+    <div *ngFor="let session of sessions" 
+         class="bg-white/70 backdrop-blur-sm rounded-3xl shadow-md p-6 hover:shadow-xl transform hover:-translate-y-1 transition duration-300 relative">
+
+      <!-- Gradient header strip -->
+      <div class="absolute top-0 left-0 w-full h-1 rounded-t-3xl bg-gradient-to-r from-blue-500 to-purple-500"></div>
 
       <!-- Session Header -->
-      <div class="flex justify-between items-center">
-        <h3 class="text-xl font-semibold text-gray-900">{{ session.name }}</h3>
-        <span class="text-xs text-gray-400">{{ session.createdAt | date }}</span>
-        <button (click)="deleteSession(session.id)" class="px-2 py-1 text-sm bg-red-600 text-white rounded shadow hover:bg-red-700 transition">Delete</button>
+      <div class="flex justify-between items-start mb-4 mt-2">
+        <div>
+          <h3 class="text-2xl font-semibold text-gray-900">{{ session.name }}</h3>
+          <span class="text-sm text-gray-400">{{ session.createdAt | date:'mediumDate' }}</span>
+        </div>
+        <button (click)="deleteSession(session.id)" class="px-3 py-1 text-sm bg-red-600 text-white rounded-full shadow hover:bg-red-700 transition transform hover:scale-105">Delete</button>
       </div>
 
       <!-- Participants List -->
       <div class="mt-4">
         <h4 class="font-medium text-gray-700 mb-2">Participants</h4>
-        <ul class="space-y-1 mb-4">
-          <li *ngFor="let user of session.participants" class="flex justify-between items-center text-gray-600">
-            <div class="flex items-center space-x-2">
-              <span class="w-2 h-2 bg-blue-500 rounded-full"></span>
-              <span>{{ user.username }}</span>
-            </div>
-            <button (click)="removeParticipant(session.id, user.userId)" class="px-2 py-1 text-sm bg-red-600 text-white rounded hover:bg-red-700">Remove</button>
-          </li>
-        </ul>
+        <div class="flex flex-wrap gap-2 mb-4">
+          <span *ngFor="let user of session.participants" class="flex items-center gap-2 px-3 py-1 bg-blue-100 text-blue-800 rounded-full text-sm cursor-default select-none">
+            <!-- Avatar Circle -->
+            <img [src]="user.avatarUrl" 
+     alt="{{user.username}}'s avatar"
+     class="w-6 h-6 rounded-full object-cover border border-gray-200" />
+
+
+
+
+
+            {{ user.username }}
+            <button (click)="removeParticipant(session.id, user.userId)" class="ml-1 text-red-500 hover:text-red-700 text-xs font-bold">×</button>
+          </span>
+        </div>
 
         <!-- Add Friend Button -->
-        <button (click)="toggleFriendMenu(session.id)" class="w-full px-4 py-2 bg-blue-600 text-white rounded-lg shadow hover:bg-blue-700 transition mb-3">
+        <button (click)="toggleFriendMenu(session.id)" class="w-full px-4 py-2 bg-blue-600 text-white rounded-full shadow hover:bg-blue-700 transform hover:scale-105 transition mb-3">
           Add a Friend
         </button>
 
         <!-- Friend Menu -->
-        <div *ngIf="friendMenuOpen === session.id" class="mt-3 border rounded-lg bg-gray-50 p-3 shadow">
+        <div *ngIf="friendMenuOpen === session.id" [@expandCollapse]="'open'" class="mt-3 rounded-xl bg-white/60 backdrop-blur-md shadow-inner p-3">
           <ul>
             <li *ngFor="let f of friends" class="flex justify-between items-center py-1">
               <span>{{ f.friendUsername }}</span>
-              <button (click)="addFriendToSession(session.id, f.friendId)" class="px-2 py-1 text-sm bg-green-600 text-white rounded hover:bg-green-700">Add</button>
+              <button (click)="addFriendToSession(session.id, f.friendId)" class="px-2 py-1 text-sm bg-green-600 text-white rounded-full hover:bg-green-700 transition">Add</button>
             </li>
           </ul>
         </div>
 
         <!-- Add Expense Button -->
-        <button (click)="toggleExpenseForm(session.id)" class="w-full px-4 py-2 bg-purple-600 text-white rounded-lg shadow hover:bg-purple-700 transition mt-4">
+        <button (click)="toggleExpenseForm(session.id)" class="w-full px-4 py-2 bg-purple-600 text-white rounded-full shadow hover:bg-purple-700 transform hover:scale-105 transition mt-4">
           {{ expenseFormOpen === session.id ? 'Cancel' : 'Add Expense' }}
         </button>
 
         <!-- Expense Form -->
-        <div *ngIf="expenseFormOpen === session.id" class="mt-4 border rounded-lg bg-gray-50 p-4 shadow">
-          <input [(ngModel)]="newExpense.description" placeholder="Expense name" class="w-full mb-3 px-3 py-2 border rounded-lg focus:ring-2 focus:ring-purple-500" />
-          <input [(ngModel)]="newExpense.totalAmount" type="number" placeholder="Amount" class="w-full mb-3 px-3 py-2 border rounded-lg focus:ring-2 focus:ring-purple-500" />
+        <div *ngIf="expenseFormOpen === session.id" [@expandCollapse]="'open'" class="mt-4 rounded-xl bg-white/60 backdrop-blur-md shadow-inner p-4">
+          <input [(ngModel)]="newExpense.description" placeholder="Expense name" class="w-full mb-3 px-3 py-2 border rounded-xl focus:ring-2 focus:ring-purple-500" />
+          <input [(ngModel)]="newExpense.totalAmount" type="number" placeholder="Amount" class="w-full mb-3 px-3 py-2 border rounded-xl focus:ring-2 focus:ring-purple-500" />
           <label class="flex items-center mb-3 space-x-2">
             <input type="checkbox" [(ngModel)]="newExpense.isEqualSplit" />
             <span class="text-gray-700">Split equally</span>
@@ -92,31 +106,30 @@
             <h4 class="text-gray-700 font-medium mb-2">Custom Split</h4>
             <div *ngFor="let p of session.participants" class="flex items-center justify-between mb-2">
               <span class="text-gray-600">{{ p.username }}</span>
-              <input type="number" [(ngModel)]="customSplits[p.userId]" class="w-24 px-2 py-1 border rounded-lg focus:ring-2 focus:ring-purple-500" />
+              <input type="number" [(ngModel)]="customSplits[p.userId]" class="w-24 px-2 py-1 border rounded-xl focus:ring-2 focus:ring-purple-500" />
             </div>
           </div>
 
-          <button (click)="createExpense(session.id)" class="w-full px-4 py-2 bg-green-600 text-white rounded-lg shadow hover:bg-green-700 transition mt-3">Save Expense</button>
+          <button (click)="createExpense(session.id)" class="w-full px-4 py-2 bg-green-600 text-white rounded-full shadow hover:bg-green-700 transform hover:scale-105 transition mt-3">Save Expense</button>
         </div>
 
         <!-- Expenses List -->
         <div *ngIf="expenses[session.id]!.length > 0" class="mt-4">
           <h4 class="font-medium text-gray-700 mb-2">Expenses</h4>
           <ul class="space-y-2">
-            <li *ngFor="let expense of expenses[session.id]" class="bg-gray-100 p-2 rounded-lg">
-              <div class="flex justify-between">
+            <li *ngFor="let expense of expenses[session.id]" class="bg-white/60 backdrop-blur-sm p-3 rounded-xl shadow-sm hover:shadow-md transition transform hover:-translate-y-0.5">
+              <div class="flex justify-between items-center">
                 <span class="font-medium">{{ expense.description }}</span>
                 <span class="text-gray-600">{{ expense.totalAmount | currency }}</span>
               </div>
-
-              <!-- Paid by -->
               <div class="flex justify-between text-sm text-gray-500 mb-1">
                 <span>Paid by: {{ getUsername(session, expense.paidById) }}</span>
               </div>
-
-              <!-- Splits  -->
-              <div *ngFor="let split of getSplitsForDisplay(expense, session)" class="ml-2 text-gray-700">
-                 <span>{{ getUsername(session, split.userId) }} owes {{ split.amount | currency }} - {{ split.status === 0 ? 'Pending' : 'Settled' }}</span>
+              <div *ngFor="let split of getSplitsForDisplay(expense, session)" class="ml-2 text-sm flex items-center gap-2">
+                <span class="px-2 py-0.5 rounded-full text-xs font-medium" [ngClass]="split.status === 0 ? 'bg-yellow-100 text-yellow-800' : 'bg-green-100 text-green-800'">
+                  {{ split.status === 0 ? 'Pending' : 'Settled' }}
+                </span>
+                <span>{{ getUsername(session, split.userId) }} owes {{ split.amount | currency }}</span>
               </div>
             </li>
           </ul>
@@ -128,8 +141,8 @@
 
   <!-- No Sessions Template -->
   <ng-template #noSessions>
-    <div class="flex flex-col items-center justify-center mt-20 text-gray-500">
-      <p class="text-lg">You are not part of any sessions yet.</p>
+    <div class="flex flex-col items-center justify-center mt-20 text-gray-400">
+      <p class="text-xl font-medium">You are not part of any sessions yet.</p>
     </div>
   </ng-template>
 </div>

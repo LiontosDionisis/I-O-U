@@ -10,6 +10,10 @@ import { ExpenseSplitDto } from '../Models/expenseSplitDto';
 import { AddExpenseDto } from '../Models/AddExpenseDto';
 import { ExpenseDto } from '../Models/expenseDto';
 import { RouterLink, RouterOutlet } from '@angular/router';
+import { trigger, state, style, animate, transition } from '@angular/animations';
+import { AvatarType, getAvatarUrl } from '../Models/avatar';
+import { SessionUser } from '../Models/sessionUser';
+
 
 
 @Component({
@@ -17,7 +21,29 @@ import { RouterLink, RouterOutlet } from '@angular/router';
   standalone: true,
   imports: [NgFor, NgIf, CommonModule, FormsModule, RouterLink, RouterOutlet],
   templateUrl: './sessions.component.html',
-  styleUrl: './sessions.component.css'
+  styleUrl: './sessions.component.css',
+  animations: [
+    trigger('expandCollapse', [
+      state('open', style({
+        height: '*',
+        opacity: 1,
+        padding: '*',
+        marginTop: '*'
+      })),
+      state('closed', style({
+        height: '0px',
+        opacity: 0,
+        padding: '0px',
+        marginTop: '0px'
+      })),
+      transition('closed => open', [
+        animate('300ms ease-out')
+      ]),
+      transition('open => closed', [
+        animate('300ms ease-in')
+      ])
+    ])
+  ]
 })
 export class SessionsComponent implements OnInit {
   sessions: Session[] = [];
@@ -83,6 +109,11 @@ export class SessionsComponent implements OnInit {
     this.sessionService.getSessions().subscribe({
       next: (data) => {
         this.sessions = data;
+        this.sessions.forEach(session => {
+          session.participants.forEach((user: SessionUser) => {
+            user.avatarUrl = getAvatarUrl(user.avatar);
+          })
+        })
         this.loading = false;
         this.sessions.forEach(session => {
           this.loadExpenses(session.id)
@@ -228,5 +259,12 @@ export class SessionsComponent implements OnInit {
     
   }
 
+  getUserAvatar(user: any): string {
+    const avatarNumber = typeof user.avatar === 'number'
+      ? user.avatar
+      : AvatarType[user.avatar as keyof typeof AvatarType];
+    return getAvatarUrl(avatarNumber);
+  }
 
+  getAvatarUrl = getAvatarUrl;
 }
