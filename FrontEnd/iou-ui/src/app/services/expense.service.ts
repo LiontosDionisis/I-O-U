@@ -12,6 +12,7 @@ export class ExpenseService {
   constructor(private http: HttpClient) { }
 
   private apiUrl = 'http://localhost:5062/api/expenses'
+  //private apiUrl = 'http://192.168.1.94:5062/api/expenses'
 
   createExpense(dto: AddExpenseDto): Observable<any> {
     const token = localStorage.getItem('token');
@@ -40,5 +41,13 @@ export class ExpenseService {
     return this.http.get(`${this.apiUrl}/session/${sessionId}/balances`, {headers});
   }
 
+  settleSplit(expenseId: number): Observable<any> {
+    const token = localStorage.getItem('token');
+    const headers = new HttpHeaders({
+      Authorization: `Bearer ${token}`
+    });
+    
+    return this.http.put(`${this.apiUrl}/${expenseId}/settle`, {}, {headers});
+  }
   
 }

@@ -23,6 +23,7 @@ export class UserService {
   private http = inject(HttpClient);
   private auth = inject(AuthService);
   private apiUrl = 'http://localhost:5062/api/user';
+  // private apiUrl = 'http://192.168.1.94:5062/api/user'
   
 
   private getHeaders(): HttpHeaders {

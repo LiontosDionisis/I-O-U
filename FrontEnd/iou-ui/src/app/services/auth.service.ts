@@ -12,6 +12,7 @@ import { Router } from '@angular/router';
 export class AuthService {
   private http = inject(HttpClient);
   private apiUrl = 'http://localhost:5062/api/user';
+  //private apiUrl = 'http://192.168.1.94:5062/api/user'
   private router = inject(Router)
 
   constructor() { }

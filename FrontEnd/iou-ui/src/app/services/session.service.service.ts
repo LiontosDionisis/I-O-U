@@ -8,6 +8,7 @@ import { Session } from '../Models/session';
 })
 export class SessionServiceService {
   private apiUrl = 'http://localhost:5062/api/sessions';
+  //private apiUrl = 'http://192.168.1.94:5062/api/sessions'
   constructor(private http: HttpClient) { }
 
 

@@ -239,11 +239,23 @@ export class SessionsComponent implements OnInit {
   }
 
   // Removes payer from expense list
-  getSplitsForDisplay(expense: ExpenseDto, session: Session): ExpenseSplitDto[] {
-    if (!expense.splits) return [];
+  // getSplitsForDisplay(expense: ExpenseDto, session: Session): ExpenseSplitDto[] {
+  //   if (!expense.splits) return [];
 
-    return expense.splits.filter(s => s.userId !== expense.paidById);
+  //   return expense.splits.filter(s => s.userId !== expense.paidById);
+  // }
+
+  getSplitsForDisplay(expense: ExpenseDto, session: Session): ExpenseSplitDto[] {
+  if (!expense.splits) return [];
+  const currentUserId = this.getCurrentUserId();
+  // show all splits owed to me if I am the payer
+  if (expense.paidById === currentUserId) {
+    return expense.splits.filter(s => s.userId !== currentUserId);
   }
+  return expense.splits.filter(s => s.userId !== expense.paidById);
+}
+  
+
 
   deleteSession(sessionid: number) {
     if(confirm("Are you sure you want to delete this session?")){
@@ -265,6 +277,39 @@ export class SessionsComponent implements OnInit {
       : AvatarType[user.avatar as keyof typeof AvatarType];
     return getAvatarUrl(avatarNumber);
   }
+settleSplit(expenseId: number) {
+  this.expenseService.settleSplit(expenseId).subscribe({
+    next: (res) => {
+      console.log("Expense settled.", res);
+
+      // Find the expense in any session
+      const sessionExpenses = Object.values(this.expenses).find(expenses =>
+        expenses.some(e => e.id === expenseId)
+      );
+
+      if (!sessionExpenses) return;
+
+      const expense = sessionExpenses.find(e => e.id === expenseId);
+      if (!expense || !expense.splits) return;
+
+      // Update the split for the user returned by the backend
+      const splitIndex = expense.splits.findIndex(s => s.userId === res.userId);
+      if (splitIndex !== -1) {
+        // Replace the object to trigger Angular change detection
+        expense.splits[splitIndex] = { ...expense.splits[splitIndex], status: res.status };
+
+        // Reassign the array reference so *ngFor notices the change
+        expense.splits = [...expense.splits];
+      }
+    },
+    error: (err) => {
+      console.log("Error while settling split.", err);
+    }
+  });
+}
+
+
+
 
   getAvatarUrl = getAvatarUrl;
 }
