@@ -133,7 +133,8 @@ public class UserController : ControllerBase
     {
         try
         {
-            var deleted = await _userService.DeleteAsync(id);
+            var userId = int.Parse(User.Claims.First(c => c.Type == ClaimTypes.NameIdentifier).Value);
+            var deleted = await _userService.DeleteAsync(userId);
             _logger.LogInformation("User with ID: {Id} was deleted", id);
             return Ok(new { message = "User deleted successfully" });
         }
@@ -154,7 +155,8 @@ public class UserController : ControllerBase
     {
         try
         {
-            var updatedUser = await _userService.UpdateAsync(id, dto);
+            var userId = int.Parse(User.Claims.First(c => c.Type == ClaimTypes.NameIdentifier).Value);
+            var updatedUser = await _userService.UpdateAsync(userId, dto);
             return Ok(new { message = "User updated!", user = updatedUser });
         }
         catch (UserNotFoundException e)
@@ -184,7 +186,8 @@ public class UserController : ControllerBase
     {
         try
         {
-            var updatedUser = await _userService.UpdateUsernameAsync(id, dto);
+            var userId = int.Parse(User.Claims.First(c => c.Type == ClaimTypes.NameIdentifier).Value);
+            var updatedUser = await _userService.UpdateUsernameAsync(userId, dto);
             return Ok(updatedUser);
         }
         catch (UserNotFoundException)
@@ -203,7 +206,8 @@ public class UserController : ControllerBase
     {
         try
         {
-            var updatedUser = await _userService.UpdateEmailAsync(id, dto);
+            var userId = int.Parse(User.Claims.First(c => c.Type == ClaimTypes.NameIdentifier).Value);
+            var updatedUser = await _userService.UpdateEmailAsync(userId, dto);
             return Ok(updatedUser);
         }
         catch (UserNotFoundException)
@@ -213,6 +217,29 @@ public class UserController : ControllerBase
         catch (EmailAlreadyExistsException)
         {
             return Conflict(new { message = "Email is already in use" });
+        }
+    }
+
+    [HttpPatch("update-avatar/{id:int}")]
+    public async Task<IActionResult> UpdateAvatarPic(int id, [FromBody] UpdateProfilePicDTO dto)
+    {
+        try
+        {
+            var userId = int.Parse(User.Claims.First(c => c.Type == ClaimTypes.NameIdentifier).Value);
+            var updatedUser = await _userService.UpdateProfilePicAsync(userId, dto);
+            return Ok(updatedUser);
+        }
+        catch (UserNotFoundException)
+        {
+            return NotFound(new { message = "User does not exist." });
+        }
+        catch (AvatarAlreadyInUseException)
+        {
+            return Conflict(new { message = "You are already using this avatar." });
+        }
+        catch (Exception)
+        {
+            return StatusCode(500, new { message = "An unexpected error has occured. Please try again later." });
         }
     }
 }

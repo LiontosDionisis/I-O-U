@@ -93,14 +93,14 @@ public class UserService : IUserService
         {
             throw new EmailAlreadyExistsException("Email already exists");
         }
-        
+
         if (!PasswordHelper.IsValid(dto.Password))
         {
             _logger.LogWarning("Registration failed: weak password for username {Username}", dto.Username);
             throw new WeakPasswordException("Password must be at least 8 characters, include 1 uppercase letter and 1 special character.");
         }
 
-        
+
 
         var user = new User
         {
@@ -224,7 +224,7 @@ public class UserService : IUserService
 
         await _unitOfWork.Users.UpdateAsync(user);
         await _unitOfWork.SaveChangesAsync();
-        
+
         return ToUserDto(user);
     }
 
@@ -243,6 +243,22 @@ public class UserService : IUserService
 
             user.Email = dto.Email;
         }
+
+        await _unitOfWork.Users.UpdateAsync(user);
+        await _unitOfWork.SaveChangesAsync();
+        return ToUserDto(user);
+    }
+
+    public async Task<UserDTO> UpdateProfilePicAsync(int id, UpdateProfilePicDTO dto)
+    {
+        var user = await _unitOfWork.Users.GetById(id);
+        if (user == null) throw new UserNotFoundException("User does not exist.");
+
+        if (user.Avatar != dto.AvatarType)
+        {
+            user.Avatar = dto.AvatarType;
+        }
+        
 
         await _unitOfWork.Users.UpdateAsync(user);
         await _unitOfWork.SaveChangesAsync();

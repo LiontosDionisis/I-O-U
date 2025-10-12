@@ -1,10 +1,27 @@
 <div *ngIf="user" class="flex justify-center mt-10">
   <div class="bg-white shadow-xl rounded-2xl p-6 w-96 text-center">
-    
+    <button 
+        [routerLink]="['/home']"
+        class="px-5 mb-3 py-3 bg-purple-600 text-white font-semibold rounded-full shadow-md hover:bg-purple-700 transform hover:scale-105 transition duration-200">
+        Home
+      </button>
     <!-- Avatar -->
     <img [src]="avatarUrl" 
          alt="User Avatar" 
-         class="w-24 h-24 mx-auto rounded-full border-4 border-indigo-500 shadow-md">
+         class="w-24 h-24 mx-auto rounded-full border-4 border-indigo-500 shadow-md cursor-pointer
+            transition-transform duration-200 hover:scale-105 hover:border-blue-500"
+         (click)="showAvatarInput = !showAvatarInput"
+         aria-label="Change Avatar">
+
+    <!-- Avatar Input-->
+     <div *ngIf="showAvatarInput" class="mt-2 flex items-center justify-center space-x-2">
+        <img *ngFor="let avatar of avatars"
+       [src]="getAvatarUrl(avatar)"
+       [alt]="avatar"
+       class="w-16 h-16 rounded-full border-2 border-transparent cursor-pointer hover:border-blue-500"
+       [class.border-blue-500]="user?.avatar === avatar" 
+       (click)="onSelectAvatar(avatar)">
+     </div>
 
     <!-- Username -->
     <div class="mt-4 flex items-center justify-center space-x-1">
@@ -50,6 +67,5 @@
         Save
       </button>
     </div>
-
   </div>
 </div>
