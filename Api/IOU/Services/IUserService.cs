@@ -14,4 +14,5 @@ public interface IUserService
     Task<UserDTO> UpdateUsernameAsync(int id, UserUpdateUsernameDTO dto);
     Task<UserDTO> UpdateEmailAsync(int id, UserUpdateEmailDTO dto);
     Task<UserDTO> UpdateProfilePicAsync(int id, UpdateProfilePicDTO dto);
+    Task<UserDTO> UpdatePassword(int id, UpdatePasswordDTO dto);
 }

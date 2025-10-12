@@ -258,7 +258,24 @@ public class UserService : IUserService
         {
             user.Avatar = dto.AvatarType;
         }
-        
+
+
+        await _unitOfWork.Users.UpdateAsync(user);
+        await _unitOfWork.SaveChangesAsync();
+        return ToUserDto(user);
+    }
+
+    public async Task<UserDTO> UpdatePassword(int id, UpdatePasswordDTO dto)
+    {
+        var user = await _unitOfWork.Users.GetById(id);
+        if (user == null) throw new UserNotFoundException("User does not exist.");
+
+        if (!PasswordHelper.VerifyPassword(dto.CurrentPassword, user.Password))
+        {
+            throw new InvalidLoginException("Incorrect password. Please try again!");
+        }
+
+        user.Password = PasswordHelper.HashPassword(dto.NewPassword);
 
         await _unitOfWork.Users.UpdateAsync(user);
         await _unitOfWork.SaveChangesAsync();

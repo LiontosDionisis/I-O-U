@@ -10,6 +10,7 @@ import { UpdateUserDto } from '../Models/updateUser.dto';
 import { UpdateUsernameDto } from '../Models/UpdateUsernameDto';
 import { UpdateEmailDto } from '../Models/updateEmailDto';
 import { UpdateAvatarDto } from '../Models/UpdateAvatarDto';
+import { UpdatePasswordDto } from '../Models/UpdatePasswordDto';
 
 export interface UserDTO {
   id: number;
@@ -169,5 +170,14 @@ export class UserService {
     });
 
     return this.http.patch(`http://localhost:5062/api/user/update-avatar/${userId}`, dto, {headers});
+  }
+
+  updatePassword(userId: number, dto: UpdatePasswordDto) {
+    const token = localStorage.getItem('token');
+    const headers = new HttpHeaders({
+      Authorization: `Bearer ${token}`
+    });
+
+    return this.http.patch(`http://localhost:5062/api/user/update-password/${userId}`, dto, {headers});
   }
 }

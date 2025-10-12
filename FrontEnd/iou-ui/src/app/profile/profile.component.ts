@@ -13,6 +13,7 @@ import { UpdateUsernameDto } from '../Models/UpdateUsernameDto';
 import { UpdateEmailDto } from '../Models/updateEmailDto';
 import { RouterLink, RouterOutlet } from '@angular/router';
 import { UpdateAvatarDto } from '../Models/UpdateAvatarDto';
+import { UpdatePasswordDto } from '../Models/UpdatePasswordDto';
 
 
 
@@ -30,9 +31,12 @@ export class ProfileComponent {
   showUsernameInput = false;
   showEmailInput = false;
   showAvatarInput = false;
+  showPasswordInput = false;
 
   newUsername: string = '';
   newEmail: string = '';
+  oldPassword: string = '';
+  password: string = '';
 
   constructor(private userService: UserService,private matIconRegistry: MatIconRegistry,
     private domSanitizer: DomSanitizer){
@@ -80,6 +84,16 @@ export class ProfileComponent {
       },
       error: err => console.log("Failed to change avatar.")
     });
+  }
+
+  updatePassword(userId: number, oldPassword: string, password: string){
+    const dto: UpdatePasswordDto = {currentPassword: oldPassword, newPassword: password}
+    this.userService.updatePassword(userId, dto).subscribe({
+      next: res => {
+        console.log("Password changed!");
+      },
+      error: err => console.log("Failed to change password.")
+    })
   }
 
 

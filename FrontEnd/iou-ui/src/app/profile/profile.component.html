@@ -25,7 +25,8 @@
 
     <!-- Username -->
     <div class="mt-4 flex items-center justify-center space-x-1">
-      <h2 class="text-2xl font-bold text-gray-800">{{ user.username }}</h2>
+      <span class="text-gray-600 font-medium">Username:</span>
+      <p class="text-gray-500">{{ user.username }}</p>
       <button mat-icon-button color="primary" 
               class="p-1"
               (click)="showUsernameInput = !showUsernameInput" 
@@ -45,8 +46,35 @@
       </button>
     </div>
 
+    <!--Change Password-->
+    <div class="mt-4 flex items-center justify-center space-x-1">
+      <span class="text-gray-600 font-medium">Change Password</span>
+      <button mat-icon-button color="primary" 
+              class="p-1"
+              (click)="showPasswordInput = !showPasswordInput" 
+              aria-label="Change Password">
+        <mat-icon class="text-sm">edit</mat-icon>
+      </button>
+    </div>
+
+    <!--Password Input-->
+    <div *ngIf="showPasswordInput"  class="mt-2 flex items-center justify-center space-x-2">
+      <input type="password" [(ngModel)]="oldPassword"
+              placeholder="Current Password"
+              class="border border-gray-300 rounded-lg px-2 py-1 focus:outline-none focus:ring-2 focus:ring-indigo-400">
+              <input type="password" [(ngModel)]="password"
+              placeholder="new Password"
+              class="border border-gray-300 rounded-lg px-2 py-1 focus:outline-none focus:ring-2 focus:ring-indigo-400">
+        <button mat-raised-button color="primary" 
+              (click)="updatePassword(user!.id, oldPassword, password)">
+        Save
+      </button>
+
+    </div>
+
     <!-- Email -->
     <div class="mt-4 flex items-center justify-center space-x-1">
+      <span class="text-gray-600 font-medium">Username:</span>
       <p class="text-gray-500">{{ user.email }}</p>
       <button mat-icon-button color="primary" 
               class="p-1"

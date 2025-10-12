@@ -242,4 +242,27 @@ public class UserController : ControllerBase
             return StatusCode(500, new { message = "An unexpected error has occured. Please try again later." });
         }
     }
+
+    [HttpPatch("update-password/{id:int}")]
+    public async Task<IActionResult> UpdatePassword(int id, [FromBody] UpdatePasswordDTO dto)
+    {
+        try
+        {
+            var userId = int.Parse(User.Claims.First(c => c.Type == ClaimTypes.NameIdentifier).Value);
+            var updatedUser = await _userService.UpdatePassword(userId, dto);
+            return Ok(updatedUser);
+        }
+        catch (UserNotFoundException)
+        {
+            return NotFound(new { message = "User does not exist." });
+        }
+        catch (InvalidLoginException)
+        {
+            return Conflict(new { message = "Invalid password. Please try again." });
+        }
+        catch (Exception)
+        {
+            return StatusCode(500, new { message = "An unexpected error has occured. Please try again later." });
+        }
+    }
 }
