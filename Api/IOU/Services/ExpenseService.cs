@@ -1,7 +1,9 @@
 using Api.IOU.Data;
 using Api.IOU.DTOs;
 using Api.IOU.Exceptions;
+using Api.IOU.Hubs;
 using Api.IOU.Models;
+using Microsoft.AspNetCore.SignalR;
 
 namespace Api.IOU.Services;
 
@@ -9,11 +11,13 @@ public class ExpenseService : IExpenseService
 {
     private readonly IUnitOfWork _unitOfWork;
     private readonly ILogger<ExpenseService> _logger;
+    private readonly IHubContext<SessionHub> _hubContext;
 
-    public ExpenseService(IUnitOfWork unitOfWork, ILogger<ExpenseService> logger)
+    public ExpenseService(IUnitOfWork unitOfWork, ILogger<ExpenseService> logger, IHubContext<SessionHub> hubContext)
     {
         _unitOfWork = unitOfWork;
         _logger = logger;
+        _hubContext = hubContext;
     }
 
     public async Task<ExpenseDTO> CreateExpenseAsync(AddExpenseDTO dto)
@@ -75,8 +79,10 @@ public class ExpenseService : IExpenseService
 
         _logger.LogInformation("Expense with ID {ExpenseId} created in session {SessionId}", expense.Id, expense.SessionId);
 
+
+
         // Map to DTO
-        return new ExpenseDTO
+        var expenseDto = new ExpenseDTO
         {
             Id = expense.Id,
             SessionId = expense.SessionId,
@@ -90,6 +96,11 @@ public class ExpenseService : IExpenseService
                 Status = s.Status
             }).ToList()
         };
+        
+        var participants = session.Participants.Select(p => p.UserId.ToString());
+        await _hubContext.Clients.Users(participants).SendAsync("ExpenseCreated", expenseDto);
+
+        return expenseDto;
     }
 
 

@@ -13,6 +13,7 @@ import { RouterLink, RouterOutlet } from '@angular/router';
 import { trigger, state, style, animate, transition } from '@angular/animations';
 import { AvatarType, getAvatarUrl } from '../Models/avatar';
 import { SessionUser } from '../Models/sessionUser';
+import { SignalrService } from '../services/signalr.service';
 
 
 
@@ -67,7 +68,7 @@ export class SessionsComponent implements OnInit {
 
   
 
-  constructor(private sessionService: SessionServiceService, private userService: UserService, private expenseService: ExpenseService){
+  constructor(private sessionService: SessionServiceService, private userService: UserService, private expenseService: ExpenseService, private signalrService: SignalrService){
 
   }
 
@@ -75,8 +76,26 @@ export class SessionsComponent implements OnInit {
 
   
   ngOnInit(): void {
+    this.signalrService.startConnection();
     this.loadSessions();
     this.loadFriends();
+
+    this.signalrService.sessionDeleted$.subscribe(sessionId => {
+      if (!sessionId) return;
+
+      this.sessions = this.sessions.filter(s => s.id !== sessionId);
+      // Optionally remove related expenses as well
+      delete this.expenses[sessionId];
+    });
+    
+    this.signalrService.expenseCreated$.subscribe(expense => {
+      if (!expense) return;
+
+      this.expenses = {
+        ...this.expenses,
+        [expense.sessionId]: [...(this.expenses[expense.sessionId] || []), expense]
+      };
+    });
   }
 
   loadFriends() {

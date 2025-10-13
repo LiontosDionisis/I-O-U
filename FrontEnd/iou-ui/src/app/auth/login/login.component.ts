@@ -5,6 +5,7 @@ import { HttpClientModule } from '@angular/common/http';
 import { AuthService } from '../../services/auth.service';
 import { Router } from '@angular/router';
 import { UserLoginDTO } from '../../Models/user-login.dto';
+import { SignalrService } from '../../services/signalr.service';
 
 @Component({
   selector: 'app-login',
@@ -16,6 +17,7 @@ import { UserLoginDTO } from '../../Models/user-login.dto';
 export class LoginComponent {
   private authService = inject(AuthService);
   private router = inject(Router);
+  private signalrService = inject(SignalrService);
 
   username = signal('');
   password = signal('');
@@ -41,6 +43,7 @@ export class LoginComponent {
       this.loading.set(false);
       localStorage.setItem('token', response.token);
       localStorage.setItem('username', response.Username);
+      this.signalrService.startConnection();
       this.router.navigate(['/home']);
       this.username.set('');
       this.password.set('');

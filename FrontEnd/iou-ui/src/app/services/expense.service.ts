@@ -13,6 +13,7 @@ export class ExpenseService {
 
   private apiUrl = 'http://localhost:5062/api/expenses'
   //private apiUrl = 'http://192.168.1.94:5062/api/expenses'
+  
 
   createExpense(dto: AddExpenseDto): Observable<any> {
     const token = localStorage.getItem('token');

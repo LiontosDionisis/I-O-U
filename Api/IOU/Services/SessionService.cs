@@ -3,6 +3,8 @@ using Api.IOU.DTOs;
 using Api.IOU.Exceptions;
 using Api.IOU.Models;
 using api.IOU.Models;
+using Microsoft.AspNetCore.SignalR;
+using Api.IOU.Hubs;
 
 namespace Api.IOU.Services;
 
@@ -10,11 +12,13 @@ public class SessionService : ISessionService
 {
     private readonly IUnitOfWork _unitOfWork;
     private readonly ILogger<SessionService> _logger;
+    private readonly IHubContext<SessionHub> _hubContext;
 
-    public SessionService(IUnitOfWork unitOfWork, ILogger<SessionService> logger)
+    public SessionService(IUnitOfWork unitOfWork, ILogger<SessionService> logger, IHubContext<SessionHub> hubContext)
     {
         _unitOfWork = unitOfWork;
         _logger = logger;
+        _hubContext = hubContext;
     }
 
     public async Task AddUserToSessionAsync(int sessionId, int ownerId, int userId)
@@ -107,6 +111,12 @@ public class SessionService : ISessionService
 
         _logger.LogInformation("Session Created with ID: {SessionId}", newSession.Id);
 
+
+        // SignalR Real time update (Will only send signal to the users in the session meaning the creator)
+        var participansIds = await _unitOfWork.SessionUsers.GetUsersBySessionIdAsync(newSession.Id);
+
+        await _hubContext.Clients.Users(participansIds.Select(id => id.ToString())!).SendAsync("SessionCreated", newSession); 
+
         return newSession;
     }
 
@@ -114,6 +124,7 @@ public class SessionService : ISessionService
     {
         var sessionToDelete = await _unitOfWork.Sessions.GetByIdAsync(sessionId);
         var owner = await _unitOfWork.Users.GetById(userId);
+        var participants = sessionToDelete!.Participants.Select(p => p.UserId.ToString());
 
         if (sessionToDelete == null)
         {
@@ -130,7 +141,7 @@ public class SessionService : ISessionService
             throw new UnauthorizedAccessException("You're not the session owner.");
         }
 
-        
+        await _hubContext.Clients.Users(participants).SendAsync("SessionDeleted", sessionId);
 
         _logger.LogInformation("Session with ID {SessionId} was deleted!", sessionId);
         return true;
