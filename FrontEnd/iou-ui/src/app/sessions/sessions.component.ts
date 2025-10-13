@@ -84,7 +84,6 @@ export class SessionsComponent implements OnInit {
       if (!sessionId) return;
 
       this.sessions = this.sessions.filter(s => s.id !== sessionId);
-      // Optionally remove related expenses as well
       delete this.expenses[sessionId];
     });
     
